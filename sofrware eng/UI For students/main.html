@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>простий приклад</title>
+</head>
+<body>
+
+<h2>простий приклад з елементами</h2>
+
+<p>radiobutton: вибір одного з варіантів<br>
+  <input type="radio" name="opt" id="opt1"> <label for="opt1">варіант 1</label><br>
+  <input type="radio" name="opt" id="opt2"> <label for="opt2">варіант 2</label>
+</p>
+
+<p>checkbox: вибір або відміна <br>
+  <input type="checkbox" id="agree"> <label for="agree">погоджуюся з умовами</label>
+</p>
+
+<p>text input: введення тексту<br>
+  <input type="text" id="text" placeholder="введіть">
+</p>
+
+<p>tabs: перемикання між блоками вмісту<br>
+  <button onclick="openTab('tab1')">вкладка 1</button>
+  <button onclick="openTab('tab2')">вкладка 2</button>
+<div id="tab1">вміст вкладки 1</div>
+<div id="tab2" style="display:none;">вміст вкладки 2</div>
+</p>
+
+<p>button: дія при натисканні<br>
+  <button onclick="alert('натиснуто!')">натисни мене</button>
+</p>
+
+<p>text label: пояснення або підпис<br>
+  це звичайний текст
+</p>
+
+<p>link: перехід на інший сайт<br>
+  <a href="" target="_blank">перейти на https</a>
+</p>
+
+<p>tooltip: підказка при наведенні<br>
+  наведи :
+  <span title="це підказка!"> підссказка</span>
+</p>
+///
+<p>dropdown list: вибір одного з пунктів<br>
+  <select>
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+  </select>
+</p>
+
+<p>data grid: табличне відображення даних<br>
+<table border="1">
+  <tr><th>id</th><th>x'я</th><th>вік</th></tr>
+  <tr><td>1</td><td>x</td><td>1</td></tr>
+  <tr><td>2</td><td>x</td><td>1</td></tr>
+</table>
+</p>
+
+<script>
+  function openTab(tab) {
+    document.getElementById('tab1').style.display = 'none';
+    document.getElementById('tab2').style.display = 'none';
+    document.getElementById(tab).style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
