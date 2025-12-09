@@ -1,0 +1,81 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Page-1" id="tD_idWmIBqCrOqzDwSxq">
+    <mxGraphModel dx="1181" dy="686" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="j9Uwshh03uqmbju--9wd-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-2" target="j9Uwshh03uqmbju--9wd-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-2" value="Початок" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="390" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-3" target="j9Uwshh03uqmbju--9wd-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-3" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Задання параметрів (розмір вікна, вершини фігури, кроки анімації, довжина траєкторії)&lt;/p&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="356.25" y="530" width="187.5" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-4" target="j9Uwshh03uqmbju--9wd-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-4" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Ініціалізація вершин паралелограма та траєкторій&lt;/p&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-5" target="j9Uwshh03uqmbju--9wd-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-5" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Початок циклу анімації&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="750" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-6" target="j9Uwshh03uqmbju--9wd-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-6" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Вибір фази (0: переміщення, 1: обертання за ГС, 2: обертання проти)&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="840" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-7" target="j9Uwshh03uqmbju--9wd-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-7" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Формування матриці перетворення (T) залежно від фази&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="930" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-8" target="j9Uwshh03uqmbju--9wd-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-8" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Застосування перетворення до вершин (матричне множення)&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1030" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-9" target="j9Uwshh03uqmbju--9wd-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-9" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Збереження нової позиції в траєкторію вершин&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1140" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-10" target="j9Uwshh03uqmbju--9wd-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-10" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Візуалізація: - Очистити canvas - Намалювати траєкторії - Намалювати фігуру та вершини&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1240" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-11" target="j9Uwshh03uqmbju--9wd-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-11" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Перехід до наступного кроку / фази (якщо кроки вичерпано - наступна фаза)&lt;/p&gt;&#xa;&#xa;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1340" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="j9Uwshh03uqmbju--9wd-12" target="j9Uwshh03uqmbju--9wd-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="1485" />
+              <mxPoint x="330" y="780" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9Uwshh03uqmbju--9wd-12" value="Повторити цикл" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1450" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
