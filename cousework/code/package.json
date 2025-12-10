@@ -9,13 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0",
-    "@prisma/migrate": "^7.1.0",
-    "bcryptjs": "^3.0.3",
-    "next": "16.0.7",
-    "prisma": "^5.17.0",
-    "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "cheerio": "^1.1.2",
+    "next": "16.0.8",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -23,7 +20,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.7",
+    "eslint-config-next": "16.0.8",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
