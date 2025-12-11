@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}{{ game.name }} - Game Library{% endblock %}
+
+{% block content %}
+    <!-- Game Title -->
+    <div class="mb-10">
+        <h1 class="text-5xl font-bold">{{ game.name }}</h1>
+        <a href="{% url 'home' %}" class="text-blue-400 hover:underline text-sm mt-2 inline-block">
+            ← Back to Home
+        </a>
+    </div>
+
+    <!-- Main block: two columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+        <!-- Left column: textual information -->
+        <div class="space-y-6 pt-8">
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">App ID:</span>
+                <span class="text-white text-xl font-medium">{{ game.appid }}</span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Developer:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.developer %}{{ game.developer }}{% else %}
+                        <span class="text-gray-500">Unknown</span>{% endif %}
+                </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Publisher:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.publisher %}{{ game.publisher }}{% else %}
+                        <span class="text-gray-500">Unknown</span>{% endif %}
+                </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Platforms:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.platforms %}{{ game.platforms }}{% else %}
+                        <span class="text-gray-500">Unknown</span>{% endif %}
+                </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Release Date:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.release_date %}{{ game.release_date }}{% else %}
+                        <span class="text-gray-500">Unknown</span>{% endif %}
+                </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Last Record Update:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.last_update %}{{ game.last_update }}{% else %}
+                        <span class="text-gray-500">Unknown</span>{% endif %}
+                </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <span class="text-gray-400 text-lg w-48">Technologies:</span>
+                <span class="text-white text-xl font-medium">
+                    {% if game.technologies %}{{ game.technologies }}{% else %}
+                        <span class="text-gray-500">Not specified</span>{% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Right column: header image + stats -->
+        <div class="space-y-8">
+            <div class="rounded-lg overflow-hidden shadow-2xl border border-gray-700">
+                <img src="{{ game.header_image|default:'https://via.placeholder.com/460x215?text=No+Image' }}"
+                     alt="{{ game.name }}"
+                     class="w-full object-cover">
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="bg-gray-800 rounded-lg p-5 border border-gray-700 text-center">
+                    <p class="text-3xl font-bold text-green-400">
+                        {% if game.current %}{{ game.current|intcomma }}{% else %}—{% endif %}
+                    </p>
+                    <p class="text-gray-400 mt-1">Players Now</p>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-5 border border-gray-700 text-center">
+                    {% if game.review_percentage is not None and game.review_count > 0 %}
+                        <p class="text-4xl font-bold text-green-400 inline-flex items-center gap-3">
+                            {{ game.review_percentage }}%
+                            <span class="text-5xl">
+                                {% if game.review_percentage < 25 %}😞
+                                {% elif game.review_percentage < 50 %}😕
+                                {% elif game.review_percentage < 75 %}🙂
+                                {% else %}😄{% endif %}
+                            </span>
+                        </p>
+                        <p class="text-gray-400 text-sm mt-2">
+                            of {{ game.review_count|intcomma }} reviews positive
+                        </p>
+                    {% else %}
+                        <p class="text-4xl font-bold">—</p>
+                        <p class="text-gray-400 text-sm mt-2">No reviews</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-span-2 bg-gray-800 rounded-lg p-5 border border-gray-700">
+                    <p class="text-2xl font-semibold text-white text-center">
+                        {% if game.genres %}{{ game.genres }}{% else %}
+                            <span class="text-gray-500">Unknown</span>{% endif %}
+                    </p>
+                    <p class="text-gray-400 text-center mt-1">Genres</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player stats section -->
+    <div class="mt-16 space-y-8">
+        <h2 class="text-3xl font-bold text-center">Player Statistics</h2>
+
+        <!-- Three stats blocks -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Players right now -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
+                <p class="text-4xl font-bold text-green-400">
+                    {% if game.current %}{{ game.current|intcomma }}{% else %}—{% endif %}
+                </p>
+                <p class="text-gray-400 mt-2 text-lg">Players Now</p>
+            </div>
+
+            <!-- 24-hour peak -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
+                <p class="text-4xl font-bold text-yellow-400">
+                    {% if game.peak_24h %}{{ game.peak_24h|intcomma }}{% else %}—{% endif %}
+                </p>
+                <p class="text-gray-400 mt-2 text-lg">24-Hour Peak</p>
+            </div>
+
+            <!-- All-time peak -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 text-center">
+                <p class="text-4xl font-bold text-purple-400">
+                    {% if game.all_time_peak %}{{ game.all_time_peak|intcomma }}{% else %}—{% endif %}
+                </p>
+                <p class="text-gray-400 mt-2 text-lg">
+                    {% if game.all_time_peak_date %}
+                        Record on {{ game.all_time_peak_date }}
+                    {% else %}
+                        All-Time Peak
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Player count chart from SteamDB -->
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <h3 class="text-2xl font-semibold mb-4 text-center">Player Count Chart (SteamDB)</h3>
+            <div class="w-full overflow-hidden rounded-lg">
+                <iframe
+                        src="https://steamdb.info/embed/?appid={{ game.appid }}"
+                        height="389"
+                        style="border:0; overflow:hidden; width:100%;"
+                        loading="lazy"
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <p class="text-gray-500 text-sm text-center mt-4">
+                Source:
+                <a href="https://steamdb.info/app/{{ game.appid }}/charts/"
+                   target="_blank"
+                   class="text-blue-400 hover:underline">
+                    steamdb.info (open full version)
+                </a>
+            </p>
+        </div>
+    </div>
+    </div>
+    </body>
+
+
+{% endblock %}
+
