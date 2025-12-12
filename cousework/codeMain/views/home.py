@@ -4,7 +4,6 @@ from django.views.decorators.cache import cache_page
 
 STEAM_API_KEY = "27947505395A6AA7FDAB420DCF4A4C52"
 
-@cache_page(60 * 30)
 def home(request):
     most_played = []
     try:

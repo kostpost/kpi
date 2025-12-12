@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}{{ profile_data.personaname }} – GamingLibrary{% endblock %}
+
+{% block content %}
+    <!-- Фон профілю Steam (статичний jpg) -->
+    {% if profile_data.profile_background %}
+        <div class="fixed inset-0 -z-10 overflow-hidden">
+            <img src="{{ profile_data.profile_background }}"
+                 alt="Фон профілю"
+                 class="w-full h-full object-cover blur-lg scale-110">
+            <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+    {% endif %}
+
+    <div class="min-h-screen pt-10 px-4 pb-20">
+        <div class="w-full max-w-7xl mx-auto">
+
+            <!-- Центральна панель -->
+            <div class="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
+
+                <!-- Верхня частина: аватарка + інформація -->
+                <div class="bg-gradient-to-b from-gray-800/80 to-gray-900/60 px-8 pt-12 pb-16">
+                    <div class="flex flex-col lg:flex-row items-start gap-12">
+                        <!-- Аватарка -->
+                        <div class="relative flex-shrink-0">
+                            {% if profile_data.avatar %}
+                                <img src="{{ profile_data.avatar }}"
+                                     alt="Аватарка {{ profile_data.personaname }}"
+                                     class="w-64 h-64 object-cover border-4 border-gray-800 shadow-2xl">
+                            {% else %}
+                                <div class="w-64 h-64 bg-gray-700 border-4 border-gray-800 flex items-center justify-center">
+                                    <span class="text-8xl text-gray-500">?</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Інформація збоку -->
+                        <div class="flex-1 space-y-8">
+                            <div>
+                                <h1 class="text-6xl font-bold text-white drop-shadow-lg">
+                                    {{ profile_data.personaname }}
+                                </h1>
+                                <div class="flex items-center gap-8 mt-6 text-lg">
+                                    <!-- Рівень Steam -->
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-gray-400">Level</span>
+                                        <div class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-3xl border-4 border-black shadow-lg">
+                                            {{ profile_data.steam_level }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Роки в Steam -->
+                                    {% if profile_data.years_in_steam is not None %}
+                                        <div class="flex items-center gap-3 text-gray-300">
+                                            <svg class="w-8 h-8 text-orange-500" fill="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                            </svg>
+                                            <span class="text-2xl">{{ profile_data.years_in_steam }} років у Steam</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <a href="{{ profile_data.profileurl }}" target="_blank"
+                               class="inline-flex items-center gap-3 px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-xl rounded-lg transition shadow-lg">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.698 17.867c-1.143 0-2.083-.927-2.083-2.07 0-1.143.94-2.07 2.083-2.07.57 0 1.1.23 1.49.61l-.61.61c-.19-.19-.45-.3-.88-.3-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.43 0 .69-.11.88-.3l.61.61c-.39.38-.92.61-1.49.61zm-3.698-1.867c-1.143 0-2.083-.927-2.083-2.07 0-1.143.94-2.07 2.083-2.07.57 0 1.1.23 1.49.61l-.61.61c-.19-.19-.45-.3-.88-.3-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.43 0 .69-.11.88-.3l.61.61c-.39.38-.92.61-1.49.61zm-4-3c-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.76 0 1.38-.62 1.38-1.38 0-.76-.62-1.38-1.38-1.38z"/>
+                                </svg>
+                                Відкрити в Steam
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Статистика бібліотеки -->
+                <div class="px-8 py-10 bg-gray-900/50 border-t border-gray-700">
+                    <h2 class="text-3xl font-bold text-white mb-8">Статистика бібліотеки</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        <div class="bg-gray-800/80 rounded-xl p-6 text-center border border-gray-700">
+                            <p class="text-5xl font-bold text-blue-400">{{ stats.total_games|intcomma }}</p>
+                            <p class="text-gray-400 mt-2 text-lg">Ігор у бібліотеці</p>
+                        </div>
+                        <div class="bg-gray-800/80 rounded-xl p-6 text-center border border-gray-700">
+                            <p class="text-5xl font-bold text-green-400">{{ stats.total_hours|floatformat:1 }}h</p>
+                            <p class="text-gray-400 mt-2 text-lg">Годин на рекорд</p>
+                        </div>
+                        <div class="bg-gray-800/80 rounded-xl p-6 text-center border border-gray-700">
+                            <p class="text-5xl font-bold text-purple-400">{{ stats.completed_percentage }}%</p>
+                            <p class="text-gray-400 mt-2 text-lg">Пройдено</p>
+                        </div>
+                        <div class="bg-gray-800/80 rounded-xl p-6 text-center border border-gray-700">
+                            <p class="text-5xl font-bold text-yellow-400">{{ stats.total_achievements|intcomma }}</p>
+                            <p class="text-gray-400 mt-2 text-lg">Досягнень</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бібліотека ігор -->
+                <!-- Бібліотека ігор -->
+                <div class="p-8 bg-gray-900/50">
+                    {% if is_private %}
+                        <div class="text-center py-32 text-gray-400">
+                            <div class="text-9xl mb-8">🔒</div>
+                            <p class="text-3xl font-medium">Бібліотека прихована</p>
+                            <p class="text-xl mt-4">Цей профіль приватний. Деяка інформація недоступна.</p>
+                        </div>
+                    {% else %}
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                            {% for game in games %}
+                                <div class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                                    <img src="{{ game.header_image }}" alt="{{ game.name }}"
+                                         class="w-full h-64 object-cover">
+                                    <div class="p-4 space-y-2">
+                                        <h3 class="text-white font-semibold text-sm truncate">{{ game.name }}</h3>
+                                        <div class="flex justify-between items-center text-xs">
+                                            <span class="text-gray-400">{{ game.playtime_forever|floatformat:1 }}h</span>
+                                            <span class="text-yellow-400">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= game.user_rating %}★{% else %}☆{% endif %}
+                                {% endfor %}
+                            </span>
+                                        </div>
+
+                                        <!-- Статус: показуємо ТІЛЬКИ якщо це НЕ "Не грав" -->
+                                        {% if game.status != 'not_played' %}
+                                            <div class="text-xs">
+                                <span class="px-3 py-1 rounded-full text-white font-medium
+                                    {% if game.status == 'completed' %}bg-green-600
+                                    {% elif game.status == 'playing' %}bg-blue-600
+                                    {% elif game.status == 'dropped' %}bg-red-600
+                                    {% else %}bg-gray-600{% endif %}">
+                                    {% if game.status == 'completed' %}Пройдено
+                                    {% elif game.status == 'playing' %}Граю
+                                    {% elif game.status == 'dropped' %}Відкладено
+                                    {% else %}Не грав{% endif %}
+                                </span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Hover деталі -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                        <div class="text-left text-sm">
+                                            <p class="text-white font-medium">Досягнення: {{ game.achievements }}
+                                                / {{ game.total_achievements }}</p>
+                                            <p class="text-gray-300">
+                                                Годин: {{ game.playtime_forever|floatformat:1 }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="col-span-full text-center py-32 text-gray-400">
+                                    <div class="text-9xl mb-8">🎮</div>
+                                    <p class="text-3xl">Бібліотека порожня</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -52,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'games.context_processors.steam_user_data',
             ],
         },
     },
@@ -84,6 +85,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 # STATICFILES_DIRS = [BASE_DIR / 'static']  # Якщо будеш додавати свої CSS/JS
+
+
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.steam.SteamOpenId',
