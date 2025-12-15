@@ -38,14 +38,7 @@
                             </p>
                             <p class="text-gray-400 mt-1">Пік за 24 години</p>
                         </div>
-                        <div class="text-center">
-                            <p class="text-4xl font-bold text-purple-400">
-                                {% if game.all_time_peak %}{{ game.all_time_peak|intcomma }}{% else %}—{% endif %}
-                            </p>
-                            <p class="text-gray-400 mt-1">
-                                {% if game.all_time_peak_date %}Рекорд {{ game.all_time_peak_date }}{% else %}Рекорд усіх часів{% endif %}
-                            </p>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -56,12 +49,18 @@
                 <div class="bg-gray-800/80 backdrop-blur-md rounded-xl p-8 border border-gray-700">
                     <h2 class="text-3xl font-bold text-white mb-6">Інформація про гру</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
-                        <div><p class="text-gray-400">Розробник</p><p class="text-white">{{ game.developer|default:"Невідомо" }}</p></div>
-                        <div><p class="text-gray-400">Видавець</p><p class="text-white">{{ game.publisher|default:"Невідомо" }}</p></div>
-                        <div><p class="text-gray-400">Жанри</p><p class="text-white">{{ game.genres|default:"Невідомо" }}</p></div>
-                        <div><p class="text-gray-400">Дата виходу</p><p class="text-white">{{ game.release_date|default:"Невідомо" }}</p></div>
-                        <div><p class="text-gray-400">Платформи</p><p class="text-white">{{ game.platforms|default:"Невідомо" }}</p></div>
-                        <div><p class="text-gray-400">Технології</p><p class="text-white">{{ game.technologies|default:"Не вказано" }}</p></div>
+                        <div><p class="text-gray-400">Розробник</p>
+                            <p class="text-white">{{ game.developer|default:"Невідомо" }}</p></div>
+                        <div><p class="text-gray-400">Видавець</p>
+                            <p class="text-white">{{ game.publisher|default:"Невідомо" }}</p></div>
+                        <div><p class="text-gray-400">Жанри</p>
+                            <p class="text-white">{{ game.genres|default:"Невідомо" }}</p></div>
+                        <div><p class="text-gray-400">Дата виходу</p>
+                            <p class="text-white">{{ game.release_date|default:"Невідомо" }}</p></div>
+                        <div><p class="text-gray-400">Платформи</p>
+                            <p class="text-white">{{ game.platforms|default:"Невідомо" }}</p></div>
+                        <div><p class="text-gray-400">Технології</p>
+                            <p class="text-white">{{ game.technologies|default:"Не вказано" }}</p></div>
                     </div>
                 </div>
 
@@ -102,6 +101,7 @@
                                         <span class="inline-block px-6 py-3 rounded-full text-white font-bold text-lg
                                             {% if user_game.status == 'completed' %}bg-green-600
                                             {% elif user_game.status == 'playing' %}bg-blue-600
+                                            {% elif user_game.status == 'planned' %}bg-purple-600
                                             {% elif user_game.status == 'dropped' %}bg-red-600{% endif %}">
                                             {{ user_game.get_status_display }}
                                         </span>
@@ -116,7 +116,7 @@
                                 {% endif %}
                             </div>
 
-                            <!-- Кнопки дії -->
+                            <!-- Кнопки редагування/видалення -->
                             <div id="review-actions" class="flex justify-center gap-6 mb-8">
                                 <button id="edit-button"
                                         class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition">
@@ -133,13 +133,14 @@
                             </div>
                         {% endif %}
 
-                        <!-- Форма (прихована, якщо відгук є) -->
+                        <!-- Форма створення/редагування відгуку -->
                         <div id="review-form" class="{% if has_review %}hidden{% endif %}">
                             <form method="post" action="{% url 'update_game_status' game.appid %}">
                                 {% csrf_token %}
 
-                                <!-- Оцінка -->
-                                <div class="mb-10">
+                                <!-- Оцінка зірками (приховується, якщо статус "У планах") -->
+                                <div id="rating-block"
+                                     class="mb-10 {% if user_game.status == 'planned' %}hidden{% endif %}">
                                     <label class="block text-gray-300 text-lg text-center mb-6">Моя оцінка</label>
                                     <div class="flex items-center justify-center gap-4" id="rating-stars">
                                         {% for i in "12345" %}
@@ -148,29 +149,47 @@
                                                        {% if user_game.rating == forloop.counter %}checked{% endif %}
                                                        class="hidden">
                                                 <svg class="w-14 h-14 transition-all duration-200 star
-                                                    {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}"
+                    {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}"
                                                      viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                                                 </svg>
                                             </label>
                                         {% endfor %}
                                         <label class="cursor-pointer ml-8">
-                                            <input type="radio" name="rating" value="" {% if not user_game.rating %}checked{% endif %} class="hidden">
+                                            <input type="radio" name="rating" value=""
+                                                   {% if not user_game.rating %}checked{% endif %} class="hidden">
                                             <span class="text-gray-500 hover:text-gray-400 transition text-lg">Очистити</span>
                                         </label>
                                     </div>
                                 </div>
 
-                                <!-- Статус -->
+                                <!-- Повідомлення, якщо статус "У планах" -->
+                                <div id="planned-message"
+                                     class="text-center text-gray-500 mt-4 text-sm mb-10 {% if user_game.status != 'planned' %}hidden{% endif %}">
+                                    Оцінку можна поставити тільки після початку гри або проходження
+                                </div>
+
+                                <!-- Статус проходження -->
                                 <div class="mb-10">
-                                    <label class="block text-gray-300 text-lg text-center mb-6">Статус проходження</label>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto" id="status-options">
+                                    <label class="block text-gray-300 text-lg text-center mb-6">Статус
+                                        проходження</label>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
+                                         id="status-options">
                                         {% for value, label in status_choices %}
                                             <label class="cursor-pointer group">
                                                 <input type="radio" name="status" value="{{ value }}"
-                                                       {% if user_game.status == value %}checked{% endif %} class="hidden">
+                                                       {% if user_game.status == value %}checked{% endif %}
+                                                       class="hidden">
                                                 <div class="border-2 border-gray-600 rounded-xl px-6 py-4 text-center transition-all duration-200 status-div
-                                                    {% if user_game.status == value %}bg-blue-600 border-blue-500{% else %}bg-gray-700 hover:bg-gray-600{% endif %}">
+                                                    {% if user_game.status == value %}
+                                                        {% if value == 'playing' %}bg-blue-600 border-blue-500
+                                                        {% elif value == 'completed' %}bg-green-600 border-green-500
+                                                        {% elif value == 'planned' %}bg-purple-600 border-purple-500
+                                                        {% elif value == 'dropped' %}bg-red-600 border-red-500
+                                                        {% else %}bg-gray-700 border-gray-500{% endif %}
+                                                    {% else %}
+                                                        bg-gray-700 hover:bg-gray-600
+                                                    {% endif %}">
                                                     <span class="text-white font-medium text-lg">{{ label }}</span>
                                                 </div>
                                             </label>
@@ -180,12 +199,14 @@
 
                                 <!-- Коментар -->
                                 <div class="mb-10">
-                                    <label for="comment" class="block text-gray-300 text-lg text-center mb-4">Коментар</label>
+                                    <label for="comment"
+                                           class="block text-gray-300 text-lg text-center mb-4">Коментар</label>
                                     <textarea id="comment" name="comment" rows="4"
                                               class="w-full px-6 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                               placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
                                 </div>
 
+                                <!-- Кнопка збереження -->
                                 <div class="text-center">
                                     <button type="submit"
                                             class="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg transform hover:scale-105">
@@ -200,7 +221,7 @@
                         <p class="text-2xl text-gray-400">
                             <a href="{% url 'social:begin' 'steam' %}" class="text-blue-400 hover:underline font-bold">
                                 Увійдіть через Steam
-                            </a>, щоб залишити відгук
+                            </a>, щоб оцінити гру та встановити статус
                         </p>
                     </div>
                 {% endif %}
@@ -208,10 +229,11 @@
         </div>
     </div>
 
+    <!-- Chart.js + JS для інтерактивності -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Графік
+            // Графік гравців
             const ctx = document.getElementById('playerChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
@@ -233,15 +255,15 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {legend: {display: false}},
                     scales: {
-                        y: { beginAtZero: false, ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                        x: { ticks: { color: '#9ca3af', maxTicksLimit: 12 }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                        y: {beginAtZero: false, ticks: {color: '#9ca3af'}, grid: {color: 'rgba(255,255,255,0.1)'}},
+                        x: {ticks: {color: '#9ca3af', maxTicksLimit: 12}, grid: {color: 'rgba(255,255,255,0.1)'}}
                     }
                 }
             });
 
-            // Кнопка редагування
+            // Кнопка "Редагувати відгук"
             const editButton = document.getElementById('edit-button');
             if (editButton) {
                 editButton.addEventListener('click', () => {
@@ -271,12 +293,57 @@
             document.querySelectorAll('#status-options input[type="radio"]').forEach((input, idx) => {
                 input.addEventListener('change', () => {
                     document.querySelectorAll('#status-options .status-div').forEach(div => {
-                        div.classList.remove('bg-blue-600', 'border-blue-500');
+                        div.classList.remove('bg-blue-600', 'border-blue-500', 'bg-green-600', 'border-green-500', 'bg-purple-600', 'border-purple-500', 'bg-red-600', 'border-red-500');
                         div.classList.add('bg-gray-700', 'hover:bg-gray-600');
                     });
-                    document.querySelectorAll('#status-options .status-div')[idx].classList.add('bg-blue-600', 'border-blue-500');
-                    document.querySelectorAll('#status-options .status-div')[idx].classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                    const selectedDiv = document.querySelectorAll('#status-options .status-div')[idx];
+                    const value = input.value;
+                    if (value === 'playing') selectedDiv.classList.add('bg-blue-600', 'border-blue-500');
+                    else if (value === 'completed') selectedDiv.classList.add('bg-green-600', 'border-green-500');
+                    else if (value === 'planned') selectedDiv.classList.add('bg-purple-600', 'border-purple-500');
+                    else if (value === 'dropped') selectedDiv.classList.add('bg-red-600', 'border-red-500');
+                    selectedDiv.classList.remove('bg-gray-700', 'hover:bg-gray-600');
                 });
+            });
+
+            // Логіка приховування/показу оцінки при виборі статусу "У планах"
+            document.querySelectorAll('.status-radio').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const ratingBlock = document.getElementById('rating-block');
+                    const plannedMessage = document.getElementById('planned-message');
+
+                    if (this.value === 'planned') {
+                        ratingBlock.classList.add('hidden');
+                        plannedMessage.classList.remove('hidden');
+                        // Очищаємо оцінку (якщо була)
+                        document.querySelectorAll('#rating-stars input[type="radio"]').forEach(r => r.checked = false);
+                    } else {
+                        ratingBlock.classList.remove('hidden');
+                        plannedMessage.classList.add('hidden');
+                    }
+
+                    // Оновлюємо візуал зірок (якщо статус змінився з planned на інший)
+                    const stars = document.querySelectorAll('#rating-stars .star');
+                    const currentRating = document.querySelector('#rating-stars input[type="radio"]:checked');
+                    stars.forEach((star, i) => {
+                        if (currentRating && i < parseInt(currentRating.value)) {
+                            star.classList.add('text-yellow-400', 'fill-yellow-400');
+                            star.classList.remove('text-gray-600', 'fill-gray-600');
+                        } else {
+                            star.classList.remove('text-yellow-400', 'fill-yellow-400');
+                            star.classList.add('text-gray-600', 'fill-gray-600');
+                        }
+                    });
+                });
+            });
+
+// Ініціалізація при завантаженні (якщо статус вже "planned")
+            document.addEventListener('DOMContentLoaded', function () {
+                const selectedStatus = document.querySelector('.status-radio:checked');
+                if (selectedStatus && selectedStatus.value === 'planned') {
+                    document.getElementById('rating-block').classList.add('hidden');
+                    document.getElementById('planned-message').classList.remove('hidden');
+                }
             });
         });
     </script>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторних робіт</title>
+    <script src="laba4.js" defer></script>
+    <script src="task7.js" defer></script>
+    <script src="task9.js" defer></script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .header h2 {
+            margin: 0.5rem 0 0;
+            font-size: 1.4rem;
+            font-weight: normal;
+        }
+
+        .student-info {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            display: flex;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #eee;
+            padding: 2rem;
+            border-right: 1px solid #ccc;
+        }
+
+        .task-group {
+            margin-bottom: 2rem;
+        }
+
+        .task-group h3 {
+            background: #007bff;
+            color: #fff;
+            padding: 0.8rem;
+            border-radius: 50px;
+            text-align: center;
+            margin: 0 0 1rem 0;
+        }
+
+        .task-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .task-btn:hover, .task-btn.active {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background: #fff;
+        }
+
+        .content-area {
+            border: 1px solid #ccc;
+            padding: 3rem;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #666;
+        }
+
+        .photo-placeholder {
+            float: right;
+            width: 150px;
+            height: 150px;
+            background: #ddd;
+            border-radius: 50%;
+            margin-left: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>ЗВІТ З ЛАБОРАТОРНИХ РОБІТ</h1>
+    <h2>З ДИСЦИПЛІНИ «WEB-ОРІЄНТОВАНІ ТЕХНОЛОГІЇ. ОСНОВИ FRONTEND та BACKEND РОЗРОБОК»</h2>
+    <div class="student-info">
+        Студента групи <u>ІП-з31 Ткаченко Костянтин</u>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="task-group">
+            <div class="task-btn"
+                 data-content="Тут буде описана тема лабораторних робіт, мета виконання та загальне завдання.">Тема.
+                Мета. Завдання
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="Збережіть введене значення часу (год:хвил) (використати метод prompt())  у змінну hour/
+
+Вивести це значення у Console, використовуючи шаблонний рядок.
+
+Перевірити до якої чверті години відноситься введене значення.
+Відповідь вивести за допомогою alert().
+
+Наприклад : при введенні 10:30 виведе «Перша чверть години»
+Підказка: не забудьте зробити ряд перевірок
+">Завдання №1
+            </div>
+        </div>
+
+
+        <div class="task-group">
+            <div class="task-btn" data-content="Змінна day може набувати одне із 7 значень: '1', '2'... '6' '7'
+ (запитуй це значення у користувача через prompt).
+
+Якщо вона має значення '1', то у змінну finish  запише понеділок,  якщо має значення '2' – вівторок  і так далі.
+ Розв'яжіть завдання через switch-case.
+
+ Не забудьте про дефолтне значення, на випадок, якщо користувач  введе в prompt щось інше.
+ Значення змінної finish  виведіть в консоль.
+">Завдання
+                №2
+            </div>
+        </div>
+
+
+        <div class="task-group">
+            <div class="task-btn" data-content=" Є декілька користувачів User1, User2, User3, з відповідними паролями.   (Об’явити , проініцілізувати)
+
+Написати програмний код, який запитуватиме у користувача  логін (використати  prompt) і виводить результат в консоль браузера, використовуючи шаблонний рядок.
+
+ Після цього ввести логін користувача. Додайте перевірку введеного користувачем значення:
+	якщо відвідувач вводить, наприклад,   User1
+             або  User або User3, то prompt запитує пароль. У випадку вдалої ідентифікації в alert вивести «
+            Hello, User1» або « Hello, User2»; або « Hello, User3»;;
+             якщо нічого не ввели або натиснули Cancel, то prompt знову просить ввести логін користувача ;
+             в іншому випадку вивести в alert рядок  I don't know you
+
+
+            ">Завдання
+                №3
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="Оголоси функцію getShippingMessage, яка очікує три параметри, значення яких будуть задаватися під час її виклику:
+
+ • country — перший параметр, рядок, що містить країну доставки
+ • price — другий параметр, число, що містить загальну вартість товару
+ • deliveryFee — третій параметр, число, що містить вартість доставки товару
+
+Напиши  код функції так, щоб вона повертала рядок з повідомленням про доставку товару в країну користувача: Shipping to <country> will cost <totalPrice> credits, де:
+
+      • <country> — це країни доставки
+        • <totalPrice> — це загальна вартість замовлення, що включає вартість товару і його доставки
+          ">Завдання
+                №4
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="Станція з продажу ремонтних дроїдів.
+Оголоси функцію makeTransaction(quantity, pricePerDroid, customerCredits), яка складає та повертає повідомлення про купівлю ремонтних дроїдів.
+
+Вона оголошує три параметри, значення яких будуть задаватися під час її виклику:
+•	quantity — кількість замовлених дроїдів
+•	pricePerDroid — ціна одного дроїда
+•	customerCredits — сума коштів на рахунку клієнта
+Доповни функцію таким чином:
+•	Оголоси змінну для зберігання загальної суми замовлення (загальна вартість усіх замовлених дроїдів) і задай їй вираз розрахунку цієї суми.
+•	Додай перевірку, чи зможе клієнт оплатити замовлення:
+•	якщо сума до сплати перевищує кількість кредитів на рахунку клієнта, функція має повертати рядок Insufficient funds!
+      •	в іншому випадку функція має повертати рядок You ordered <quantity> droids worth <totalPrice> credits!, де <quantity> це кількість замовлених дроїдів, а <totalPrice> це їх загальна вартість.
+      ">Завдання
+                №5
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="  Напиши функцію filterArray(numbers, value), яка приймає масив чисел (numbers) та значення (value) як параметри. Функція повинна повертати новий масив лише тих чисел із масиву numbers, які більші за значення value.
+Усередині функції:
+•	Створи порожній масив, у який будеш додавати підходящі числа.
+•	Використай цикл для ітерації кожного елемента масиву numbers.
+•	Використовуй умовний оператор if усередині циклу для перевірки кожного елемента и додавання до свого масиву.
+Поверни свій новий масив з підходящими числами як результат.	Напиши функцію під назвою makeArray, яка приймає три параметри: firstArray (масив), secondArray (масив) і maxLength (число). Функція повинна створювати новий масив, який містить усі елементи з firstArray, а потім усі елементи з secondArray.
+•	Якщо кількість елементів у новому масиві перевищує maxLength, функція повинна повернути копію масиву з довжиною maxLength елементів.
+•	В іншому випадку функція повинна повернути весь новий масив.
+
+">Завдання
+                №6
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="6	1.Створити одновимірний масив, кількість елементів якого задана користувачем. Обчислити суму елементів між максимальним та мінімальними значеннями масиву. Застосувати функції
+2.Упорядкувати масив у порядку зростання.(метод Швидкого сортування)Надрукувати вхідний та вихідний масив. Застосувати функції
+">Завдання
+                №7
+            </div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="Є двовимірний масив додатніх і від’ємних чисел. (об’явити проініціалізувати  генератором випадкових чисел). Вивести у Console браузера.
+
+Збережі перший і останній ементи масиву в окремі змінні
+Вставити 25 після другого елемента масиву.
+Вивести у Console браузера.
+">Завдання
+                №8
+            </div>
+        </div>
+
+      <div class="task-group">
+
+        <div class="task-btn"
+             id="task9Btn"
+             data-content="Реалізувати можливість вибору дати у елемент форми з спеціального візуального компоненту. Вимоги до компоненту: вибір числа, перехід між місяцями та роками, відміна вибору дати">
+          Вибір дати з візуальним календарем
+        </div>
+      </div>
+
+        <div class="task-group">
+            <div class="task-btn" style="background:#007bff; color:#fff;"
+                 data-content="У процесі виконання лабораторних робіт з дисципліни «Web-орієнтовані технології. Основи frontend та backend розробок» я здобув практичні навички роботи з мовою JavaScript та основами клієнтської веб-розробки.
+Було реалізовано завдання різної складності: від базових операцій з рядками, умовними конструкціями та функціями (завдання 1–6) до роботи з масивами, включаючи створення, обробку, сортування швидким методом та маніпуляції з двовимірними масивами (завдання 7–8). Особливу увагу приділено створенню інтерактивних елементів інтерфейсу — кастомного візуального компонента для вибору дати (завдання 9), який підтримує вибір дня, навігацію по місяцях, вибір року та можливість скасування.
+Усі завдання виконані з використанням чистих JavaScript, HTML та CSS, без зовнішніх бібліотек, що дозволило глибше зрозуміти принципи роботи DOM, обробки подій, створення динамічних елементів та стилізації.
+Виконання лабораторних робіт сприяло закріпленню теоретичних знань, розвитку алгоритмічного мислення та вмінь створення функціональних і зручних веб-елементів.
+Дякую за надану можливість практичного застосування отриманих знань!">
+              Висновки
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-area" id="content-display">
+            Місце виведення інформації
+        </div>
+    </div>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.task-btn');
+    const contentDisplay = document.getElementById('content-display');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const text = btn.getAttribute('data-content') || btn.textContent;
+            contentDisplay.textContent = text;
+        });
+    });
+</script>
+</body>
+</html>

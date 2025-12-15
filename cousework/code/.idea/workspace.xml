@@ -5,31 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e499fa68-74b6-401a-9d41-80a7e34fb0e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/games/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/templates/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../codeMain/templates/table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/migrations/20251208063441_init/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/prisma.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/games/aut/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/games/aut/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/games/steam_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/games/steam_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/qwe.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/qwe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/templates/game_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/templates/game_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/views/game_detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/views/game_detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/views/home.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/views/home.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../codeMain/views/profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/../codeMain/views/profile.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +23,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="36fLgupoh9sz1bU4tpfh5Qkn1sT" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -54,6 +38,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "js.debugger.nextJs.config.created.client": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,7 +50,10 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
     <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -92,6 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765392794126</updated>
       <workItem from="1765392795210" duration="5071000" />
+      <workItem from="1765813560828" duration="70000" />
     </task>
     <servers />
   </component>

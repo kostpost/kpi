@@ -13,10 +13,11 @@ class UserGame(models.Model):
     - Comment
     """
     STATUS_CHOICES = [
-        ('completed', 'Completed'),
-        ('playing', 'Playing'),
-        ('dropped', 'Dropped'),
-        ('not_played', 'Not Played'),
+        ('completed', 'Пройдено'),
+        ('playing', 'Граю'),
+        ('planned', 'У планах'),  # Новий статус
+        ('dropped', 'Відкладено'),
+        ('not_played', 'Не грав'),
     ]
 
     user = models.ForeignKey(

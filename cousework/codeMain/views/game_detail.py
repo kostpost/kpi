@@ -1,13 +1,9 @@
 from datetime import datetime
-
-import ch
 import requests
-from bs4 import BeautifulSoup
+import re
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from games.aut.models import UserGame
-import re
-import time
 
 STEAM_API_KEY = "27947505395A6AA7FDAB420DCF4A4C52"
 
@@ -24,7 +20,7 @@ def get_steamid(user):
 
 @login_required
 def delete_game_status(request, appid):
-    """Видаляє запис UserGame для даної гри (відгук, статус, оцінка тощо)"""
+    """Видаляє запис UserGame для даної гри"""
     if request.method == 'POST':
         steamid = get_steamid(request.user)
         if steamid:
@@ -34,7 +30,7 @@ def delete_game_status(request, appid):
 
 @login_required
 def update_game_status(request, appid):
-    """Оновлює або створює запис про гру в бібліотеці користувача"""
+    """Оновлює або створює статус, оцінку та коментар для гри"""
     if request.method == 'POST':
         status = request.POST.get('status')
         rating = request.POST.get('rating')
@@ -44,13 +40,17 @@ def update_game_status(request, appid):
         if not steamid:
             return redirect('home')
 
+        # Якщо статус "У планах" — оцінка не дозволена
+        if status == 'planned':
+            rating = None
+
         UserGame.objects.update_or_create(
             user=request.user,
             steamid=steamid,
             appid=appid,
             defaults={
                 'status': status if status and status != 'not_played' else None,
-                'rating': int(rating) if rating else None,
+                'rating': int(rating) if rating and status != 'planned' else None,
                 'comment': comment if comment else '',
             }
         )
@@ -74,16 +74,15 @@ def game_detail(request, appid):
         'release_date': 'Невідомо',
         'current': 0,
         'genres': 'Невідомо',
-        'technologies': 'Not specified',
+        'technologies': 'Не вказано',
         'peak_24h': 0,
         'all_time_peak': 0,
-        'all_time_peak_date': 'Unknown',
     }
 
     chart_data = {'labels': [], 'data': []}
 
     try:
-        # 1. Дані з Steam Store API
+        # 1. Основні дані гри з Steam Store API
         response = requests.get(
             f"https://store.steampowered.com/api/appdetails?appids={appid}",
             headers=headers,
@@ -119,65 +118,43 @@ def game_detail(request, appid):
                     if 'vr ' in desc: tech_list.append('VR Support')
                     if 'controller' in desc: tech_list.append('Controller Support')
                     if 'workshop' in desc: tech_list.append('Steam Workshop')
-                game['technologies'] = ', '.join(tech_list) if tech_list else 'Not specified'
+                game['technologies'] = ', '.join(tech_list) if tech_list else 'Не вказано'
 
-        # 2. Відгуки Steam
-        review_resp = requests.get(
-            f"https://store.steampowered.com/appreviews/{appid}",
-            headers=headers,
-            params={'json': 1, 'language': 'all', 'filter': 'summary'},
-            timeout=10
-        )
-        if review_resp.status_code == 200:
-            summary = review_resp.json().get('query_summary', {})
-            total = summary.get('total_reviews', 0)
-            positive = summary.get('total_positive', 0)
-            if total > 0:
-                game['review_percentage'] = round((positive / total) * 100)
-
-        # 3. Поточний онлайн
-        players_resp = requests.get(
-            f"https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={STEAM_API_KEY}&appid={appid}",
-            headers=headers,
-            timeout=10
-        )
-        if players_resp.status_code == 200:
-            game['current'] = players_resp.json().get('response', {}).get('player_count', 0)
-
-        # 4. Піки онлайн: 24h peak — як у home, all-time peak з SteamCharts
+        # 2. Поточний онлайн
         try:
-            # ───── 24h peak — точно як у твоєму home (з офіційного API) ─────
-            most_played_resp = requests.get(
-                "https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/",
+            players_resp = requests.get(
+                f"https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={STEAM_API_KEY}&appid={appid}",
                 headers=headers,
                 timeout=10
             )
-            if most_played_resp.status_code == 200:
-                ranks = most_played_resp.json().get('response', {}).get('ranks', [])
-                for entry in ranks:
-                    if entry['appid'] == int(appid):
-                        game['peak_24h'] = entry.get('peak_in_game', game['current'])
-                        break  # знайшли — виходимо
+            if players_resp.status_code == 200:
+                game['current'] = players_resp.json().get('response', {}).get('player_count', 0)
+        except Exception as e:
+            print(f"Помилка отримання поточного онлайну: {e}")
 
-            # ───── All-time peak + графік з SteamCharts ─────
+        # 3. Піки + графік з SteamCharts (найнадійніше джерело)
+        try:
             charts_url = f"https://steamcharts.com/app/{appid}"
             charts_resp = requests.get(charts_url, headers=headers, timeout=10)
             if charts_resp.status_code == 200:
                 text = charts_resp.text
 
-                # All-time peak: число ПЕРЕД фразою "all-time peak" (наприклад: "1,818,368 all-time peak")
+                # 24-hour peak
+                peak_24h_match = re.search(r'([\d,]+)\s+24-hour peak', text, re.IGNORECASE)
+                if peak_24h_match:
+                    game['peak_24h'] = int(re.sub(r'[^\d]', '', peak_24h_match.group(1)))
+
+                # All-time peak
                 all_time_match = re.search(r'([\d,]+)\s+all-time peak', text, re.IGNORECASE)
                 if all_time_match:
                     game['all_time_peak'] = int(re.sub(r'[^\d]', '', all_time_match.group(1)))
 
-                # Графік за 30 днів (JSON — найнадійніше)
+                # Графік за 30 днів
                 json_url = f"https://steamcharts.com/app/{appid}/chart-data.json"
                 json_resp = requests.get(json_url, headers=headers, timeout=10)
                 if json_resp.status_code == 200:
                     chart_json = json_resp.json()
                     if chart_json:
-                        chart_data['labels'] = []
-                        chart_data['data'] = []
                         for point in chart_json[-30:]:
                             ts = point[0] / 1000
                             date_str = datetime.utcfromtimestamp(ts).strftime('%d.%m')
@@ -185,32 +162,24 @@ def game_detail(request, appid):
                             chart_data['data'].append(point[1])
 
         except Exception as e:
-            print(f"Помилка при отриманні піків для appid {appid}: {e}")
+            print(f"Помилка SteamCharts для {appid}: {e}")
 
-        # Fallback: якщо нічого не знайшли — показуємо поточний онлайн
+        # Fallback на поточний онлайн
         if game['peak_24h'] == 0:
             game['peak_24h'] = game['current']
-        if game['all_time_peak'] == 0:
-            game['all_time_peak'] = game['current']
-
-        # Якщо дати немає — залишаємо "Unknown" (як у твоєму початковому словнику)
-        # game['all_time_peak_date'] залишається 'Unknown'
-
-        # if not chart_data['labels']:  # fallback
-        #     chart_data['labels'] = ['Сьогодні', 'Вчора', 'Тиждень тому']
-        #     chart_data['data'] = [game['current'], game['peak_24h'] or 0, game['all_time_peak'] or 0]
 
     except Exception as e:
         print(f"Помилка в game_detail: {e}")
 
-    # --- Персональні дані користувача ---
+    # Статуси для форми
     status_choices = [
-        ('completed', 'Пройдено'),
         ('playing', 'Граю'),
-        ('dropped', 'Відкладено'),  # або 'Покинуто' — як у тебе в шаблоні
-        ('not_played', 'Не грав'),
+        ('completed', 'Пройдено'),
+        ('planned', 'У планах'),
+        ('dropped', 'Відкладено'),
     ]
 
+    # Персональні дані користувача
     user_game = None
     has_review = False
 
@@ -218,8 +187,6 @@ def game_detail(request, appid):
         steamid = get_steamid(request.user)
         if steamid:
             user_game = UserGame.objects.filter(user=request.user, appid=appid).first()
-
-            # Тепер безпечно перевіряємо, чи є реальний відгук
             if user_game:
                 if (user_game.rating is not None or
                     user_game.comment.strip() or
@@ -228,7 +195,7 @@ def game_detail(request, appid):
 
     return render(request, 'game_detail.html', {
         'game': game,
-        'user_game': user_game,  # може бути None — шаблон це обробляє
+        'user_game': user_game or None,
         'status_choices': status_choices,
         'chart_data': chart_data,
         'has_review': has_review,

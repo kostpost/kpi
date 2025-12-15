@@ -1,0 +1,332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list li {
+    margin-left: 2rem;
+}
+
+.nav-list a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-list a:hover {
+    color: #ffcc00;
+}
+
+.burger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.hero {
+    background: #222;
+    color: #fff;
+    padding: 8rem 0 4rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #ff9900;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-text ul {
+    list-style: disc;
+    padding-left: 2rem;
+}
+
+.hero-video {
+    position: relative;
+}
+
+.hero-video img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.5);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.video-label {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ffcc00;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.video-title {
+    position: absolute;
+    bottom: 2rem;
+    left: 1rem;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.btn-yellow {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffcc00;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    color: #000;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+.btn-yellow:hover {
+    background: #ffd633;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.course-card {
+    background: #f0f0f0;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 1rem;
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+}
+
+.course-card img {
+    width: 80px;
+    margin-bottom: 1rem;
+}
+
+.course-card h3 {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    background: #ddd;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    color: #000;
+    border-radius: 0.5rem;
+}
+
+/* Додано: менша відстань перед блоком відгуків */
+.courses {
+    margin-bottom: 2rem;
+}
+
+.reviews {
+    padding: 2rem 0 4rem; /* Зменшено верхній відступ (було 4rem 0) */
+    background: #f9f9f9;
+}
+
+.review-video {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.review-video img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.review-label {
+    position: absolute;
+    bottom: 2rem;
+    left: 1rem;
+    background: #ffcc00;
+    padding: 0.5rem 1rem;
+}
+
+.review-title {
+    position: absolute;
+    bottom: 4rem;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.partners {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.partners img {
+    height: 60px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.partners img:hover {
+    opacity: 1;
+}
+
+.footer {
+    background: #222;
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.social a {
+    color: #fff;
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.btn-all-reviews {
+    margin-top: 1.5rem;
+    background: #ffcc00;
+    padding: 0.8rem 2.5rem;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+.btn-all-reviews:hover {
+    background: #ffd633;
+}
+
+.social a:hover {
+    color: #ffcc00;
+}
+
+/* Адаптивність */
+@media (max-width: 992px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #333;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+
+    .nav.active {
+        max-height: 300px;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .nav-list li {
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}

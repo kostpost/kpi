@@ -6,18 +6,34 @@ import requests
 from datetime import datetime
 from games import steam_utils  # твоя функція для фону
 from codeMain import settings
+from games.aut.models import UserGame
+from views.game_detail import get_steamid
 
 STEAM_API_KEY = getattr(settings, 'SOCIAL_AUTH_STEAM_API_KEY', None)
 
-status_order = {'completed': 0, 'playing': 1, 'dropped': 2}  # 0 — найвище
+# Єдиний порядок статусів для сортування
+STATUS_PRIORITY = {
+    'completed': 0,
+    'playing': 1,
+    'planned': 2,
+    'dropped': 3,
+    'not_played': 4,
+}
 
-def sort_key(game):
+def sort_games(game):
+    """Сортування ігор: статус → оцінка (від високої) → назва"""
     status = game.get('status', 'not_played')
-    return status_order.get(status, 3), game['name'].lower()  # 3 — найнижче
+    rating = game.get('user_rating', 0) or 0
+    name = game.get('name', '').lower()
+    return (STATUS_PRIORITY.get(status, 5), -rating, name)
 
 def profile(request, steamid: str):
     if not steamid:
         raise Http404("SteamID не вказано")
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    }
 
     profile_data = {
         'personaname': 'Невідомий користувач',
@@ -35,12 +51,13 @@ def profile(request, steamid: str):
             'profile_data': profile_data,
             'is_private': True,
             'games': [],
-            'stats': {},
+            'stats': {'total_games': 0, 'total_hours': 0, 'completed_percentage': 0, 'total_achievements': 0},
+            'friends': [],
         })
 
-    # 1. Базова інформація
-    summary_url = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_API_KEY}&steamids={steamid}"
+    # 1. Базова інформація профілю
     try:
+        summary_url = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={STEAM_API_KEY}&steamids={steamid}"
         response = requests.get(summary_url, timeout=10).json()
         players = response.get('response', {}).get('players', [])
         if players:
@@ -51,7 +68,6 @@ def profile(request, steamid: str):
                 'profileurl': player.get('profileurl', profile_data['profileurl']),
                 'communityvisibilitystate': player.get('communityvisibilitystate', 1),
             })
-            # Роки в Steam
             timecreated = player.get('timecreated')
             if timecreated:
                 profile_data['years_in_steam'] = datetime.now().year - datetime.fromtimestamp(timecreated).year
@@ -62,8 +78,8 @@ def profile(request, steamid: str):
 
     # 2. Рівень Steam
     if is_public:
-        level_url = f"http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key={STEAM_API_KEY}&steamid={steamid}"
         try:
+            level_url = f"http://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key={STEAM_API_KEY}&steamid={steamid}"
             level_response = requests.get(level_url, timeout=10).json()
             level = level_response.get('response', {}).get('player_level')
             if level is not None:
@@ -71,83 +87,111 @@ def profile(request, steamid: str):
         except Exception as e:
             print(f"Steam API error (GetSteamLevel): {e}")
 
-    # 3. Фон
+    # 3. Фон профілю
     if is_public:
         profile_data['profile_background'] = steam_utils.get_steam_profile_background_url(steamid)
 
-    # 4. Бібліотека ігор (тільки якщо публічна)
+    # 4. Бібліотека ігор — ТІЛЬКИ оцінені в GamingLibrary
     games = []
     stats = {
         'total_games': 0,
-        'total_hours': 0,
+        'total_hours': 0.0,
         'completed_percentage': 0,
         'total_achievements': 0,
     }
 
-    if is_public:
-        # GetOwnedGames — список ігор + години
-        owned_url = f"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={STEAM_API_KEY}&steamid={steamid}&include_appinfo=true&include_played_free_games=true"
+    current_user_steamid = get_steamid(request.user) if request.user.is_authenticated else None
+
+    if request.user.is_authenticated and current_user_steamid == steamid:
         try:
-            owned_response = requests.get(owned_url, timeout=10).json()
-            game_list = owned_response.get('response', {}).get('games', [])
-            stats['total_games'] = len(game_list)
+            user_games = UserGame.objects.filter(user=request.user)
 
-            for game in game_list:
-                appid = game['appid']
-                name = game.get('name', 'Unknown')
-                playtime = game.get('playtime_forever', 0) / 60  # години
-                stats['total_hours'] += playtime
+            for ug in user_games:
+                # Показуємо гру ТІЛЬКИ якщо є оцінка, статус (не not_played) або коментар
+                if (ug.rating is None and
+                    (ug.status is None or ug.status == 'not_played') and
+                    not ug.comment.strip()):
+                    continue
 
-                # Обкладинка
-                header_image = f"https://steamcdn-a.akamaihd.net/steam/apps/{appid}/header.jpg"
-
-                # Досягнення (відсоток)
-                achievements = 0
-                total_achievements = 0
+                # Дані гри з Steam API
                 try:
-                    ach_url = f"http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key={STEAM_API_KEY}&steamid={steamid}&appid={appid}"
-                    ach_response = requests.get(ach_url, timeout=15).json()
-                    achs = ach_response.get('playerstats', {}).get('achievements', [])
-                    total_achievements = len(achs)
-                    achievements = sum(1 for a in achs if a.get('achieved') == 1)
-                except:
-                    pass
-
-                stats['total_achievements'] += achievements
-
-                # Статус проходження (простий алгоритм)
-                status = 'Не грав'
-                if playtime > 0:
-                    status = 'Граю'
-                if achievements > 0 and achievements / max(total_achievements, 1) > 0.9:
-                    status = 'Пройдено'
+                    details_resp = requests.get(
+                        f"https://store.steampowered.com/api/appdetails?appids={ug.appid}",
+                        headers=headers,
+                        timeout=10
+                    )
+                    if details_resp.status_code == 200:
+                        data = details_resp.json().get(str(ug.appid), {}).get('data', {})
+                        name = data.get('name', f"Гра {ug.appid}")
+                        header_image = data.get('header_image') or f"https://steamcdn-a.akamaihd.net/steam/apps/{ug.appid}/header.jpg"
+                    else:
+                        name = f"Гра {ug.appid}"
+                        header_image = f"https://steamcdn-a.akamaihd.net/steam/apps/{ug.appid}/header.jpg"
+                except Exception:
+                    name = f"Гра {ug.appid}"
+                    header_image = f"https://steamcdn-a.akamaihd.net/steam/apps/{ug.appid}/header.jpg"
 
                 games.append({
-                    'appid': appid,
+                    'appid': ug.appid,
                     'name': name,
                     'header_image': header_image,
-                    'playtime_forever': round(playtime, 1),
-                    'achievements': achievements,
-                    'total_achievements': total_achievements,
-                    'status': status.lower().replace(' ', '_'),  # для класу в шаблоні
-                    'user_rating': 5,  # Заглушка, можна зберігати в БД
+                    'playtime_forever': 0.0,
+                    'achievements': 0,
+                    'total_achievements': 0,
+                    'status': ug.status or 'not_played',
+                    'user_rating': ug.rating or 0,
                 })
 
-            # % пройдених ігор (якщо є досягнення)
-            if stats['total_games'] > 0:
-                stats['completed_percentage'] = round((sum(1 for g in games if g['status'] == 'completed') / stats['total_games']) * 100)
+            # Сортування ігор
+            games.sort(key=sort_games)
+
+            stats['total_games'] = len(games)
 
         except Exception as e:
-            print(f"Steam API error (GetOwnedGames): {e}")
+            print(f"Помилка отримання бібліотеки: {e}")
 
-    # Округлюємо години
-    stats['total_hours'] = round(stats['total_hours'], 1)
+    # 5. Друзі з Steam
+    friends = []
+    if is_public and request.user.is_authenticated and current_user_steamid == steamid:
+        try:
+            friends_url = f"http://api.steampowered.com/ISteamUser/GetFriendList/v1/?key={STEAM_API_KEY}&steamid={steamid}&relationship=friend"
+            friends_resp = requests.get(friends_url, timeout=10).json()
+            friend_list = friends_resp.get('friendslist', {}).get('friends', [])
 
-    games.sort(key=sort_key)
+            if friend_list:
+                friend_ids = ','.join([f['steamid'] for f in friend_list[:50]])
+
+                summaries_url = f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={STEAM_API_KEY}&steamids={friend_ids}"
+                summaries_resp = requests.get(summaries_url, timeout=10).json()
+                players = summaries_resp.get('response', {}).get('players', [])
+
+                for player in players:
+                    state = "Оффлайн"
+                    persona_state = player.get('personastate', 0)
+                    if persona_state == 1:
+                        state = "Онлайн"
+                    elif persona_state in [2, 3]:
+                        state = "В грі"
+                    elif persona_state == 5:
+                        state = "Хоче обмінятись"
+                    elif persona_state == 6:
+                        state = "Хоче грати"
+
+                    friends.append({
+                        'steamid': player['steamid'],
+                        'personaname': player.get('personaname', 'Невідомий'),
+                        'avatar': player.get('avatarfull'),
+                        'profileurl': player.get('profileurl'),
+                        'state': state,
+                    })
+
+        except Exception as e:
+            print(f"Помилка отримання друзів Steam: {e}")
 
     return render(request, 'profile.html', {
         'profile_data': profile_data,
         'is_private': not is_public,
         'games': games,
         'stats': stats,
+        'friends': friends,
     })

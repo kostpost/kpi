@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+      <html lang="en">
+      <head>
+      <meta charset="UTF-8">
+      <title><!DOCTYPE html>
+      <html lang="uk">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Звіт з лабораторних робіт</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .header {
+      background: #333;
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .header h2 {
+      margin: 0.5rem 0 0;
+      font-size: 1.4rem;
+      font-weight: normal;
+    }
+    .student-info {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+    .container {
+      display: flex;
+      min-height: 80vh;
+    }
+    .sidebar {
+      width: 300px;
+      background: #eee;
+      padding: 2rem;
+      border-right: 1px solid #ccc;
+    }
+    .task-group {
+      margin-bottom: 2rem;
+    }
+    .task-group h3 {
+      background: #007bff;
+      color: #fff;
+      padding: 0.8rem;
+      border-radius: 50px;
+      text-align: center;
+      margin: 0 0 1rem 0;
+      cursor: pointer;
+    }
+    .task-btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .task-btn:hover, .task-btn.active {
+      background: #007bff;
+      color: #fff;
+    }
+    .content {
+      flex: 1;
+      padding: 2rem;
+      background: #fff;
+    }
+    .content-area {
+      border: 1px solid #ccc;
+      padding: 3rem;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #666;
+    }
+    .photo-placeholder {
+      float: right;
+      width: 150px;
+      height: 150px;
+      background: #ddd;
+      border-radius: 50%;
+      margin-left: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>ЗВІТ З ЛАБОРАТОРНИХ РОБІТ</h1>
+  <h2>З ДИСЦИПЛІНИ «WEB-ОРІЄНТОВАНІ ТЕХНОЛОГІЇ. ОСНОВИ FRONTEND та BACKEND РОЗРОБОК»</h2>
+  <div class="student-info">
+    Студента групи <u>____ Іванов Іван Іванович</u>
+    <div class="photo-placeholder">ФОТО СТУДЕНТА</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="task-group">
+      <h3>Тема Мета Місце розташування сайту, звіту</h3>
+    </div>
+
+    <div class="task-group">
+      <h3>ЗАВДАННЯ №1</h3>
+      <div class="task-btn" data-content="Зовнішній вигляд макету. Код макету">Зовнішній вигляд макету. Код макету</div>
+    </div>
+
+    <div class="task-group">
+      <h3>ЗАВДАННЯ №2</h3>
+      <div class="task-btn" data-content="Фіксована таблична верстка">Фіксована таблична верстка</div>
+      <div class="task-btn" data-content="Гумова таблична верстка">Гумова таблична верстка</div>
+      <div class="task-btn" data-content="Фіксована блокова верстка">Фіксована блокова верстка</div>
+      <div class="task-btn" data-content="Гумова блокова верстка">Гумова блокова верстка</div>
+    </div>
+
+    <div class="task-group">
+      <h3>ЗАВДАННЯ №3 FLEXBOX</h3>
+      <div class="task-btn" data-content="Зовнішній вигляд сторінки">Зовнішній вигляд сторінки</div>
+      <div class="task-btn" data-content="HTML-код">HTML-код</div>
+      <div class="task-btn" data-content="CSS-код сторінки">CSS-код сторінки</div>
+    </div>
+
+    <div class="task-group">
+      <div class="task-btn" style="background:#007bff; color:#fff;">ВИСНОВКИ</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="content-area" id="content-display">
+      Місце виведення інформації
+    </div>
+  </div>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.task-btn');
+  const contentDisplay = document.getElementById('content-display');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Знімаємо active з усіх
+      buttons.forEach(b => b.classList.remove('active'));
+      // Додаємо active до натиснутої
+      btn.classList.add('active');
+      // Виводимо текст (або можеш замінити на реальний контент)
+      const text = btn.getAttribute('data-content') || btn.textContent;
+      contentDisplay.textContent = text;
+    });
+  });
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
