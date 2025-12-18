@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лабораторна робота №6</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 8px;
+      color: #2980b9;
+    }
+    .task {
+      background: white;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .description {
+      margin-bottom: 20px;
+      font-style: italic;
+      color: #555;
+    }
+    .demo {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 200px;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #square {
+      width: 100px;
+      height: 100px;
+      background-color: #ff6b6b;
+      border: 3px dashed #c0392b;
+      margin: 20px auto;
+    }
+    .result {
+      background: #f5f5f5;
+      padding: 15px;
+      border-left: 5px solid #3498db;
+      border-radius: 4px;
+    }
+
+    #numberList {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<h1>Лабораторна робота №5</h1>
+
+<!-- Завдання 2 -->
+<div class="task">
+  <h2>Завдання 2</h2>
+  <div class="description">
+    У звітному HTML-документі створити html-розмітку, яка складається з наступних елементів: текст, кнопка, два інпута (поля введення).<br>
+    Після натискання кнопки "SWAP ME" здійснюється обмін вмістом між двома інпутами.<br>
+    Ви можете натиснути на неї кілька разів або вручну змінити вміст інпутів.
+  </div>
+
+  <div class="demo">
+    <button id="swapBtn">SWAP ME</button>
+    <input type="text" id="input1" value="qqq">
+    <input type="text" id="input2" value="www">
+  </div>
+</div>
+
+
+<!-- Завдання 4  -->
+<div class="task">
+  <h2>Завдання 4</h2>
+  <div class="description">
+    Створити блок (div) — квадрат.<br>
+    Кнопка "Зменшити" — зменшує сторони квадрата на 15 пікселів (кожне натискання).<br>
+    Кнопка "Збільшити" — збільшує сторони квадрата на 15 пікселів (кожне натискання).
+  </div>
+
+  <div class="demo">
+    <div id="square"></div>
+    <button id="decreaseBtn">Зменшити</button>
+    <button id="increaseBtn">Збільшити</button>
+  </div>
+
+
+</div>
+
+
+
+<!-- Завдання 6 -->
+<div class="task">
+  <h2>Завдання 6</h2>
+  <div class="description">
+    Створити маркований список (ul) з числовими значеннями.<br>
+    Кнопка "Подвоїти" при натисканні збільшує кожне значення у списку у 2 рази.<br>
+    Повторні натискання продовжують подвоювати значення.
+  </div>
+
+  <div class="demo">
+    <ul id="numberList">
+      <li>1</li>
+      <li>4</li>
+      <li>8</li>
+      <li>16</li>
+      <li>20</li>
+      <li>30</li>
+    </ul>
+    <button id="doubleBtn">Подвоїти</button>
+  </div>
+
+</div>
+
+<!-- Завдання 7 -->
+<div class="task">
+  <h2>Завдання 7</h2>
+  <div class="description">
+    <ul id="categories">
+      <li class="item">
+        <h2>Animals</h2>
+        <ul>
+          <li>Cat</li>
+          <li>Hamster</li>
+          <li>Horse</li>
+          <li>Parrot</li>
+        </ul>
+      </li>
+      <li class="item">
+        <h2>Products</h2>
+        <ul>
+          <li>Bread</li>
+          <li>Parsley</li>
+          <li>Cheese</li>
+        </ul>
+      </li>
+      <li class="item">
+        <h2>Technologies</h2>
+        <ul>
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+          <li>React</li>
+          <li>Node.js</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- Завдання 8-->
+<div class="task">
+  <h2>Завдання 8</h2>
+  <div class="description">
+    Обробка відправлення форми login-form:<br>
+    • Заборонити перезавантаження сторінки<br>
+    • Перевірити заповненість всіх полів (через JS)<br>
+    • Зібрати дані в об'єкт і вивести в консоль<br>
+    • Очистити поля після сабміту
+  </div>
+
+  <form class="login-form">
+    <label>
+      Email
+      <input type="email" name="email" />
+    </label>
+    <label>
+      Password
+      <input type="password" name="password" />
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+
+
+</div>
+
+
+
+<!-- Завдання 9 -->
+<div class="task">
+  <h2>Завдання 9</h2>
+  <div class="description">
+    При кліку на кнопку "Change color" змінюється колір фону &lt;body&gt; через інлайн-стиль.<br>
+    У спані .color відображається поточний колір у HEX-форматі.
+  </div>
+
+  <div class="widget" style="text-align: center; padding: 20px;">
+    <p>Background color: <span class="color">-</span></p>
+    <button type="button" class="change-color">Change color</button>
+  </div>
+
+</div>
+
+
+<!-- Завдання 10 -->
+<div class="task">
+  <h2>Завдання 10</h2>
+  <div class="description">
+    Користувач вводить кількість елементів (від 1 до 100).<br>
+    Кнопка <strong>Create</strong> — створює відповідну кількість кольорових div-ів у #boxes.<br>
+    Кнопка <strong>Destroy</strong> — очищає всі елементи.<br>
+    При повторному Create — стара колекція замінюється новою.
+  </div>
+
+  <div id="controls">
+    <input type="number" min="1" max="100" step="1" placeholder="Кількість" />
+    <button type="button" data-create>Create</button>
+    <button type="button" data-destroy>Destroy</button>
+  </div>
+
+  <div id="boxes" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;"></div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="laba6.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            color: #2980b9;
+        }
+        .task {
+            background: white;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .description {
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        .result {
+            background: #f5f5f5;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Лабораторна робота №6</h1>
+
+<!-- Завдання 1.2 -->
+<div class="task">
+    <h2>Завдання 1.2</h2>
+    <div class="description">
+        Написати функцію getProductDetails(productId, successCallback, errorCallback),
+        яка симулює отримання деталей товару з затримкою. Якщо товар знайдено — successCallback, інакше — errorCallback.
+    </div>
+    <div class="result" id="task1-result">
+        <p>Очікування відповіді від сервера...</p>
+    </div>
+</div>
+
+<!-- Завдання 1.4 -->
+<div class="task">
+    <h2>Завдання 1.4</h2>
+    <div class="description">
+        З об'єкта concerts отримати масив міст з майбутніми концертами (дата пізніше поточної),
+        відсортувати за датою та вивести. Очікуваний результат: ["Одеса", "Умань", "Харків"]
+    </div>
+    <div class="result" id="task2-result">
+        <p>Обробка даних...</p>
+    </div>
+</div>
+
+<!-- Завдання 1.6 -->
+<div class="task">
+    <h2>Завдання 1.6</h2>
+    <div class="description">
+        Написати функцію, яка приймає масив медикаментів, додає id та застосовує знижку 30%
+        на товари дорожче 300 грн. Вивести результат у таблицю.
+    </div>
+    <div class="result" id="task3-result">
+        <p>Обробка медикаментів...</p>
+    </div>
+</div>
+
+<!-- Завдання 1.8 -->
+<div class="task">
+    <h2>Завдання 1.8</h2>
+    <div class="description">
+        Написати функцію-конструктор Storage для управління складом товарів.<br>
+        Методи: getItems(), addItem(item), removeItem(item).
+    </div>
+    <div class="result" id="task4-result">
+        <pre id="task4-output"></pre>
+    </div>
+</div>
+
+
+<!-- Завдання 1.10 -->
+<div class="task">
+    <h2>Завдання 1.10</h2>
+    <div class="description">...</div>
+    <div class="result" id="task5-result">
+        <p>Перевірка дужок...</p>
+    </div>
+</div>
+
+
+<!-- Завдання 2.2 -->
+<div class="task">
+    <h2>Завдання 2.2</h2>
+    <div class="description">
+        Дано масив об'єктів people. Перевірте, чи є хоча б один об'єкт з віком менше 20 років.<br>
+        Очікуваний результат: <code>true</code>.
+    </div>
+    <div class="result" id="task6-result">
+        <p>Обробка даних...</p>
+    </div>
+</div>
+
+
+
+<!-- Завдання 2.4 -->
+<div class="task">
+    <h2>Завдання 2.4</h2>
+    <div class="description">
+        Дано масив чисел <code>[1, 2, 3, 4, 5]</code>.<br>
+        Створіть новий масив, що містить квадрати кожного елементу вхідного масиву.<br>
+        Очікуваний результат: <code>[1, 4, 9, 16, 25]</code>.
+    </div>
+    <div class="result" id="task7-result">
+        <p>Обробка масиву...</p>
+    </div>
+</div>
+
+<!-- Завдання 2.6 -->
+<div class="task">
+    <h2>Завдання 2.6</h2>
+    <div class="description">
+        Відсортуйте масив об'єктів users за віком у порядку зростання.<br>
+        Очікуваний результат: <code>[{name: "Bob", age: 19}, {name: "John", age: 27}, {name: "Jane", age: 31}]</code>.
+    </div>
+    <div class="result" id="task8-result">
+        <p>Сортування масиву...</p>
+    </div>
+</div>
+
+
+<!-- Завдання 2.8 -->
+<div class="task">
+    <h2>Завдання 2.8</h2>
+    <div class="description">
+        Створити клас Calculator для послідовних математичних операцій з підтримкою ланцюжкових викликів.<br>
+        Методи: <code>number(value)</code>, <code>add()</code>, <code>subtract()</code>, <code>multiply()</code>, <code>divide()</code>, <code>getResult()</code>.
+    </div>
+    <div class="result" id="task9-result">
+        <p>Виконання розрахунків...</p>
+    </div>
+</div>
+
+<script src="laba5.js"></script>
+
+</body>
+</html>
