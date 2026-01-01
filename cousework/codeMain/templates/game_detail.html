@@ -64,14 +64,7 @@
                     </div>
                 </div>
 
-                <!-- Графік -->
-                <div class="bg-gray-800/80 backdrop-blur-md rounded-xl p-8 border border-gray-700">
-                    <h3 class="text-2xl font-bold text-white text-center mb-6">Графік гравців (за 30 днів)</h3>
-                    <div class="relative w-full h-96 mx-auto">
-                        <canvas id="playerChart"></canvas>
-                    </div>
-                    <p class="text-gray-500 text-xs text-center mt-4">Джерело: SteamCharts API</p>
-                </div>
+
 
                 <!-- Блок відгуку -->
                 {% if user.is_authenticated %}
@@ -232,36 +225,7 @@
     <!-- Chart.js + JS для інтерактивності -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Графік гравців
-            const ctx = document.getElementById('playerChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: {{ chart_data.labels|safe }},
-                    datasets: [{
-                        label: 'Кількість гравців',
-                        data: {{ chart_data.data|safe }},
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 5,
-                        pointHoverRadius: 8,
-                        pointBackgroundColor: '#3b82f6',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {legend: {display: false}},
-                    scales: {
-                        y: {beginAtZero: false, ticks: {color: '#9ca3af'}, grid: {color: 'rgba(255,255,255,0.1)'}},
-                        x: {ticks: {color: '#9ca3af', maxTicksLimit: 12}, grid: {color: 'rgba(255,255,255,0.1)'}}
-                    }
-                }
-            });
+        {
 
             // Кнопка "Редагувати відгук"
             const editButton = document.getElementById('edit-button');
@@ -345,6 +309,8 @@
                     document.getElementById('planned-message').classList.remove('hidden');
                 }
             });
-        });
+        }
+        )
+        ;
     </script>
 {% endblock %}

@@ -99,76 +99,61 @@
                 </div>
 
                 <!-- Бібліотека ігор -->
+                <!-- Бібліотека ігор -->
                 <div class="p-8 bg-gray-900/50">
-                    {% if is_private %}
-                        <div class="text-center py-32 text-gray-400">
-                            <div class="text-9xl mb-8">🔒</div>
-                            <p class="text-3xl font-medium">Бібліотека прихована</p>
-                            <p class="text-xl mt-4">Цей профіль приватний. Деяка інформація недоступна.</p>
-                        </div>
-                    {% else %}
+                    {% if games %}
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                             {% for game in games %}
-                                <div class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                                <a href="{% url 'game_detail' game.appid %}"
+                                   class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105 block">
                                     <img src="{{ game.header_image }}" alt="{{ game.name }}"
                                          class="w-full h-64 object-cover">
                                     <div class="p-4 space-y-2">
                                         <h3 class="text-white font-semibold text-sm truncate">{{ game.name }}</h3>
 
-                                        <!-- Оцінка (зірочки) — завжди є, бо гра в списку тільки якщо є rating або статус -->
                                         <div class="flex justify-between items-center text-xs">
-                                            <span class="text-gray-400">{{ game.playtime_forever|floatformat:1 }}h</span>
+                                            <span class="text-gray-400">0.0h</span>
                                             <span class="text-yellow-400">
-                                                {% for i in "12345" %}
-                                                    {% if forloop.counter <= game.user_rating %}★{% else %}☆{% endif %}
-                                                {% endfor %}
-                                            </span>
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= game.user_rating %}★{% else %}☆{% endif %}
+                                {% endfor %}
+                            </span>
                                         </div>
 
-                                        <!-- Статус — показуємо тільки якщо є (не 'not_played') -->
-                                        {% if game.status and game.status != 'not_played' %}
+                                        {% if game.status != 'not_played' %}
                                             <div class="text-xs">
-                                                <span class="px-3 py-1 rounded-full text-white font-medium
-                                                    {% if game.status == 'completed' %}bg-green-600
-                                                    {% elif game.status == 'playing' %}bg-blue-600
-                                                    {% elif game.status == 'dropped' %}bg-red-600
-                                                    {% else %}bg-gray-600{% endif %}">
-                                                    {% if game.status == 'completed' %}Пройдено
-                                                    {% elif game.status == 'playing' %}Граю
-                                                    {% elif game.status == 'dropped' %}Відкладено
-                                                    {% else %}Не грав{% endif %}
-                                                </span>
+                                <span class="px-3 py-1 rounded-full text-white font-medium
+                                    {% if game.status == 'completed' %}bg-green-600
+                                    {% elif game.status == 'playing' %}bg-blue-600
+                                    {% elif game.status == 'dropped' %}bg-red-600
+                                    {% else %}bg-purple-600{% endif %}">
+                                    {{ game.status|capfirst }}
+                                </span>
                                             </div>
                                         {% endif %}
                                     </div>
-
-                                    <!-- Hover деталі -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
-                                        <div class="text-left text-sm">
-                                            <p class="text-white font-medium">Досягнення: {{ game.achievements }} / {{ game.total_achievements }}</p>
-                                            <p class="text-gray-300">Годин: {{ game.playtime_forever|floatformat:1 }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% empty %}
-                                <div class="col-span-full text-center py-32 text-gray-400">
-                                    <div class="text-9xl mb-8">🎮</div>
-                                    <p class="text-3xl">Бібліотека порожня</p>
-                                    <p class="text-xl mt-4">Користувач ще не оцінив жодної гри в GamingLibrary</p>
-                                </div>
+                                </a>
                             {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-32 text-gray-400">
+                            <div class="text-9xl mb-8">📭</div>
+                            <p class="text-3xl font-medium">Ще немає ігор</p>
+                            <p class="text-xl mt-4">Користувач поки не додав жодної гри до бібліотеки</p>
                         </div>
                     {% endif %}
                 </div>
 
-                                <!-- Друзі з Steam -->
+                <!-- Друзі з Steam -->
                 {% if friends %}
                     <div class="px-8 py-10 bg-gray-900/50 border-t border-gray-700">
                         <h2 class="text-3xl font-bold text-white mb-8">Друзі в Steam ({{ friends|length }})</h2>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                             {% for friend in friends %}
-                                <a href="{{ friend.profileurl }}" target="_blank" class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:scale-105">
-                                    <img src="{{ friend.avatar }}" alt="{{ friend.personaname }}" class="w-full h-48 object-cover">
+                                <a href="{{ friend.profileurl }}" target="_blank"
+                                   class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:scale-105">
+                                    <img src="{{ friend.avatar }}" alt="{{ friend.personaname }}"
+                                         class="w-full h-48 object-cover">
                                     <div class="p-4 space-y-2">
                                         <h3 class="text-white font-semibold text-sm truncate">{{ friend.personaname }}</h3>
                                         <p class="text-xs text-gray-400">{{ friend.state }}</p>
