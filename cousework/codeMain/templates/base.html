@@ -17,6 +17,7 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-950 text-gray-100 overflow-x-hidden">
+
 <!-- Header -->
 <header class="bg-gray-900/80 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -29,35 +30,26 @@
         <!-- Пошукова строка -->
         <div class="flex-1 max-w-2xl">
             <div class="relative">
-                <input type="text"
-                       placeholder="Пошук ігор..."
-                       class="w-full px-5 py-3 bg-gray-800/70 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                       {% if request.path != '/' %}disabled{% endif %}/>
+                <input type="text" placeholder="Пошук ігор..." disabled
+                       class="w-full px-5 py-3 bg-gray-800/70 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">🔍</span>
             </div>
         </div>
 
+        <!-- Авторизація / Профіль -->
         <!-- Профіль або вхід -->
         <div class="relative">
-            {% if user.is_authenticated and steam_profile %}
+            {% if user.is_authenticated %}
                 <button id="profile-button"
                         class="group flex items-center gap-3 hover:bg-gray-800/50 rounded-xl p-2 transition-all duration-200">
 
-                    <!-- Реальна аватарка Steam -->
-                    {% if steam_profile.avatarfull %}
-                        <img src="{{ steam_profile.avatarfull }}"
-                             alt="Аватарка {{ steam_profile.personaname }}"
-                             class="w-10 h-10 rounded-full border-2 border-gray-700 object-cover shadow-md group-hover:border-blue-500 transition">
-                    {% else %}
-                        <div class="w-10 h-10 rounded-full border-2 border-gray-700 bg-gray-700/50 shadow-md group-hover:border-blue-500 transition flex items-center justify-center">
-                            <span class="text-2xl text-gray-500">?</span>
-                        </div>
-                    {% endif %}
+                    <!-- Аватарка-заглушка (перша літера ніку) -->
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">
+                        {{ user.username|slice:":1"|upper }}
+                    </div>
 
-                    <!-- Реальний Steam нікнейм -->
-                    <span class="font-medium truncate max-w-36">
-                {{ steam_profile.personaname }}
-            </span>
+                    <!-- Нікнейм -->
+                    <span class="font-medium truncate max-w-36">{{ user.username }}</span>
 
                     <svg id="dropdown-arrow"
                          class="w-5 h-5 text-gray-400 group-hover:text-white transition-transform duration-300"
@@ -70,7 +62,8 @@
                 <div id="profile-menu"
                      class="absolute right-0 mt-2 w-60 bg-gray-800 rounded-xl shadow-2xl border border-gray-700 hidden transition-all duration-300 z-50">
                     <div class="py-2">
-                        <a href="{% url 'profile' steamid=user.social_auth.first.uid %}"
+                        <!-- Перехід на власний профіль -->
+                        <a href="{% url 'profile_by_username' user.username %}"
                            class="block px-4 py-3 text-gray-300 hover:bg-gray-700/80 hover:text-white transition flex items-center gap-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,6 +71,8 @@
                             </svg>
                             Мій профіль
                         </a>
+
+                        <!-- Вихід -->
                         <a href="{% url 'logout' %}"
                            class="block px-4 py-3 text-red-400 hover:bg-gray-700/80 transition flex items-center gap-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,15 +85,16 @@
                 </div>
 
             {% else %}
-                <!-- Вхід через Steam -->
-                <a href="{% url 'social:begin' 'steam' %}"
-                   class="flex items-center gap-3 px-6 py-3 bg-black hover:bg-gray-800 text-white font-semibold rounded-xl transition shadow-lg border border-gray-700">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                        <!-- SVG іконка Steam -->
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.698 17.867c-1.143 0-2.083-.927-2.083-2.07 0-1.143.94-2.07 2.083-2.07.57 0 1.1.23 1.49.61l-.61.61c-.19-.19-.45-.3-.88-.3-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.43 0 .69-.11.88-.3l.61.61c-.39.38-.92.61-1.49.61zm-3.698-1.867c-1.143 0-2.083-.927-2.083-2.07 0-1.143.94-2.07 2.083-2.07.57 0 1.1.23 1.49.61l-.61.61c-.19-.19-.45-.3-.88-.3-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.43 0 .69-.11.88-.3l.61.61c-.39.38-.92.61-1.49.61zm-4-3c-.76 0-1.38.62-1.38 1.38 0 .76.62 1.38 1.38 1.38.76 0 1.38-.62 1.38-1.38 0-.76-.62-1.38-1.38-1.38z"/>
-                    </svg>
-                    Вхід через Steam
-                </a>
+                <div class="flex gap-3">
+                    <a href="{% url 'login' %}"
+                       class="px-5 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition">
+                        Увійти
+                    </a>
+                    <a href="{% url 'register' %}"
+                       class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                        Зареєструватися
+                    </a>
+                </div>
             {% endif %}
         </div>
     </div>
@@ -106,8 +102,7 @@
 
 <!-- Основний контент -->
 <main class="flex-1 container mx-auto px-4 py-8 max-w-7xl">
-    {% block content %}
-    {% endblock %}
+    {% block content %}{% endblock %}
 </main>
 
 <!-- Footer -->
@@ -115,7 +110,7 @@
     © 2025 GamingLibrary • Ткаченко Костянтин, КПІ ІП-з31
 </footer>
 
-<!-- JS для dropdown -->
+<!-- Dropdown JS -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const button = document.getElementById('profile-button');
@@ -123,20 +118,18 @@
         const arrow = document.getElementById('dropdown-arrow');
 
         if (button && menu && arrow) {
-            button.addEventListener('click', function (e) {
+            button.addEventListener('click', e => {
                 e.stopPropagation();
                 menu.classList.toggle('hidden');
                 arrow.classList.toggle('rotate-180');
             });
 
-            document.addEventListener('click', function () {
+            document.addEventListener('click', () => {
                 menu.classList.add('hidden');
                 arrow.classList.remove('rotate-180');
             });
 
-            menu.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
+            menu.addEventListener('click', e => e.stopPropagation());
         }
     });
 </script>

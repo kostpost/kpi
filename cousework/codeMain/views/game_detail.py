@@ -1,8 +1,12 @@
 from datetime import datetime
 import requests
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404
 from games.aut.models import UserGame
+from games.aut.models import UserList
+
 
 STEAM_API_KEY = "27947505395A6AA7FDAB420DCF4A4C52"
 
@@ -17,42 +21,92 @@ def get_steamid(user):
     return None
 
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
 @login_required
 def delete_game_status(request, appid):
     if request.method == 'POST':
-        steamid = get_steamid(request.user)
-        if steamid:
-            UserGame.objects.filter(user=request.user, appid=appid).delete()
+        UserGame.objects.filter(user=request.user, appid=appid).delete()
     return redirect('game_detail', appid=appid)
 
+
+# games/views.py
 
 @login_required
 def update_game_status(request, appid):
     if request.method == 'POST':
+        # Отримуємо всі можливі поля
         status = request.POST.get('status')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment', '').strip()
+        list_id = request.POST.get('list_id')
+        new_list_name = request.POST.get('new_list')
 
-        steamid = get_steamid(request.user)
-        if not steamid:
-            return redirect('home')
-
-        if status == 'planned':
-            rating = None
-
-        UserGame.objects.update_or_create(
+        # Знаходимо або створюємо запис
+        user_game, created = UserGame.objects.get_or_create(
             user=request.user,
-            steamid=steamid,
-            appid=appid,
-            defaults={
-                'status': status if status and status != 'not_played' else None,
-                'rating': int(rating) if rating and status != 'planned' else None,
-                'comment': comment if comment else '',
-            }
+            appid=appid
         )
+
+        # Оновлюємо ТІЛЬКИ ті поля, які прийшли
+        update_fields = {}
+        if status is not None:
+            update_fields['status'] = status if status and status != 'not_played' else None
+        if rating is not None:
+            update_fields['rating'] = int(rating) if rating and status != 'planned' else None
+        if comment:
+            update_fields['comment'] = comment
+
+        if update_fields:
+            for field, value in update_fields.items():
+                setattr(user_game, field, value)
+            user_game.save(update_fields=update_fields.keys())
+
+        # Обробка списків (незалежно від відгуку)
+        if list_id:
+            try:
+                user_list = UserList.objects.get(id=list_id, user=request.user)
+                user_game.lists.add(user_list)
+            except UserList.DoesNotExist:
+                pass
+
+        elif new_list_name:
+            new_list_name = new_list_name.strip()
+            if new_list_name:
+                user_list, _ = UserList.objects.get_or_create(
+                    user=request.user,
+                    name=new_list_name
+                )
+                user_game.lists.add(user_list)
+
         return redirect('game_detail', appid=appid)
 
     return redirect('home')
+
+
+# Новий view — для додавання/видалення гри зі списку (якщо потрібно)
+@login_required
+def manage_game_in_list(request, appid, list_id):
+    if request.method == 'POST':
+        action = request.POST.get('action')  # 'add' або 'remove'
+        user_game = get_object_or_404(UserGame, user=request.user, appid=appid)
+        user_list = get_object_or_404(UserList, id=list_id, user=request.user)
+
+        if action == 'add':
+            user_game.lists.add(user_list)
+        elif action == 'remove':
+            user_game.lists.remove(user_list)
+
+    return redirect('game_detail', appid=appid)
 
 
 def game_detail(request, appid):
@@ -171,14 +225,12 @@ def game_detail(request, appid):
     has_review = False
 
     if request.user.is_authenticated:
-        steamid = get_steamid(request.user)
-        if steamid:
-            user_game = UserGame.objects.filter(user=request.user, appid=appid).first()
-            if user_game:
-                if (user_game.rating is not None or
-                    user_game.comment.strip() or
-                    (user_game.status and user_game.status != 'not_played')):
-                    has_review = True
+        user_game = UserGame.objects.filter(user=request.user, appid=appid).first()
+        has_review = bool(user_game and (
+                user_game.rating is not None or
+                user_game.comment.strip() or
+                (user_game.status and user_game.status != 'not_played')
+        ))
 
     return render(request, 'game_detail.html', {
         'game': game,
