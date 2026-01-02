@@ -13,8 +13,9 @@
             </a>
         </div>
 
-        <!-- Ліва колонка -->
+        <!-- Основний контент -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <!-- Ліва колонка (обкладинка + статистика) -->
             <div class="space-y-8">
                 <!-- Обкладинка -->
                 <div class="rounded-xl overflow-hidden shadow-2xl border border-gray-700">
@@ -42,7 +43,7 @@
                 </div>
             </div>
 
-            <!-- Права колонка -->
+            <!-- Права колонка (інформація + відгуки) -->
             <div class="lg:col-span-2 space-y-10">
                 <!-- Інформація про гру -->
                 <div class="bg-gray-800/80 backdrop-blur-md rounded-xl p-8 border border-gray-700">
@@ -63,7 +64,7 @@
                     </div>
                 </div>
 
-                <!-- Блок відгуку -->
+                <!-- Мій відгук -->
                 {% if user.is_authenticated %}
                     <div class="bg-gray-800/80 backdrop-blur-md rounded-xl p-8 border border-gray-700">
                         <h2 class="text-2xl font-bold text-white text-center mb-8">Мій відгук</h2>
@@ -71,7 +72,6 @@
                         {% if has_review %}
                             <!-- Існуючий відгук -->
                             <div id="existing-review" class="bg-gray-700/50 rounded-xl p-6 space-y-6 mb-8">
-                                <!-- Оцінка (1–10 зірок) -->
                                 {% if user_game.rating %}
                                     <div class="text-center">
                                         <p class="text-gray-400 mb-3">Моя оцінка</p>
@@ -87,7 +87,6 @@
                                     </div>
                                 {% endif %}
 
-                                <!-- Статус -->
                                 {% if user_game.status and user_game.status != 'not_played' %}
                                     <div class="text-center">
                                         <p class="text-gray-400 mb-2">Статус</p>
@@ -101,7 +100,6 @@
                                     </div>
                                 {% endif %}
 
-                                <!-- Коментар -->
                                 {% if user_game.comment %}
                                     <div>
                                         <p class="text-gray-400 mb-2">Коментар</p>
@@ -111,28 +109,19 @@
                                     </div>
                                 {% endif %}
 
-                                <!-- Додатковий блок: Додати гру до списку -->
+                                <!-- Додати до списку -->
                                 <div class="mt-8 pt-6 border-t border-gray-600">
-                                    <h3 class="text-lg font-semibold text-center text-gray-300 mb-4">Додати гру до
-                                        списку</h3>
-                                    <form method="post" action="{% url 'update_game_status' game.appid %}"
-                                          class="space-y-4">
+                                    <h3 class="text-lg font-semibold text-center text-gray-300 mb-4">Додати гру до списку</h3>
+                                    <form method="post" action="{% url 'update_game_status' game.appid %}" class="space-y-4">
                                         {% csrf_token %}
-                                        <!-- Вибір існуючого списку -->
-                                        <select name="list_id"
-                                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <select name="list_id" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                                             <option value="">Не додавати</option>
                                             {% for lst in user.lists.all %}
                                                 <option value="{{ lst.id }}">{{ lst.name }}</option>
                                             {% endfor %}
                                         </select>
-
-                                        <!-- Створити новий список -->
-                                        <input type="text" name="new_list" placeholder="Створити новий список..."
-                                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-
-                                        <button type="submit"
-                                                class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition">
+                                        <input type="text" name="new_list" placeholder="Створити новий список..." class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <button type="submit" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition">
                                             Додати до списку
                                         </button>
                                     </form>
@@ -141,70 +130,50 @@
 
                             <!-- Кнопки редагування/видалення -->
                             <div id="review-actions" class="flex justify-center gap-6 mb-8">
-                                <button id="edit-button"
-                                        class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition">
+                                <button id="edit-button" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition">
                                     Редагувати відгук
                                 </button>
                                 <form method="post" action="{% url 'delete_game_status' game.appid %}" class="inline">
                                     {% csrf_token %}
-                                    <button type="submit"
-                                            onclick="return confirm('Ви впевнені, що хочете видалити свій відгук?')"
-                                            class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+                                    <button type="submit" onclick="return confirm('Ви впевнені, що хочете видалити свій відгук?')" class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
                                         Видалити відгук
                                     </button>
                                 </form>
                             </div>
                         {% endif %}
 
-                        <!-- Форма створення/редагування відгуку -->
+                        <!-- Форма створення/редагування -->
                         <div id="review-form" class="{% if has_review %}hidden{% endif %}">
                             <form method="post" action="{% url 'update_game_status' game.appid %}">
                                 {% csrf_token %}
-
-                                <!-- Оцінка зірками (приховується, якщо статус "У планах") -->
-                                <div id="rating-block"
-                                     class="mb-10 {% if user_game.status == 'planned' %}hidden{% endif %}">
+                                <div id="rating-block" class="mb-10 {% if user_game.status == 'planned' %}hidden{% endif %}">
                                     <label class="block text-gray-300 text-lg text-center mb-6">Моя оцінка</label>
                                     <div class="flex items-center justify-center gap-3" id="rating-stars">
                                         {% for i in "12345" %}
                                             <label class="cursor-pointer group">
-                                                <input type="radio" name="rating" value="{{ forloop.counter }}"
-                                                       {% if user_game.rating == forloop.counter %}checked{% endif %}
-                                                       class="hidden">
-                                                <svg class="w-16 h-16 transition-all duration-200 star
-                     {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}"
-                                                     viewBox="0 0 24 24" fill="currentColor">
+                                                <input type="radio" name="rating" value="{{ forloop.counter }}" {% if user_game.rating == forloop.counter %}checked{% endif %} class="hidden">
+                                                <svg class="w-16 h-16 transition-all duration-200 star {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}" viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                                                 </svg>
                                             </label>
                                         {% endfor %}
-
-                                        <!-- Очистити оцінку -->
                                         <label class="cursor-pointer ml-10">
-                                            <input type="radio" name="rating" value=""
-                                                   {% if not user_game.rating %}checked{% endif %} class="hidden">
+                                            <input type="radio" name="rating" value="" {% if not user_game.rating %}checked{% endif %} class="hidden">
                                             <span class="text-gray-500 hover:text-gray-400 transition text-lg">Без оцінки</span>
                                         </label>
                                     </div>
                                 </div>
 
-                                <!-- Повідомлення, якщо статус "У планах" -->
-                                <div id="planned-message"
-                                     class="text-center text-gray-500 mt-4 text-sm mb-10 {% if user_game.status != 'planned' %}hidden{% endif %}">
+                                <div id="planned-message" class="text-center text-gray-500 mt-4 text-sm mb-10 {% if user_game.status != 'planned' %}hidden{% endif %}">
                                     Оцінку можна поставити тільки після початку гри або проходження
                                 </div>
 
-                                <!-- Статус проходження -->
                                 <div class="mb-10">
-                                    <label class="block text-gray-300 text-lg text-center mb-6">Статус
-                                        проходження</label>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
-                                         id="status-options">
+                                    <label class="block text-gray-300 text-lg text-center mb-6">Статус проходження</label>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto" id="status-options">
                                         {% for value, label in status_choices %}
                                             <label class="cursor-pointer group">
-                                                <input type="radio" name="status" value="{{ value }}"
-                                                       {% if user_game.status == value %}checked{% endif %}
-                                                       class="hidden">
+                                                <input type="radio" name="status" value="{{ value }}" {% if user_game.status == value %}checked{% endif %} class="hidden">
                                                 <div class="border-2 border-gray-600 rounded-xl px-6 py-4 text-center transition-all duration-200 status-div
                                                     {% if user_game.status == value %}
                                                         {% if value == 'playing' %}bg-blue-600 border-blue-500
@@ -222,19 +191,13 @@
                                     </div>
                                 </div>
 
-                                <!-- Коментар -->
                                 <div class="mb-10">
-                                    <label for="comment"
-                                           class="block text-gray-300 text-lg text-center mb-4">Коментар</label>
-                                    <textarea id="comment" name="comment" rows="4"
-                                              class="w-full px-6 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                              placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
+                                    <label for="comment" class="block text-gray-300 text-lg text-center mb-4">Коментар</label>
+                                    <textarea id="comment" name="comment" rows="4" class="w-full px-6 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
                                 </div>
 
-                                <!-- Кнопка збереження -->
                                 <div class="text-center">
-                                    <button type="submit"
-                                            class="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg transform hover:scale-105">
+                                    <button type="submit" class="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg transform hover:scale-105">
                                         {% if has_review %}Зберегти зміни{% else %}Залишити відгук{% endif %}
                                     </button>
                                 </div>
@@ -250,6 +213,60 @@
                         </p>
                     </div>
                 {% endif %}
+
+                <!-- Відгуки друзів -->
+                {% if friends_reviews %}
+                    <div class="bg-gray-800/80 backdrop-blur-md rounded-xl p-8 border border-gray-700 mt-10">
+                        <h2 class="text-3xl font-bold text-white mb-8 text-center">Відгуки друзів</h2>
+                        <div class="space-y-8">
+                            {% for review in friends_reviews %}
+                                <div class="bg-gray-700/50 rounded-xl p-6">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                                            {{ review.user.username|slice:":1"|upper }}
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-medium">{{ review.user.username }}</p>
+                                            <p class="text-gray-400 text-sm">{{ review.updated_at|date:"d.m.Y H:i" }}</p>
+                                        </div>
+                                    </div>
+
+                                    {% if review.rating %}
+                                        <div class="mb-4">
+                                            <div class="flex gap-1">
+                                                {% for i in "12345" %}
+                                                    <svg class="w-8 h-8 {% if forloop.counter <= review.rating %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}" viewBox="0 0 24 24">
+                                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                                    </svg>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if review.status and review.status != 'not_played' %}
+                                        <div class="mb-4">
+                                            <span class="inline-block px-4 py-2 rounded-full text-white font-medium text-base
+                                                {% if review.status == 'completed' %}bg-green-600
+                                                {% elif review.status == 'playing' %}bg-blue-600
+                                                {% elif review.status == 'planned' %}bg-purple-600
+                                                {% elif review.status == 'dropped' %}bg-red-600{% endif %}">
+                                                {{ review.get_status_display }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if review.comment %}
+                                        <p class="text-gray-200 text-lg leading-relaxed">
+                                            {{ review.comment }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            {% empty %}
+                                <p class="text-center text-gray-400 text-xl">Ваші друзі ще не залишили відгуків про цю гру</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -258,7 +275,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Графік (якщо є chart_data)
+            // Графік гравців
             const ctx = document.getElementById('playerChart');
             if (ctx) {
                 new Chart(ctx.getContext('2d'), {
@@ -290,7 +307,7 @@
                 });
             }
 
-            // 2. Кнопка "Редагувати відгук"
+            // Редагування відгуку
             const editButton = document.getElementById('edit-button');
             if (editButton) {
                 editButton.addEventListener('click', () => {
@@ -300,7 +317,7 @@
                 });
             }
 
-            // 3. Інтерактивність зірок оцінки
+            // Інтерактивність зірок
             const starsContainer = document.getElementById('rating-stars');
             if (starsContainer) {
                 const stars = starsContainer.querySelectorAll('.star');
@@ -321,7 +338,7 @@
                 });
             }
 
-            // 4. Інтерактивність статусів
+            // Інтерактивність статусів
             const statusOptions = document.getElementById('status-options');
             if (statusOptions) {
                 const inputs = statusOptions.querySelectorAll('input[type="radio"]');

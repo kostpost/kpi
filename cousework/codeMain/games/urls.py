@@ -66,5 +66,17 @@ path('list/<int:list_id>/', profile.list_detail, name='list_detail'),
 
 path('list/<int:list_id>/rename/', profile.rename_list, name='rename_list'),
 
+path('list/<int:list_id>/toggle-privacy/', profile.toggle_list_privacy, name='toggle_list_privacy'),
+
+
+
+
+path('profile/<str:username>/add-friend/', profile.add_friend, name='add_friend'),
+path('profile/<str:username>/remove-friend/', profile.remove_friend, name='remove_friend'),
+
+path('profile/<str:username>/send-request/', profile.send_friend_request, name='send_friend_request'),
+path('friend-request/<int:request_id>/accept/', profile.accept_friend_request, name='accept_friend_request'),
+path('friend-request/<int:request_id>/reject/', profile.reject_friend_request, name='reject_friend_request'),
+
 
 ]

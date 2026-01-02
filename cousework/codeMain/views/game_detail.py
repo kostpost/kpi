@@ -232,10 +232,31 @@ def game_detail(request, appid):
                 (user_game.status and user_game.status != 'not_played')
         ))
 
+    friends_reviews = []
+
+    if request.user.is_authenticated:
+        try:
+            # Друзі поточного користувача
+            friends = request.user.profile.friends.values_list('user__id', flat=True)
+
+            # Відгуки друзів про цю гру (якщо є)
+            friends_reviews = UserGame.objects.filter(
+                user__id__in=friends,
+                appid=appid,
+            ).exclude(
+                comment__isnull=True,
+                rating__isnull=True,
+                status='not_played'
+            ).select_related('user').order_by('-updated_at')[:10]  # обмежимо 10 останніми
+        except Exception as e:
+            print(f"Помилка завантаження відгуків друзів для {appid}: {e}")
+
+
     return render(request, 'game_detail.html', {
         'game': game,
         'user_game': user_game or None,
         'status_choices': status_choices,
         'chart_data': chart_data,
         'has_review': has_review,
+        'friends_reviews': friends_reviews,
     })
