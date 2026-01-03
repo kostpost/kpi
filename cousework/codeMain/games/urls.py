@@ -33,12 +33,14 @@ from views import (
     home,                    # головна сторінка
     game_detail,             # деталі гри
     profile,                 # профіль
-    aut,                # реєстрація (твоя функція)
+    aut,
+    search,# реєстрація (твоя функція)
 )
 
 urlpatterns = [
     # Головна сторінка
     path('', home.home, name='home'),
+    path('search/',search.search , name='search'),
 
     # Деталі гри
     path('game/<str:appid>/', game_detail.game_detail, name='game_detail'),
@@ -77,6 +79,7 @@ path('profile/<str:username>/remove-friend/', profile.remove_friend, name='remov
 path('profile/<str:username>/send-request/', profile.send_friend_request, name='send_friend_request'),
 path('friend-request/<int:request_id>/accept/', profile.accept_friend_request, name='accept_friend_request'),
 path('friend-request/<int:request_id>/reject/', profile.reject_friend_request, name='reject_friend_request'),
+
 
 
 ]

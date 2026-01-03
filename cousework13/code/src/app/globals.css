@@ -1,0 +1,58 @@
+/* app/globals.css */
+
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff; /* Білий фон для світлої теми */
+  --foreground: #171717; /* Темний текст */
+  --card: #ffffff;       /* Фон карток/таблиць */
+  --muted: #f3f4f6;      /* Фон заголовків/акцентів */
+  --muted-foreground: #6b7280; /* Сірий текст */
+  --border: #d1d5db;     /* Кордони */
+  --accent: #f3f4f6;     /* Hover-ефект */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a; /* Темний фон */
+    --foreground: #ededed; /* Світлий текст */
+    --card: #1f2937;       /* Темні картки */
+    --muted: #374151;      /* Темний акцент для заголовків */
+    --muted-foreground: #9ca3af; /* Світло-сірий текст */
+    --border: #4b5563;     /* Кордони */
+    --accent: #374151;     /* Hover */
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+}
+
+/* Застосування стилів */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Кастомні класи для сумісності з твоїм page.tsx */
+.bg-background { background-color: var(--background); }
+.text-foreground { color: var(--foreground); }
+.bg-card { background-color: var(--card); }
+.bg-muted { background-color: var(--muted); }
+.text-muted-foreground { color: var(--muted-foreground); }
+.border { border-color: var(--border); }
+.bg-accent { background-color: var(--accent); }
+.hover\:bg-accent\/50:hover { background-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+
+/* Розділювачі для рядків */
+.divide-y > * + * {
+  border-top-width: 1px;
+  border-color: var(--border);
+}

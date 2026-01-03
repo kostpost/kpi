@@ -14,6 +14,8 @@ from games.aut.models import UserGame, UserList
 
 # Правильний URL для деталей ігор (НЕ потребує ключа!)
 STEAM_APPDETAILS_URL = "https://store.steampowered.com/api/appdetails"
+
+
 def profile(request, username):
     profile_user = get_object_or_404(User, username=username)
     is_own_profile = request.user.is_authenticated and request.user == profile_user
@@ -82,28 +84,34 @@ def profile(request, username):
     is_already_friend = False
     pending_sent_request = False
     incoming_requests = []
+    friends_list = []  # ← ось це ключове!
 
     if request.user.is_authenticated:
         try:
-            # Чи вже друзі
-            is_already_friend = profile_user.profile.friends.filter(user=request.user).exists()
+            current_profile = request.user.profile
+            target_profile = profile_user.profile
 
-            # Чи відправлений запит від мене до нього
+            is_already_friend = target_profile.friends.filter(user=request.user).exists()
+
             pending_sent_request = FriendRequest.objects.filter(
                 sender=request.user,
                 receiver=profile_user,
                 status='pending'
             ).exists()
 
-            # Вхідні запити (тільки для власного профілю)
             if is_own_profile:
                 incoming_requests = FriendRequest.objects.filter(
                     receiver=request.user,
                     status='pending'
                 ).select_related('sender').order_by('-created_at')
 
-            friends_list = profile_user.profile.friends.select_related('user').all()[
-                :12]  # обмежимо перші 12 для швидкості
+            # Показуємо друзів тільки якщо:
+            # • це власний профіль
+            # • або вже друзі
+            can_see_friends = is_own_profile or is_already_friend
+
+            if can_see_friends:
+                friends_list = profile_user.profile.friends.select_related('user').all()[:12]
 
         except Exception as e:
             print(f"Помилка соціальної взаємодії для {username}: {e}")
@@ -122,10 +130,6 @@ def profile(request, username):
     }
 
     return render(request, 'profile.html', context)
-
-
-
-
 
 
 @login_required
