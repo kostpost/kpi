@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0dc2d06a-718d-45fa-bb45-9c041b3c8dd7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../sofrware eng/UI For students/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sofrware eng/UI For students/.idea/UI For students.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sofrware eng/UI For students/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sofrware eng/UI For students/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sofrware eng/UI For students/main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/games/aut/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/games/aut/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/games/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/games/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/templates/game_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/templates/game_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cousework/codeMain/views/game_detail.py" beforeDir="false" afterPath="$PROJECT_DIR$/../cousework/codeMain/views/game_detail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laba1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/laba1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laba1/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/laba1/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sofrware eng/Defect Report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../sofrware eng/Defect Report.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sofrware eng/Jmeter/jmeter.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../sofrware eng/Jmeter/jmeter.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sofrware eng/Test Case.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../sofrware eng/Test Case.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sofrware eng/Test Design Tech.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../sofrware eng/Test Design Tech.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sofrware eng/Test Types.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../sofrware eng/Test Types.docx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

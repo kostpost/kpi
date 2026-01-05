@@ -32,8 +32,11 @@ class UserGame(models.Model):
         ('not_played', 'Не грав'),
     ]
 
+    rawg_id = models.PositiveIntegerField(null=True, blank=True)  # ← головне поле!
+    appid = models.PositiveIntegerField(null=True, blank=True)  # опціонально, для старих ігор
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_games')
-    appid = models.PositiveIntegerField()
+    # appid = models.PositiveIntegerField()
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=True, null=True)
     rating = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -46,7 +49,7 @@ class UserGame(models.Model):
     lists = models.ManyToManyField(UserList, related_name='games', blank=True, verbose_name="Списки")
 
     class Meta:
-        unique_together = ('user', 'appid')
+        unique_together = ('user', 'rawg_id')
         ordering = ['-updated_at']
 
     def __str__(self):
