@@ -1,0 +1,95 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Page-1" id="qhXhiXJ8iQUBfluE3F3C">
+    <mxGraphModel dx="1171" dy="677" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="79NkgLeKhovOCrcEVw5_-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-1" target="79NkgLeKhovOCrcEVw5_-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="610" />
+              <mxPoint x="320" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-1" target="79NkgLeKhovOCrcEVw5_-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="610" />
+              <mxPoint x="690" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-1" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Чи є ознаки органічного ушкодження мозку?&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-3" target="79NkgLeKhovOCrcEVw5_-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-3" target="79NkgLeKhovOCrcEVw5_-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-3" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Чи може формувати нові спогади?&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="650" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-4" target="79NkgLeKhovOCrcEVw5_-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-4" target="79NkgLeKhovOCrcEVw5_-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-4" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Чи є раптова повна втрата ідентичності?&lt;/p&gt;&#xa;&#xa;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="650" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-7" value="Так" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="300" y="580" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-8" value="Ні" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="580" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-9" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Ретроградна &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;амнезія&lt;/span&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-10" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Антероградна &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;амнезія&lt;/span&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-13" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Так&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="720" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-15" value="Ні" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="360" y="720" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-16" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Психогенна фуга&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-18" target="79NkgLeKhovOCrcEVw5_-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="79NkgLeKhovOCrcEVw5_-18" target="79NkgLeKhovOCrcEVw5_-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-18" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Чи вигадує неправдиві спогади &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;та вірить у них?&lt;/span&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-20" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Конфабуляція&lt;/p&gt;&#xa;&#xa;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="910" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-21" value="&#xa;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Інший тип&lt;/p&gt;&#xa;&#xa;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="910" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-24" value="Так" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="720" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-25" value="Ні" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="770" y="720" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-26" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Так&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="840" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="79NkgLeKhovOCrcEVw5_-27" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Ні&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="840" width="40" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

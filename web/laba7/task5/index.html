@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Пошук зображень</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.css"/>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Пошук зображень</h1>
+
+    <form class="search-form">
+        <input type="text" name="query" placeholder="Введіть запит (наприклад, cats)" required />
+        <button type="submit">Пошук</button>
+    </form>
+
+    <div class="loader" style="display: none;"></div>
+
+    <div class="gallery"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/izitoast"></script>
+<script src="https://cdn.jsdelivr.net/npm/simplelightbox@2/dist/simple-lightbox.min.js"></script>
+
+<script src="search.js"></script>
+</body>
+</html>

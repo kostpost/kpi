@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторних робіт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        .header h2 {
+            margin: 0.5rem 0 0;
+            font-size: 1.4rem;
+            font-weight: normal;
+        }
+        .student-info {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        .container {
+            display: flex;
+            min-height: 80vh;
+        }
+        .sidebar {
+            width: 300px;
+            background: #eee;
+            padding: 2rem;
+            border-right: 1px solid #ccc;
+        }
+        .task-group {
+            margin-bottom: 2rem;
+        }
+        .task-group h3 {
+            background: #007bff;
+            color: #fff;
+            padding: 0.8rem;
+            border-radius: 50px;
+            text-align: center;
+            margin: 0 0 1rem 0;
+            cursor: pointer;
+        }
+        .task-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .task-btn:hover, .task-btn.active {
+            background: #007bff;
+            color: #fff;
+        }
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .content-area {
+            border: 1px solid #ccc;
+            padding: 2rem;
+            min-height: 400px;
+            line-height: 1.6;
+        }
+        .content-area img {
+            max-width: 100%;
+            margin: 1rem 0;
+            border: 1px solid #ddd;
+        }
+        .content-area pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        .photo-placeholder {
+            float: right;
+            width: 150px;
+            height: 150px;
+            background: #ddd;
+            border-radius: 50%;
+            margin-left: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>ЗВІТ З ЛАБОРАТОРНИХ РОБІТ</h1>
+    <h2>З ДИСЦИПЛІНИ «WEB-ОРІЄНТОВАНІ ТЕХНОЛОГІЇ. ОСНОВИ FRONTEND та BACKEND РОЗРОБОК»</h2>
+    <h3>ЛАБОРАТОРНА РОБОТА № 3</h3>
+
+    <div class="student-info">
+        Студента групи <u>ІП-з31 Ткаченка Костянтина</u>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="task-group">
+            <h3>Тема. Мета. Місце розташування</h3>
+        </div>
+
+        <div class="task-group">
+            <h3>ЗАВДАННЯ №1</h3>
+            <div class="task-btn" data-content="maket">Зовнішній вигляд макету. Код макету</div>
+        </div>
+
+        <div class="task-group">
+            <h3>ЗАВДАННЯ №2</h3>
+            <div class="task-btn" data-content="zav2-screenshot">Скріншот сторінки</div>
+            <div class="task-btn" data-content="zav2-code">HTML та CSS код</div>
+        </div>
+
+        <div class="task-group">
+            <h3>ЗАВДАННЯ №3 FLEXBOX</h3>
+            <div class="task-btn" data-content="flex-screenshot">Зовнішній вигляд сторінки</div>
+            <div class="task-btn" data-content="flex-html">HTML-код</div>
+            <div class="task-btn" data-content="flex-css">CSS-код сторінки</div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-content="visnovky" style="background:#007bff; color:#fff;">ВИСНОВКИ</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-area" id="content-display">
+            Місце виведення інформації
+        </div>
+    </div>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.task-btn');
+    const contentDisplay = document.getElementById('content-display');
+
+    const contents = {
+        maket: `
+            <h3>Завдання №1. Макет сайту</h3>
+            <p>Тип макету: <strong>гумовий (резиновий) з елементами адаптивності</strong>.</p>
+            <p>Контейнер має max-width: 1200px, центрується. Використовуються відносні одиниці (rem, %). На великих екранах — комфортна ширина, на малих — розтягується на весь екран. Адаптивність через медіа-запити (перебудова сітки, бургер-меню).</p>
+            <p>Переваги: добре виглядає на всіх пристроях, сучасний підхід.</p>
+        `,
+
+        "zav2-screenshot": `
+            <h3>Завдання №2. Скріншот головної сторінки</h3>
+            <img src="{2FD83043-B92D-4C3F-ADD1-27C4E4C54ABC}.png" alt="Десктопна версія">
+        `,
+
+        "zav2-code": `
+    <h3>Завдання №2. HTML та CSS код головної сторінки</h3>
+    <p>Нижче наведено основний HTML та CSS код сайту (варіант 6 — Loonar IT School).</p>
+    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Лабораторна робота №3 - Варіант 6 (Flexbox)&lt;/title&gt;
+    &lt;style&gt;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            background-color: gold;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #000;
+        }
+
+        .logo-rect {
+            background-color: white;
+            padding: 15px 30px;
+            min-width: 300px;
+            height: 60px;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .number1 {
+            font-size: 32px;
+            font-weight: bold;
+            padding: 0 20px;
+        }
+
+        .middle {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            background-color: royalblue;
+            width: 25%;
+            text-align: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 400px 20px 20px;
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+        }
+
+        .col {
+            flex: 1;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 400px 20px 20px;
+        }
+
+        .col3, .col5 {
+            background-color: crimson;
+            color: white;
+        }
+
+        .col4 {
+            background-color: white;
+        }
+
+        .separator {
+            width: 20px;
+            background-color: white;
+            border-left: 2px solid #000;
+            border-right: 2px solid #000;
+            flex-shrink: 0;
+        }
+
+        footer {
+            background-color: gold;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-top: 2px solid #000;
+            font-size: 32px;
+            font-weight: bold;
+            padding-left: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .logo-rect {
+                min-width: 200px;
+                padding: 10px 20px;
+                height: 50px;
+            }
+            .number1 {
+                font-size: 28px;
+            }
+            .separator {
+                width: 15px;
+            }
+            .sidebar, .col {
+                padding-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .logo-rect {
+                min-width: 100%;
+                max-width: 400px;
+            }
+
+            footer {
+                justify-content: center;
+                padding-left: 20px;
+            }
+
+            .middle {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-bottom: 2px solid #000;
+                padding-top: 20px;
+            }
+
+            .content {
+                flex-direction: column;
+            }
+
+            .separator {
+                width: 100%;
+                height: 20px;
+                border-left: none;
+                border-right: none;
+                border-top: 2px solid #000;
+                border-bottom: 2px solid #000;
+            }
+
+            .col {
+                border-bottom: 2px solid #000;
+                padding-top: 20px;
+            }
+
+            .col:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .col {
+                padding: 15px;
+            }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="container"&gt;
+    &lt;header&gt;
+        &lt;div class="logo-rect"&gt;&lt;/div&gt;
+        &lt;div class="number1"&gt;1&lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;section class="middle"&gt;
+        &lt;aside class="sidebar"&gt;2&lt;/aside&gt;
+        &lt;div class="separator"&gt;&lt;/div&gt;
+        &lt;div class="content"&gt;
+            &lt;div class="col col3"&gt;3&lt;/div&gt;
+            &lt;div class="separator"&gt;&lt;/div&gt;
+            &lt;div class="col col4"&gt;4&lt;/div&gt;
+            &lt;div class="separator"&gt;&lt;/div&gt;
+            &lt;div class="col col5"&gt;5&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;footer&gt;6&lt;/footer&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+`,
+
+        "flex-screenshot": `
+            <h3>Завдання №3. Зовнішній вигляд сторінки (Flexbox)</h3>
+            <p>Секція курсів реалізована за допомогою Flexbox (або Grid — залежно від твого варіанта).</p>
+            <img src="{BF3B8C00-0C69-42A8-92FE-70435172C717}.png" alt="Сторінка на Flexbox">
+        `,
+
+        "flex-html": `
+    <h3>Завдання №3. HTML-код (Flexbox)</h3>
+    <p>Нижче наведено повний HTML-код головної сторінки сайту, реалізований з використанням Flexbox для адаптивної верстки.</p>
+    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Loonar IT School - Варіант 6&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header class="header"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="logo"&gt;Loonar IT School&lt;/div&gt;
+        &lt;nav class="nav"&gt;
+            &lt;ul class="nav-list"&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Головна&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Курси&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Відгуки&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;Контакти&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+        &lt;div class="burger"&gt;
+            &lt;i class="fas fa-bars"&gt;&lt;/i&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main class="main"&gt;
+    &lt;section class="hero"&gt;
+        &lt;div class="container"&gt;
+            &lt;h1 class="hero-title"&gt;Ефективні методи навчання&lt;br&gt;100% засвоєння матеріалу&lt;/h1&gt;
+            &lt;div class="hero-content"&gt;
+                &lt;div class="hero-text"&gt;
+                    &lt;p&gt;Починаючи з 2016 року ми відточували наші методи навчання і знайшли найбільшу дієвість спосіб, який дає можливість студентам опановувати програму краще і в більшому об'ємі.&lt;/p&gt;
+                    &lt;ul&gt;
+                        &lt;li&gt;Лекційний матеріал подається окремо. Це дає змогу зосередитися на ознайомленні з ним не відволікаючись на виконання будь-яких дій.&lt;/li&gt;
+                        &lt;li&gt;Практичні заняття проходять в окремі дні і включають завдання по попередній лекції. При цьому, частина завдань це містить достатніх умов. Це дає змогу чітко закріпити пройдений матеріал. Але є завдання, які змусять вас розвинутися, оскільки будуть аж обсягом абстрактними, і їх виконання буде залежати від вашої уяви.&lt;/li&gt;
+                        &lt;li&gt;Як результат поєднання попередніх факторів ви опануєте теоретичну частину, закріпите її на практиці в двох різновидах завдань.&lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+                &lt;div class="hero-video"&gt;
+                    &lt;div class="video-wrapper"&gt;
+                        &lt;img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Анна - Java Complex"&gt;
+                        &lt;div class="play-btn"&gt;&lt;i class="fas fa-play"&gt;&lt;/i&gt;&lt;/div&gt;
+                        &lt;div class="video-label"&gt;АННА&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;a href="#" class="btn-all-reviews"&gt;всі відгуки&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class="courses"&gt;
+        &lt;div class="container"&gt;
+            &lt;h2 class="section-title"&gt;Обери напрямок програмування&lt;br&gt;Наші курси програмування&lt;/h2&gt;
+            &lt;div class="courses-grid"&gt;
+                &lt;div class="course-card"&gt;
+                    &lt;img src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo.png" alt="Java Icon"&gt;
+                    &lt;h3&gt;JAVA COMPLEX&lt;/h3&gt;
+                    &lt;a href="#" class="btn"&gt;Детальніше&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div class="course-card"&gt;
+                    &lt;img src="https://www.freepnglogos.com/uploads/javascript-png/javascript-logo-transparent-logo-javascript-images-3.png" alt="JS Icon"&gt;
+                    &lt;h3&gt;JAVASCRIPT COMPLEX&lt;/h3&gt;
+                    &lt;a href="#" class="btn"&gt;Детальніше&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div class="course-card"&gt;
+                    &lt;img src="https://logos-world.net/wp-content/uploads/2021/10/Python-Emblem.png" alt="Python Icon"&gt;
+                    &lt;h3&gt;PYTHON COMPLEX&lt;/h3&gt;
+                    &lt;a href="#" class="btn"&gt;Детальніше&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div class="course-card"&gt;
+                    &lt;img src="https://www.clipartmax.com/png/middle/334-3347799_qa-services-%E2%80%9C-software-testing-icon-png.png" alt="QA Icon"&gt;
+                    &lt;h3&gt;QA/QC ТЕСТУВАННЯ&lt;/h3&gt;
+                    &lt;a href="#" class="btn"&gt;Детальніше&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class="reviews"&gt;
+        &lt;div class="container"&gt;
+            &lt;h2 class="section-title"&gt;Роботодавці задоволені нашими випускниками&lt;/h2&gt;
+            &lt;div class="review-video"&gt;
+                &lt;img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Відгук Loonars"&gt;
+                &lt;div class="play-btn"&gt;&lt;i class="fas fa-play"&gt;&lt;/i&gt;&lt;/div&gt;
+                &lt;div class="review-label"&gt;LOONARS&lt;/div&gt;
+                &lt;div class="review-title"&gt;ВІДГУКИ РОБОТОДАВЦІВ&lt;/div&gt;
+                &lt;p&gt;Відгук Loonar про випускників Okten&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="partners"&gt;
+                &lt;img src="https://mma.prnewswire.com/media/2223594/EPAM_Logo.jpg?p=facebook" alt="EPAM"&gt;
+                &lt;img src="https://usupport-prod.s3.eu-central-1.amazonaws.com/uploads/company/picture/257/view_binariks_logo_.png" alt="Binariks"&gt;
+                &lt;img src="https://itcluster.lviv.ua/wp-content/uploads/2022/12/1_rolique.svg" alt="Rolique"&gt;
+                &lt;img src="https://www.snowflake.com/content/dam/snowflake-site/general/logos/partner-logos/eleks@3x.png" alt="Eleks"&gt;
+                &lt;img src="https://www.globallogic.com/wp-content/uploads/2021/11/Wordmark-2.png" alt="GlobalLogic"&gt;
+                &lt;img src="https://seekvectorlogo.com/wp-content/uploads/2019/01/intetics-inc-vector-logo.png" alt="Intetics"&gt;
+                &lt;img src="https://assets.lsegissuerservices.com/original-1a70719f-26ac-4ae1-80f2-b06eca9372d8.png" alt="SoftServe"&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;footer class="footer"&gt;
+    &lt;div class="container"&gt;
+        &lt;p&gt;&amp;copy; 2021 Loonar IT School. Всі права захищено.&lt;/p&gt;
+        &lt;div class="social"&gt;
+            &lt;a href="#"&gt;&lt;i class="fab fa-facebook"&gt;&lt;/i&gt;&lt;/a&gt;
+            &lt;a href="#"&gt;&lt;i class="-icons fab fa-vk"&gt;&lt;/i&gt;&lt;/a&gt;
+            &lt;a href="#"&gt;&lt;i class="fab fa-youtube"&gt;&lt;/i&gt;&lt;/a&gt;
+            &lt;a href="#"&gt;&lt;i class="fab fa-telegram"&gt;&lt;/i&gt;&lt;/a&gt;
+            &lt;a href="#"&gt;&lt;i class="fab fa-instagram"&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+`,
+
+        "flex-css": `
+    <h3>Завдання №3. CSS-код сторінки (Flexbox)</h3>
+    <p>Нижче наведено повний CSS-код (style.css), який забезпечує адаптивну верстку з використанням Flexbox та Grid.</p>
+    <pre>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list li {
+    margin-left: 2rem;
+}
+
+.nav-list a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-list a:hover {
+    color: #ffcc00;
+}
+
+.burger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.hero {
+    background: #222;
+    color: #fff;
+    padding: 8rem 0 4rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #ff9900;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-text ul {
+    list-style: disc;
+    padding-left: 2rem;
+}
+
+.hero-video {
+    position: relative;
+}
+
+.hero-video img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.5);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.video-label {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ffcc00;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.btn-yellow {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffcc00;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    color: #000;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+.btn-yellow:hover {
+    background: #ffd633;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.course-card {
+    background: #f0f0f0;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 1rem;
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+}
+
+.course-card img {
+    width: 80px;
+    margin-bottom: 1rem;
+}
+
+.course-card h3 {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    background: #ddd;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    color: #000;
+    border-radius: 0.5rem;
+}
+
+.courses {
+    margin-bottom: 2rem;
+}
+
+.reviews {
+    padding: 2rem 0 4rem;
+    background: #f9f9f9;
+}
+
+.review-video {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.review-video img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.review-label {
+    position: absolute;
+    bottom: 2rem;
+    left: 1rem;
+    background: #ffcc00;
+    padding: 0.5rem 1rem;
+}
+
+.review-title {
+    position: absolute;
+    bottom: 4rem;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.partners {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.partners img {
+    height: 60px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.partners img:hover {
+    opacity: 1;
+}
+
+.footer {
+    background: #222;
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.social a {
+    color: #fff;
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.btn-all-reviews {
+    margin-top: 1.5rem;
+    background: #ffcc00;
+    padding: 0.8rem 2.5rem;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    transition: background 0.3s;
+}
+
+.btn-all-reviews:hover {
+    background: #ffd633;
+}
+
+.social a:hover {
+    color: #ffcc00;
+}
+
+/* Адаптивність */
+@media (max-width: 992px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #333;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+
+    .nav.active {
+        max-height: 300px;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .nav-list li {
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}</pre>
+`,
+
+        visnovky: `
+            <h3>ВИСНОВКИ</h3>
+    <p>У ході виконання лабораторної роботи було створено адаптивну головну сторінку сайту Loonar IT School (варіант 6) з використанням сучасних технологій CSS — Flexbox та Grid.</p>
+    <p>Flexbox застосовано для вирівнювання елементів шапки, бургер-меню, блоку партнерів та адаптивного меню на мобільних пристроях. Grid використано для сітки курсів та герой-секції.</p>
+    <p>Отримані навички дозволяють створювати сучасні, кросбраузерні та зручні для користувача веб-сторінки, що коректно відображаються на всіх пристроях.</p>
+        `
+    };
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const key = btn.getAttribute('data-content');
+            contentDisplay.innerHTML = contents[key] || 'Місце виведення інформації';
+        });
+    });
+</script>
+</body>
+</html>

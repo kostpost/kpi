@@ -12,7 +12,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from games.aut.models import UserGame, UserList
 
-# Правильний URL для деталей ігор (НЕ потребує ключа!)
 STEAM_APPDETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 
@@ -167,7 +166,6 @@ def rename_list(request, list_id):
     return redirect('profile_by_username', username=request.user.username)
 
 
-# list_detail — доступний усім, але з перевіркою видимості
 def list_detail(request, list_id):
     lst = get_object_or_404(UserList, id=list_id)
 

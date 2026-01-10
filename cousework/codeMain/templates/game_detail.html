@@ -5,7 +5,6 @@
 
 {% block content %}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <!-- Заголовок та повернення -->
         <div class="mb-10">
             <h1 class="text-4xl md:text-5xl font-bold text-white tracking-tight break-words">
                 {{ game.name }}
@@ -17,9 +16,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            <!-- Ліва колонка: обкладинка + основна інформація -->
             <div class="lg:col-span-1 space-y-8">
-                <!-- Головне зображення -->
                 <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-700/50 bg-gray-900">
                     <img
                             src="{{ game.background_image|default:'https://via.placeholder.com/460x215?text=Немає+зображення' }}"
@@ -29,7 +26,6 @@
                     >
                 </div>
 
-                <!-- Коротка інформація про гру -->
                 <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
                     <h3 class="text-xl font-semibold text-white mb-5">Про гру</h3>
                     <dl class="space-y-4 text-sm">
@@ -89,9 +85,7 @@
                 </div>
             </div>
 
-            <!-- Права колонка: опис + відгук + відгуки друзів -->
             <div class="lg:col-span-2 space-y-10">
-                <!-- Опис гри -->
                 {% if game.description %}
                     <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-7 lg:p-9 border border-gray-700/50 prose prose-invert max-w-none">
                         <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">Про гру</h2>
@@ -101,8 +95,6 @@
                     </div>
                 {% endif %}
 
-                <!-- Блок мого відгуку -->
-                <!-- Блок мого відгуку -->
                 {% if user.is_authenticated %}
                     <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-7 lg:p-9 border border-gray-700/50">
                         <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 text-center">Мій відгук</h2>
@@ -148,7 +140,6 @@
                                 {% endif %}
                             </div>
 
-                            <!-- Кнопки редагувати / видалити -->
                             <div id="review-actions" class="flex justify-center gap-6">
                                 <button id="edit-button"
                                         class="px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition transform hover:scale-105">
@@ -164,12 +155,10 @@
                             </div>
                         {% endif %}
 
-                        <!-- Форма створення/редагування відгуку -->
                         <div id="review-form" class="{% if has_review %}hidden{% endif %} mt-10">
                             <form method="post" action="{% url 'update_game_status' game.rawg_id %}">
                                 {% csrf_token %}
 
-                                <!-- Блок оцінки -->
                                 <div id="rating-block"
                                      class="mb-10 {% if user_game.status == 'planned' %}hidden{% endif %}">
                                     <label class="block text-gray-300 text-lg text-center mb-6">Моя оцінка</label>
@@ -193,13 +182,11 @@
                                     </div>
                                 </div>
 
-                                <!-- Повідомлення для статусу "У планах" -->
                                 <div id="planned-message"
                                      class="text-center text-gray-500 mt-4 text-sm mb-10 {% if user_game.status != 'planned' %}hidden{% endif %}">
                                     Оцінку можна поставити тільки після початку гри або проходження
                                 </div>
 
-                                <!-- Вибір статусу -->
                                 <div class="mb-10">
                                     <label class="block text-gray-300 text-lg text-center mb-6">Статус
                                         проходження</label>
@@ -227,7 +214,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Коментар -->
                                 <div class="mb-10">
                                     <label for="comment"
                                            class="block text-gray-300 text-lg text-center mb-4">Коментар</label>
@@ -236,7 +222,6 @@
                                               placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
                                 </div>
 
-                                <!-- Додавання до списку -->
                                 <div class="mb-10">
                                     <label class="block text-gray-300 text-lg text-center mb-4">Додати до списку</label>
                                     <select name="list_id"
@@ -250,7 +235,6 @@
                                            class="mt-4 w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
 
-                                <!-- Кнопка збереження -->
                                 <div class="text-center">
                                     <button type="submit"
                                             class="px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg transform hover:scale-105">
@@ -270,7 +254,6 @@
                     </div>
                 {% endif %}
 
-                <!-- Відгуки друзів -->
                 {% if friends_reviews %}
                     <div class="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-7 lg:p-9 border border-gray-700/50">
                         <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 text-center">Відгуки друзів</h2>
@@ -316,14 +299,11 @@
         </div>
     </div>
 
-    <!-- Chart.js + JS для інтерактивності -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Графік гравців
 
 
-            // Редагування відгуку
             const editButton = document.getElementById('edit-button');
             if (editButton) {
                 editButton.addEventListener('click', () => {
@@ -333,7 +313,6 @@
                 });
             }
 
-            // Інтерактивність зірок
             const starsContainer = document.getElementById('rating-stars');
             if (starsContainer) {
                 const stars = starsContainer.querySelectorAll('.star');
@@ -354,7 +333,6 @@
                 });
             }
 
-            // Інтерактивність статусів
             const statusOptions = document.getElementById('status-options');
             if (statusOptions) {
                 const inputs = statusOptions.querySelectorAll('input[type="radio"]');
@@ -393,7 +371,6 @@
                     });
                 });
 
-                // Початкова ініціалізація
                 const initialChecked = statusOptions.querySelector('input[type="radio"]:checked');
                 if (initialChecked && initialChecked.value === 'planned') {
                     document.getElementById('rating-block')?.classList.add('hidden');

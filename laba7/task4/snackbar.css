@@ -1,0 +1,66 @@
+body {
+    font-family: system-ui, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 40px;
+    color: #333;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+label {
+    font-weight: 500;
+    text-align: left;
+}
+
+input[type="number"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 6px;
+    background: #fafafa;
+}
+
+legend {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 14px;
+    background: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0055dd;
+}

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторної роботи №1</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        .header h2 {
+            margin: 0.5rem 0 0;
+            font-size: 1.4rem;
+            font-weight: normal;
+        }
+        .student-info {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        .container {
+            display: flex;
+            min-height: 80vh;
+        }
+        .sidebar {
+            width: 300px;
+            background: #eee;
+            padding: 2rem;
+            border-right: 1px solid #ccc;
+        }
+        .task-group {
+            margin-bottom: 2rem;
+        }
+        .task-group h3 {
+            background: #007bff;
+            color: #fff;
+            padding: 0.8rem;
+            border-radius: 50px;
+            text-align: center;
+            margin: 0 0 1rem 0;
+        }
+        .task-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .task-btn:hover, .task-btn.active {
+            background: #007bff;
+            color: #fff;
+        }
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background: #fff;
+        }
+        .content-area {
+            border: 1px solid #ccc;
+            padding: 2rem;
+            min-height: 500px;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>ЗВІТ З ЛАБОРАТОРНОЇ РОБОТИ №1</h1>
+    <h2>ТЕГИ ТА АТРИБУТИ HTML-ДОКУМЕНТА. СТРУКТУРНА РОЗМІТКА</h2>
+    <div class="student-info">
+        Студент групи <u>ІП-з31</u><br>
+        <u>Ткаченко Костянтин Олександрович</u>
+    </div>
+</div>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="task-group">
+            <h3>Основна інформація</h3>
+            <div class="task-btn active" data-target="meta">Тема. Мета. Місце розташування</div>
+            <div class="task-btn" data-target="business">Опис бізнес-логіки</div>
+        </div>
+
+        <div class="task-group">
+            <h3>Структура та приклади</h3>
+            <div class="task-btn" data-target="figma">Figma</div>
+            <div class="task-btn" data-target="game-page">HTML-код сторінки гри</div>
+            <div class="task-btn" data-target="screenshot">Скріншот сторінки</div>
+            <div class="task-btn" data-target="image">Зображення + теорія</div>
+            <div class="task-btn" data-target="lists">Списки + теорія</div>
+        </div>
+
+        <div class="task-group">
+            <div class="task-btn" data-target="conclusion" style="background:#28a745; color:#fff;">ВИСНОВКИ</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-area" id="contentArea">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.task-btn');
+    const contentArea = document.getElementById('contentArea');
+
+    const contents = {
+        meta: `
+            <h2>Тема • Мета • Місце розташування</h2>
+            <p><b>Тема:</b> Теги та атрибути HTML-документа. Структурна розмітка</p>
+            <p><b>Мета:</b> Набути практичних навичок роботи з HTML-тегами, створення структурованих документів, використання таблиць, зображень, списків та форм</p>
+            <p><b>Місце розташування:</b></p>
+
+        `,
+
+        business: `
+            <h2>Опис бізнес-логіки</h2>
+            <p>Сайт — ігрова бібліотека, де користувачі можуть:</p>
+            <ul>
+                <li>переглядати детальну інформацію про гру </li>
+                <li>бачити великий скріншот/обкладинку гри</li>
+                <li>залишати/редагувати/видаляти власний відгук: оцінка (зірочки), статус проходження, коментар</li>
+                <li>додавати гру до власних списків (бажано + створення нового)</li>
+                <li>бачити відгуки друзів </li>
+            </ul>
+            <p>У лабораторній роботі №1 представлена саме детальна сторінка однієї гри.</p>
+        `,
+
+        "figma": `
+    <h2>Figma</h2>
+
+    <p><strong>Посилання на макет:</strong><br>
+    <a href="https://www.figma.com/design/O5Pxa3JbuvI6UcCVLzIRKL/Untitled?node-id=1-2&t=AScJfJC6t5HHmB7j-1"
+       target="_blank" rel="noopener noreferrer">
+       Відкрити макет у Figma
+    </a></p>
+
+    <h3>Скріншот макету</h3>
+    <img src="lab1Figma.jpg"
+         alt="Скріншот макету головної сторінки або детальної сторінки гри в Figma"
+         style="max-width:100%; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); margin-top:1rem;">
+`,
+
+        "game-page": `
+            <h2>HTML-код сторінки гри (основний фрагмент)</h2>
+            <pre>
+&lt;h1&gt;{{ game.name }}&lt;/h1&gt;
+&lt;a href="{% url 'home' %}"&gt;← Повернутися на головну&lt;/a&gt;
+
+&lt;img src="{{ game.background_image|default:'placeholder' }}"
+     alt="{{ game.name }}"
+     class="w-full h-auto object-cover"
+     loading="lazy"&gt;
+
+&lt;dl&gt;  &lt;!-- табличні дані через description list --&gt;
+    &lt;div class="flex justify-between"&gt;
+        &lt;dt&gt;Дата виходу&lt;/dt&gt;
+        &lt;dd&gt;{{ game.released|date:"d.m.Y" }}&lt;/dd&gt;
+    &lt;/div&gt;
+    &lt;div class="flex justify-between"&gt;
+        &lt;dt&gt;Жанри&lt;/dt&gt;
+        &lt;dd&gt;{{ game.genres }}&lt;/dd&gt;
+    &lt;/div&gt;
+    ... (інші поля: платформи, розробник, Metacritic тощо)
+&lt;/dl&gt;
+
+&lt;h2&gt;Мій відгук&lt;/h2&gt;
+&lt;form method="post"&gt;
+    &lt;!-- зірочки рейтингу --&gt;
+    &lt;div id="rating-stars"&gt;...&lt;/div&gt;
+
+    &lt;!-- вибір статусу --&gt;
+    &lt;div class="grid grid-cols-4 gap-6"&gt;...&lt;/div&gt;
+
+    &lt;textarea name="comment" rows="4"&gt;...&lt;/textarea&gt;
+
+    &lt;select name="list_id"&gt;...&lt;/select&gt;
+    &lt;input type="text" name="new_list" placeholder="Новий список..."&gt;
+
+    &lt;button type="submit"&gt;Залишити відгук / Зберегти&lt;/button&gt;
+&lt;/form&gt;
+            </pre>
+        `,
+
+        screenshot: `
+            <h2>Скріншот сторінки</h2>
+            <p>Тут має бути скріншот повної сторінки гри (з обкладинкою, характеристиками, формою відгуку та зірочками).</p>
+             <img src="lab1.jpg" alt="Скріншот детальної сторінки гри" style="max-width:100%;">
+        `,
+
+
+        image: `
+            <h2>Зображення — код та теорія</h2>
+            <p>Основний тег: <code>&lt;img&gt;</code> (самозакриваючий)</p>
+            <p><strong>Обов'язкові атрибути:</strong></p>
+            <ul>
+                <li><code>src</code> — шлях до зображення</li>
+                <li><code>alt</code> — альтернативний текст (дуже важливий для доступності!)</li>
+            </ul>
+            <p><strong>Корисні атрибути:</strong></p>
+            <ul>
+                <li><code>width</code> / <code>height</code> — розміри в пікселях (запобігають стрибкам макету)</li>
+                <li><code>loading="lazy"</code> — відкладене завантаження (використовується на сторінці!)</li>
+                <li><code>class</code> — для стилів (object-cover, w-full тощо)</li>
+            </ul>
+            <pre>
+&lt;img src="{{ game.background_image|default:'placeholder' }}"
+     alt="{{ game.name }}"
+     class="w-full h-auto object-cover"
+     loading="lazy"&gt;
+            </pre>
+        `,
+
+        lists: `
+            <h2>Списки — код та теорія</h2>
+            <p>Використані типи списків:</p>
+            <ul>
+                <li><code>&lt;ul&gt;</code> + <code>&lt;li&gt;</code> — маркований список</li>
+                <li><code>&lt;ol&gt;</code> + <code>&lt;li&gt;</code> — нумерований список</li>
+                <li>Стилізовані блоки статусів (grid з div) — імітація списку вибору</li>
+            </ul>
+            <p>Приклад зірочок рейтингу (SVG в циклі):</p>
+            <pre>
+{% for i in "12345" %}
+    &lt;svg class="{% if forloop.counter <= rating %}text-yellow-400{% else %}text-gray-600{% endif %}" ... &gt;
+        &lt;path d="..." /&gt;
+    &lt;/svg&gt;
+{% endfor %}
+            </pre>
+            <p>Також є <code>&lt;select&gt;</code> для вибору списку та <code>&lt;input&gt;</code> для створення нового.</p>
+        `,
+
+        conclusion: `
+            <h2>Висновки</h2>
+            <p>У ході виконання лабораторної роботи №1 я:</p>
+            <ul>
+                <li>освоїв структуру HTML5-документа та семантичні теги</li>
+                <li>працював з зображеннями (&lt;img&gt; з loading="lazy" та alt)</li>
+                <li>використав табличні дані через &lt;dl&gt; та класичні &lt;table&gt;</li>
+                <li>створював списки (&lt;ul&gt;, &lt;ol&gt;, стилізовані блоки)</li>
+                <li>розробив форму відгуку з різними елементами керування</li>
+                <li>створив адаптивний звітний документ з лівим меню-навігацією</li>
+            </ul>
+            <p>Ці навички є основою для створення сучасних веб-застосунків.</p>
+        `
+    };
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const target = btn.getAttribute('data-target');
+            contentArea.innerHTML = contents[target] || '<p>Контент не знайдено</p>';
+        });
+    });
+</script>
+
+</body>
+</html>

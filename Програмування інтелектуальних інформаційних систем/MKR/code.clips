@@ -1,0 +1,69 @@
+(deftemplate data
+   (slot age (type INTEGER))
+   (slot exp (type INTEGER))
+   (slot salary (type INTEGER))
+)
+
+(defglobal ?*a* = 1500
+           ?*b* = 20000)
+
+(deffacts initial-data
+   (data (age 30) (exp 2) (salary 60000))
+   (data (age 35) (exp 5) (salary 75000))
+   (data (age 28) (exp 1) (salary 55000))
+   (data (age 45) (exp 10) (salary 95000))
+   (data (age 40) (exp 8) (salary 85000))
+   (data (age 50) (exp 15) (salary 110000))
+   (data (age 32) (exp 3) (salary 68000))
+   (data (age 38) (exp 6) (salary 78000))
+   (data (age 42) (exp 9) (salary 90000))
+   (data (age 55) (exp 20) (salary 120000))
+)
+
+(deffunction g (?exp_input)
+   (bind ?deviations (create$))
+   (bind ?salaries (create$))
+   
+   (do-for-all-facts ((?d data)) TRUE
+      (bind ?dev (abs (- ?exp_input ?d:exp)))
+      (bind ?deviations (create$ ?deviations ?dev))
+      (bind ?salaries (create$ ?salaries ?d:salary))
+   )
+   
+   (bind ?n (length$ ?deviations))
+   (loop-for-count (?i 1 (- ?n 1)) do
+      (loop-for-count (?j 1 (- ?n ?i)) do
+         (bind ?dev1 (nth$ ?j ?deviations))
+         (bind ?dev2 (nth$ (+ ?j 1) ?deviations))
+         (if (> ?dev1 ?dev2) then
+
+            (bind ?temp ?dev1)
+            (bind ?deviations (replace$ ?deviations ?j ?j ?dev2))
+            (bind ?deviations (replace$ ?deviations (+ ?j 1) (+ ?j 1) ?temp))
+
+            (bind ?sal1 (nth$ ?j ?salaries))
+            (bind ?sal2 (nth$ (+ ?j 1) ?salaries))
+            (bind ?salaries (replace$ ?salaries ?j ?j ?sal2))
+            (bind ?salaries (replace$ ?salaries (+ ?j 1) (+ ?j 1) ?sal1))
+         )
+      )
+   )
+   
+   (bind ?k (min 3 ?n))
+   (bind ?sum 0)
+   (loop-for-count (?i 1 ?k) do
+      (bind ?sum (+ ?sum (nth$ ?i ?salaries)))
+   )
+   
+   (if (= ?k 0) then 0 else (/ ?sum ?k))
+)
+
+(deffunction predict (?age ?exp)
+   (+ (* ?*a* ?age) ?*b* (g ?exp))
+)
+
+(reset)
+(printout t "Prediction for age 36, experience 4: " (integer (predict 36 4)) crlf)
+(printout t "Prediction for age 48, experience 12: " (integer (predict 48 12)) crlf)
+(printout t "Prediction for age 29, experience 1: " (integer (predict 29 1)) crlf)
+(printout t "Prediction for age 55, experience 18: " (integer (predict 55 18)) crlf)
