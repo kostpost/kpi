@@ -10,8 +10,8 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # автоматично залогінити після реєстрації
-            return redirect('home')  # або 'profile' — куди хочеш перенаправити
+            login(request, user)
+            return redirect('home')
     else:
         form = UserCreationForm()
 

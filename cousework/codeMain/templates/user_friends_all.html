@@ -1,16 +1,12 @@
 {% extends "base.html" %}
-{% load humanize %}
 
 {% block title %}Друзі {{ profile_user.username }} – GamingLibrary{% endblock %}
 
 {% block content %}
 <div class="min-h-screen pt-12 pb-24 px-4 sm:px-6 lg:px-8">
-
     <div class="max-w-7xl mx-auto">
-
         <div class="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
 
-            <!-- Заголовок + кнопка назад -->
             <div class="bg-gradient-to-b from-gray-800/80 to-gray-900/60 px-8 pt-12 pb-10 border-b border-gray-700/50">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                     <div>
@@ -32,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- Вміст -->
             <div class="p-8 lg:p-10">
                 {% if friends %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">

@@ -1,4 +1,4 @@
-# games/models.py
+
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -6,15 +6,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class UserList(models.Model):
-    """Списки ігор користувача (наприклад: Улюблене, Хочу пройти тощо)"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lists')
     name = models.CharField(max_length=100, verbose_name="Назва списку")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_private = models.BooleanField(default=False)  # За замовчуванням публічні
+    is_private = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('user', 'name')  # Один список з такою назвою на користувача
+        unique_together = ('user', 'name')
         verbose_name = "Список ігор"
         verbose_name_plural = "Списки ігор"
         ordering = ['name']
@@ -32,10 +31,9 @@ class UserGame(models.Model):
         ('not_played', 'Не грав'),
     ]
 
-    rawg_id = models.PositiveIntegerField(null=True, blank=True)  # ← головне поле!
+    rawg_id = models.PositiveIntegerField(null=True, blank=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_games')
-    # appid = models.PositiveIntegerField()
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=True, null=True)
     rating = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -44,7 +42,6 @@ class UserGame(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # Зв'язок з списками — багато-до-багатьох
     lists = models.ManyToManyField(UserList, related_name='games', blank=True, verbose_name="Списки")
 
     class Meta:
@@ -62,16 +59,14 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     friends = models.ManyToManyField(
         'self',
-        symmetrical=True,           # якщо A друг B → B друг A
+        symmetrical=True,
         blank=True,
         related_name='friend_of'
     )
-    # інші поля профілю, якщо є (аватар, біо тощо)
 
     @property
     def is_friend_with_current_user(self):
-        """Чи є поточний користувач (request.user) у друзях цього профілю"""
-        if not hasattr(self, '_request_user'):  # захист від використання без request
+        if not hasattr(self, '_request_user'):
             return False
         try:
             current_user_profile = self._request_user.profile
@@ -91,7 +86,6 @@ class Profile(models.Model):
     def is_friend(self, other_profile):
         return self.friends.filter(user=other_profile.user).exists()
 
-# Автоматичне створення профілю при створенні користувача
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -119,7 +113,7 @@ class FriendRequest(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('sender', 'receiver')  # один запит від однієї людини до іншої
+        unique_together = ('sender', 'receiver')
 
     def __str__(self):
         return f"{self.sender} → {self.receiver} ({self.status})"
@@ -127,7 +121,6 @@ class FriendRequest(models.Model):
     def accept(self):
         self.status = 'accepted'
         self.save()
-        # Додаємо в друзі взаємно
         sender_profile = self.sender.profile
         receiver_profile = self.receiver.profile
         sender_profile.friends.add(receiver_profile)

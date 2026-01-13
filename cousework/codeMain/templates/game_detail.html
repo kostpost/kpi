@@ -7,434 +7,400 @@
 <div class="min-h-screen bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
 
-    <!-- Заголовок + кнопка назад -->
-    <div class="mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div>
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                {{ game.name }}
-            </h1>
-            {% if game.released %}
-            <p class="mt-3 text-xl text-gray-400">Випущено {{ game.released|date:"d.m.Y" }}</p>
-            {% endif %}
+        <div class="mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    {{ game.name }}
+                </h1>
+                {% if game.released %}
+                <p class="mt-3 text-xl text-gray-400">Випущено {{ game.released|date:"d.m.Y" }}</p>
+                {% endif %}
+            </div>
+            <a href="{% url 'home' %}"
+               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600/90 to-purple-700/90 hover:from-indigo-700 hover:to-purple-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl backdrop-blur-sm">
+                ← На головну
+            </a>
         </div>
-        <a href="{% url 'home' %}"
-           class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600/90 to-purple-700/90 hover:from-indigo-700 hover:to-purple-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl backdrop-blur-sm">
-            ← На головну
-        </a>
-    </div>
 
-    <!-- Головний медіа-блок (центральний великий) -->
-    <div class="mb-16">
-        <div class="rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/20 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-md aspect-video max-w-6xl mx-auto relative">
-            <div id="mainMediaContainer" class="relative w-full h-full">
-                <!-- Головне зображення -->
-                <img id="mainImage"
-                     src="{{ game.background_image|default:'https://via.placeholder.com/1280x720?text=Завантаження...' }}"
-                     alt="{{ game.name }}"
-                     class="w-full h-full object-cover transition-opacity duration-700 opacity-100">
+        <div class="mb-16">
+            <div class="rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/20 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-md aspect-video max-w-6xl mx-auto relative">
+                <div id="mainMediaContainer" class="relative w-full h-full">
+                    <img id="mainImage"
+                         src="{{ game.background_image|default:'https://via.placeholder.com/1280x720?text=Завантаження...' }}"
+                         alt="{{ game.name }}"
+                         class="w-full h-full object-cover transition-opacity duration-700 opacity-100">
 
-                <!-- Відео -->
-                {% if game.trailers and game.trailers.0 %}
-                <iframe id="mainVideo"
-                        class="absolute inset-0 w-full h-full hidden"
-                        src=""
-                        title="Трейлер"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                </iframe>
+                    {% if game.trailers and game.trailers.0 %}
+                    <iframe id="mainVideo"
+                            class="absolute inset-0 w-full h-full hidden"
+                            src=""
+                            title="Трейлер"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if game.screenshots or game.trailers %}
+        <div class="mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-200">
+                Галерея гри
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+                <button onclick="setMainMedia('image', '{{ game.background_image|default:'https://via.placeholder.com/320x180' }}')"
+                        class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-indigo-400/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
+                    <img src="{{ game.background_image|default:'https://via.placeholder.com/320x180?text=Головне' }}"
+                         alt="Головне зображення"
+                         class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                </button>
+
+                {% for ss in game.screenshots %}
+                <button onclick="setMainMedia('image', '{{ ss }}')"
+                        class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-indigo-400/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
+                    <img src="{{ ss }}" alt="Скріншот {{ forloop.counter }}"
+                         class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                </button>
+                {% endfor %}
+
+                {% for trailer in game.trailers %}
+                <button onclick="setMainMedia('video', '{{ trailer.data.youtube_url|default:trailer.preview }}')"
+                        class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-red-500/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
+                    <img src="{{ trailer.preview }}" alt="{{ trailer.name }}"
+                         class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span class="text-red-400 text-6xl drop-shadow-2xl">▶</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent py-3 text-center text-sm font-medium text-white">
+                        Трейлер
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div class="lg:col-span-1 space-y-8">
+                <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-8 border border-gray-700/40 shadow-xl">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="text-indigo-400 text-3xl">ℹ️</span> Інформація
+                    </h3>
+                    <dl class="space-y-5 text-base">
+                        {% if game.released %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Дата виходу</dt>
+                            <dd class="font-semibold">{{ game.released|date:"d.m.Y" }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if game.genres %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Жанри</dt>
+                            <dd class="font-semibold">{{ game.genres }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if game.platforms %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Платформи</dt>
+                            <dd class="font-semibold">{{ game.platforms }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if game.developer %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Розробник</dt>
+                            <dd class="font-semibold">{{ game.developer }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if game.publisher %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Видавець</dt>
+                            <dd class="font-semibold">{{ game.publisher }}</dd>
+                        </div>
+                        {% endif %}
+                        {% if game.metacritic %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Metacritic</dt>
+                            <dd class="font-bold text-xl {% if game.metacritic >= 80 %}text-green-400{% elif game.metacritic >= 60 %}text-yellow-400{% else %}text-red-400{% endif %}">
+                                {{ game.metacritic }}/100
+                            </dd>
+                        </div>
+                        {% endif %}
+                        {% if game.rating %}
+                        <div class="flex justify-between items-center">
+                            <dt class="text-gray-400">Оцінка RAWG</dt>
+                            <dd class="font-bold text-purple-400 text-xl">
+                                {{ game.rating|floatformat:1 }}/5 ★
+                            </dd>
+                        </div>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-12">
+                {% if game.description %}
+                <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-200">
+                        Про гру
+                    </h2>
+                    <div class="text-gray-200 leading-relaxed text-lg">
+                        {{ game.description|safe|linebreaksbr }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+                        Мій відгук та списки
+                    </h2>
+
+                    {% if has_review %}
+                    <div id="existing-review" class="space-y-8 mb-12 bg-gray-900/50 rounded-2xl p-8 border border-gray-700/40">
+                        {% if user_game.rating %}
+                        <div class="text-center">
+                            <p class="text-gray-400 mb-3 text-lg">Моя оцінка</p>
+                            <div class="flex justify-center gap-2">
+                                {% for i in "12345" %}
+                                <svg class="w-12 h-12 {% if forloop.counter <= user_game.rating %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
+                                     viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                                {% endfor %}
+                            </div>
+                            <p class="text-gray-400 mt-3 text-lg">({{ user_game.rating }}/5)</p>
+                        </div>
+                        {% endif %}
+
+                        {% if user_game.status and user_game.status != 'not_played' %}
+                        <div class="text-center">
+                            <p class="text-gray-400 mb-3 text-lg">Статус</p>
+                            <span class="inline-block px-10 py-4 rounded-full text-xl font-bold shadow-lg
+                                {% if user_game.status == 'completed' %}bg-green-600 text-white
+                                {% elif user_game.status == 'playing' %}bg-blue-600 text-white
+                                {% elif user_game.status == 'planned' %}bg-purple-600 text-white
+                                {% elif user_game.status == 'dropped' %}bg-red-600 text-white{% endif %}">
+                                {{ user_game.get_status_display }}
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        {% if user_game.comment %}
+                        <div class="mt-6">
+                            <p class="text-gray-400 mb-3 text-lg">Коментар</p>
+                            <p class="text-gray-200 whitespace-pre-wrap leading-relaxed text-base bg-gray-800/50 p-6 rounded-xl border border-gray-700/40">
+                                {{ user_game.comment }}
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div id="review-actions" class="flex justify-center gap-8 mb-12">
+                        <button id="edit-button"
+                                class="px-12 py-5 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl">
+                            Редагувати відгук
+                        </button>
+                        <form method="post" action="{% url 'delete_game_status' game.rawg_id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Видалити відгук і статус?')"
+                                    class="px-12 py-5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl">
+                                Видалити відгук
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <div id="review-form" class="{% if has_review %}hidden{% endif %} mt-10">
+                        <form method="post" action="{% url 'update_game_status' game.rawg_id %}">
+                            {% csrf_token %}
+
+                            <div id="rating-block" class="mb-12 {% if user_game.status == 'planned' %}hidden{% endif %}">
+                                <label class="block text-gray-300 text-xl text-center mb-6">Моя оцінка</label>
+                                <div class="flex items-center justify-center gap-4 flex-wrap" id="rating-stars">
+                                    {% for i in "12345" %}
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="rating" value="{{ forloop.counter }}"
+                                               {% if user_game.rating == forloop.counter %}checked{% endif %}
+                                               class="hidden">
+                                        <svg class="w-16 h-16 transition-all duration-200 star {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
+                                             viewBox="0 0 24 24">
+                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        </svg>
+                                    </label>
+                                    {% endfor %}
+                                    <label class="cursor-pointer ml-10">
+                                        <input type="radio" name="rating" value=""
+                                               {% if not user_game.rating %}checked{% endif %} class="hidden">
+                                        <span class="text-gray-500 hover:text-gray-400 transition text-lg">Без оцінки</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-12">
+                                <label class="block text-gray-300 text-xl text-center mb-6">Статус проходження</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto" id="status-options">
+                                    {% for value, label in status_choices %}
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="status" value="{{ value }}"
+                                               {% if user_game.status == value %}checked{% endif %}
+                                               class="hidden">
+                                        <div class="border-2 border-gray-600 rounded-xl px-6 py-5 text-center transition-all duration-200 status-div
+                                            {% if user_game.status == value %}
+                                                {% if value == 'playing' %}bg-blue-600 border-blue-500
+                                                {% elif value == 'completed' %}bg-green-600 border-green-500
+                                                {% elif value == 'planned' %}bg-purple-600 border-purple-500
+                                                {% elif value == 'dropped' %}bg-red-600 border-red-500
+                                                {% else %}bg-gray-700 border-gray-500{% endif %}
+                                            {% else %}
+                                                bg-gray-700 hover:bg-gray-600
+                                            {% endif %}">
+                                            <span class="text-white font-medium text-lg">{{ label }}</span>
+                                        </div>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <label for="comment" class="block text-gray-300 text-xl text-center mb-4">Коментар</label>
+                                <textarea id="comment" name="comment" rows="5"
+                                          class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base"
+                                          placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
+                            </div>
+
+                            <div class="text-center mb-12">
+                                <button type="submit"
+                                        class="px-16 py-6 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-bold text-xl rounded-2xl transition transform hover:scale-105 shadow-2xl">
+                                    {% if has_review %}Зберегти зміни{% else %}Залишити відгук{% endif %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
+                        <h3 class="text-2xl font-bold text-white mb-8 text-center">
+                            Додати гру до списку
+                        </h3>
+
+                        <form method="post" action="{% url 'update_game_status' game.rawg_id %}">
+                            {% csrf_token %}
+
+                            <div class="mb-6">
+                                <label class="block text-gray-300 text-lg text-center mb-4">Обери список або створіть новий</label>
+                                <select name="list_id"
+                                        class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base">
+                                    <option value="">Не додавати до списку</option>
+                                    {% for lst in user.lists.all %}
+                                    <option value="{{ lst.id }}">{{ lst.name }}{% if lst.is_private %} (приватний){% endif %}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-6">
+                                <input type="text" name="new_list" placeholder="Створити новий список (введіть назву)"
+                                       class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base">
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit"
+                                        class="px-16 py-6 bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white font-bold text-xl rounded-2xl transition transform hover:scale-105 shadow-2xl w-full md:w-auto">
+                                    Додати гру / Створити та додати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <div class="bg-gradient-to-br from-gray-950 via-gray-900 to-black backdrop-blur-md rounded-3xl p-12 border border-gray-700/30 text-center shadow-xl">
+                    <p class="text-2xl text-gray-300">
+                        <a href="{% url 'login' %}" class="text-blue-400 font-bold hover:text-blue-300 underline transition">
+                            Увійдіть
+                        </a>, щоб залишити відгук, статус або додати гру до списку
+                    </p>
+                </div>
+                {% endif %}
+
+                {% if friends_reviews %}
+                <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+                        Відгуки друзів
+                    </h2>
+                    <div class="space-y-10">
+                        {% for review in friends_reviews %}
+                        <div class="bg-gray-900/50 rounded-2xl p-8 border border-gray-700/40 hover:border-indigo-500/50 transition-all duration-300 shadow-lg">
+                            <div class="flex items-center gap-5 mb-6">
+                                <a href="{% url 'profile_by_username' username=review.user.username %}"
+                                   class="flex items-center gap-5 group transition-all hover:no-underline">
+                                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                        {{ review.user.username|slice:":1"|upper }}
+                                    </div>
+                                    <div>
+                                        <p class="text-white font-bold text-2xl group-hover:text-indigo-300 transition-colors">
+                                            {{ review.user.username }}
+                                        </p>
+                                        <p class="text-gray-400 text-base mt-1">
+                                            {{ review.updated_at|date:"d.m.Y H:i" }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="flex flex-wrap gap-6 mb-6 justify-center md:justify-start">
+                                {% if review.status and review.status != 'not_played' %}
+                                <span class="inline-block px-6 py-3 rounded-full text-base font-bold shadow-md
+                                        {% if review.status == 'completed' %}bg-green-600 text-white
+                                        {% elif review.status == 'playing' %}bg-blue-600 text-white
+                                        {% elif review.status == 'planned' %}bg-purple-600 text-white
+                                        {% elif review.status == 'dropped' %}bg-red-600 text-white
+                                        {% else %}bg-gray-600 text-white{% endif %}">
+                                    {{ review.get_status_display }}
+                                </span>
+                                {% endif %}
+
+                                {% if review.rating %}
+                                <div class="flex items-center gap-3 bg-gray-800/70 px-5 py-3 rounded-full shadow-md">
+                                    <div class="flex gap-1">
+                                        {% for i in "12345" %}
+                                        <svg class="w-7 h-7 {% if forloop.counter <= review.rating %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
+                                             viewBox="0 0 24 24">
+                                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                        </svg>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="text-gray-300 font-medium">({{ review.rating }}/5)</span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            {% if review.comment %}
+                            <p class="text-gray-200 leading-relaxed text-lg">
+                                {{ review.comment }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <p class="text-center text-gray-400 py-16 text-2xl font-medium">
+                            Ваші друзі ще не оцінювали цю гру
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
-
-    <!-- Галерея мініатюр (скріншоти + трейлери) -->
-    {% if game.screenshots or game.trailers %}
-    <div class="mb-16">
-        <h3 class="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-200">
-            Галерея гри
-        </h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            <!-- Головне зображення -->
-            <button onclick="setMainMedia('image', '{{ game.background_image|default:'https://via.placeholder.com/320x180' }}')"
-                    class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-indigo-400/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
-                <img src="{{ game.background_image|default:'https://via.placeholder.com/320x180?text=Головне' }}"
-                     alt="Головне зображення"
-                     class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                </div>
-            </button>
-
-            <!-- Скріншоти -->
-            {% for ss in game.screenshots %}
-            <button onclick="setMainMedia('image', '{{ ss }}')"
-                    class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-indigo-400/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
-                <img src="{{ ss }}" alt="Скріншот {{ forloop.counter }}"
-                     class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                </div>
-            </button>
-            {% endfor %}
-
-            <!-- Трейлери -->
-            {% for trailer in game.trailers %}
-            <button onclick="setMainMedia('video', '{{ trailer.data.youtube_url|default:trailer.preview }}')"
-                    class="group relative rounded-2xl overflow-hidden border border-gray-700/50 hover:border-red-500/70 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 aspect-video backdrop-blur-sm bg-gray-900/40">
-                <img src="{{ trailer.preview }}" alt="{{ trailer.name }}"
-                     class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <span class="text-red-400 text-6xl drop-shadow-2xl">▶</span>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent py-3 text-center text-sm font-medium text-white">
-                    Трейлер
-                </div>
-            </button>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Основний контент (опис, відгук, друзі) -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        <!-- Ліва колонка -->
-        <div class="lg:col-span-1 space-y-8">
-            <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-8 border border-gray-700/40 shadow-xl">
-                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span class="text-indigo-400 text-3xl">ℹ️</span> Інформація
-                </h3>
-                <dl class="space-y-5 text-base">
-                    {% if game.released %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Дата виходу</dt>
-                        <dd class="font-semibold">{{ game.released|date:"d.m.Y" }}</dd>
-                    </div>
-                    {% endif %}
-                    {% if game.genres %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Жанри</dt>
-                        <dd class="font-semibold">{{ game.genres }}</dd>
-                    </div>
-                    {% endif %}
-                    {% if game.platforms %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Платформи</dt>
-                        <dd class="font-semibold">{{ game.platforms }}</dd>
-                    </div>
-                    {% endif %}
-                    {% if game.developer %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Розробник</dt>
-                        <dd class="font-semibold">{{ game.developer }}</dd>
-                    </div>
-                    {% endif %}
-                    {% if game.publisher %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Видавець</dt>
-                        <dd class="font-semibold">{{ game.publisher }}</dd>
-                    </div>
-                    {% endif %}
-                    {% if game.metacritic %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Metacritic</dt>
-                        <dd class="font-bold text-xl {% if game.metacritic >= 80 %}text-green-400{% elif game.metacritic >= 60 %}text-yellow-400{% else %}text-red-400{% endif %}">
-                            {{ game.metacritic }}/100
-                        </dd>
-                    </div>
-                    {% endif %}
-                    {% if game.rating %}
-                    <div class="flex justify-between items-center">
-                        <dt class="text-gray-400">Оцінка RAWG</dt>
-                        <dd class="font-bold text-purple-400 text-xl">
-                            {{ game.rating|floatformat:1 }}/5 ★
-                        </dd>
-                    </div>
-                    {% endif %}
-                </dl>
-            </div>
-        </div>
-
-        <!-- Права колонка -->
-        <div class="lg:col-span-2 space-y-12">
-            {% if game.description %}
-            <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-200">
-                    Про гру
-                </h2>
-                <div class="text-gray-200 leading-relaxed text-lg">
-                    {{ game.description|safe|linebreaksbr }}
-                </div>
-            </div>
-            {% endif %}
-
-
-
-
-
-<!--<div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">-->
-
-
-{% if user.is_authenticated %}
-<div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-        Мій відгук та списки
-    </h2>
-
-    {% if has_review %}
-    <div id="existing-review" class="space-y-8 mb-12 bg-gray-900/50 rounded-2xl p-8 border border-gray-700/40">
-        {% if user_game.rating %}
-        <div class="text-center">
-            <p class="text-gray-400 mb-3 text-lg">Моя оцінка</p>
-            <div class="flex justify-center gap-2">
-                {% for i in "12345" %}
-                <svg class="w-12 h-12 {% if forloop.counter <= user_game.rating %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
-                     viewBox="0 0 24 24">
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                </svg>
-                {% endfor %}
-            </div>
-            <p class="text-gray-400 mt-3 text-lg">({{ user_game.rating }}/5)</p>
-        </div>
-        {% endif %}
-
-        {% if user_game.status and user_game.status != 'not_played' %}
-        <div class="text-center">
-            <p class="text-gray-400 mb-3 text-lg">Статус</p>
-            <span class="inline-block px-10 py-4 rounded-full text-xl font-bold shadow-lg
-                {% if user_game.status == 'completed' %}bg-green-600 text-white
-                {% elif user_game.status == 'playing' %}bg-blue-600 text-white
-                {% elif user_game.status == 'planned' %}bg-purple-600 text-white
-                {% elif user_game.status == 'dropped' %}bg-red-600 text-white{% endif %}">
-                {{ user_game.get_status_display }}
-            </span>
-        </div>
-        {% endif %}
-
-        {% if user_game.comment %}
-        <div class="mt-6">
-            <p class="text-gray-400 mb-3 text-lg">Коментар</p>
-            <p class="text-gray-200 whitespace-pre-wrap leading-relaxed text-base bg-gray-800/50 p-6 rounded-xl border border-gray-700/40">
-                {{ user_game.comment }}
-            </p>
-        </div>
-        {% endif %}
-    </div>
-
-    <!-- Кнопки редагувати/видалити -->
-    <div id="review-actions" class="flex justify-center gap-8 mb-12">
-        <button id="edit-button"
-                class="px-12 py-5 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl">
-            Редагувати відгук
-        </button>
-        <form method="post" action="{% url 'delete_game_status' game.rawg_id %}" class="inline">
-            {% csrf_token %}
-            <button type="submit" onclick="return confirm('Видалити відгук і статус?')"
-                    class="px-12 py-5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 rounded-2xl font-bold text-lg transition transform hover:scale-105 shadow-xl">
-                Видалити відгук
-            </button>
-        </form>
-    </div>
-    {% endif %}
-
-    <!-- Форма додавання/редагування відгуку (ховається тільки якщо є відгук) -->
-    <div id="review-form" class="{% if has_review %}hidden{% endif %} mt-10">
-        <form method="post" action="{% url 'update_game_status' game.rawg_id %}">
-            {% csrf_token %}
-
-            <!-- Оцінка -->
-            <div id="rating-block" class="mb-12 {% if user_game.status == 'planned' %}hidden{% endif %}">
-                <label class="block text-gray-300 text-xl text-center mb-6">Моя оцінка</label>
-                <div class="flex items-center justify-center gap-4 flex-wrap" id="rating-stars">
-                    {% for i in "12345" %}
-                    <label class="cursor-pointer group">
-                        <input type="radio" name="rating" value="{{ forloop.counter }}"
-                               {% if user_game.rating == forloop.counter %}checked{% endif %}
-                               class="hidden">
-                        <svg class="w-16 h-16 transition-all duration-200 star {% if user_game.rating >= forloop.counter %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
-                             viewBox="0 0 24 24">
-                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                        </svg>
-                    </label>
-                    {% endfor %}
-                    <label class="cursor-pointer ml-10">
-                        <input type="radio" name="rating" value=""
-                               {% if not user_game.rating %}checked{% endif %} class="hidden">
-                        <span class="text-gray-500 hover:text-gray-400 transition text-lg">Без оцінки</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Статус -->
-            <div class="mb-12">
-                <label class="block text-gray-300 text-xl text-center mb-6">Статус проходження</label>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto" id="status-options">
-                    {% for value, label in status_choices %}
-                    <label class="cursor-pointer group">
-                        <input type="radio" name="status" value="{{ value }}"
-                               {% if user_game.status == value %}checked{% endif %}
-                               class="hidden">
-                        <div class="border-2 border-gray-600 rounded-xl px-6 py-5 text-center transition-all duration-200 status-div
-                            {% if user_game.status == value %}
-                                {% if value == 'playing' %}bg-blue-600 border-blue-500
-                                {% elif value == 'completed' %}bg-green-600 border-green-500
-                                {% elif value == 'planned' %}bg-purple-600 border-purple-500
-                                {% elif value == 'dropped' %}bg-red-600 border-red-500
-                                {% else %}bg-gray-700 border-gray-500{% endif %}
-                            {% else %}
-                                bg-gray-700 hover:bg-gray-600
-                            {% endif %}">
-                            <span class="text-white font-medium text-lg">{{ label }}</span>
-                        </div>
-                    </label>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- Коментар -->
-            <div class="mb-10">
-                <label for="comment" class="block text-gray-300 text-xl text-center mb-4">Коментар</label>
-                <textarea id="comment" name="comment" rows="5"
-                          class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base"
-                          placeholder="Поділіться своїми враженнями від гри...">{{ user_game.comment|default:'' }}</textarea>
-            </div>
-
-            <!-- Кнопка збереження відгуку -->
-            <div class="text-center mb-12">
-                <button type="submit"
-                        class="px-16 py-6 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-bold text-xl rounded-2xl transition transform hover:scale-105 shadow-2xl">
-                    {% if has_review %}Зберегти зміни{% else %}Залишити відгук{% endif %}
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <!-- БЛОК ДОДАВАННЯ ДО СПИСКУ – завжди видимий -->
-    <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl prose prose-invert max-w-none">
-        <h3 class="text-2xl font-bold text-white mb-8 text-center">
-            Додати гру до списку
-        </h3>
-
-        <form method="post" action="{% url 'update_game_status' game.rawg_id %}">
-            {% csrf_token %}
-
-            <div class="mb-6">
-                <label class="block text-gray-300 text-lg text-center mb-4">Обери список або створіть новий</label>
-                <select name="list_id"
-                        class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base">
-                    <option value="">Не додавати до списку</option>
-                    {% for lst in user.lists.all %}
-                    <option value="{{ lst.id }}">{{ lst.name }}{% if lst.is_private %} (приватний){% endif %}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="mb-6">
-                <input type="text" name="new_list" placeholder="Створити новий список (введіть назву)"
-                       class="w-full px-6 py-5 bg-gray-800 border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-base">
-            </div>
-
-            <div class="text-center">
-                <button type="submit"
-                        class="px-16 py-6 bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white font-bold text-xl rounded-2xl transition transform hover:scale-105 shadow-2xl w-full md:w-auto">
-                    Додати гру / Створити та додати
-                </button>
-            </div>
-        </form>
-    </div>
 </div>
-{% else %}
-<div class="bg-gradient-to-br from-gray-950 via-gray-900 to-black backdrop-blur-md rounded-3xl p-12 border border-gray-700/30 text-center shadow-xl">
-    <p class="text-2xl text-gray-300">
-        <a href="{% url 'login' %}" class="text-blue-400 font-bold hover:text-blue-300 underline transition">
-            Увійдіть
-        </a>, щоб залишити відгук, статус або додати гру до списку
-    </p>
-</div>
-{% endif %}
-
-
-
-            <!-- Відгуки друзів -->
-            {% if friends_reviews %}
-            <div class="bg-gray-800/60 backdrop-blur-md rounded-3xl p-10 border border-gray-700/40 shadow-xl">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-                    Відгуки друзів
-                </h2>
-                <div class="space-y-10">
-                    {% for review in friends_reviews %}
-                    <div class="bg-gray-900/50 rounded-2xl p-8 border border-gray-700/40 hover:border-indigo-500/50 transition-all duration-300 shadow-lg">
-                        <!-- Аватар + ім'я + дата -->
-                        <div class="flex items-center gap-5 mb-6">
-                            <a href="{% url 'profile_by_username' username=review.user.username %}"
-                               class="flex items-center gap-5 group transition-all hover:no-underline">
-                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-xl group-hover:scale-110 transition-transform duration-300">
-                                    {{ review.user.username|slice:":1"|upper }}
-                                </div>
-                                <div>
-                                    <p class="text-white font-bold text-2xl group-hover:text-indigo-300 transition-colors">
-                                        {{ review.user.username }}
-                                    </p>
-                                    <p class="text-gray-400 text-base mt-1">
-                                        {{ review.updated_at|date:"d.m.Y H:i" }}
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-
-                        <!-- Статус + рейтинг (якщо є) -->
-                        <div class="flex flex-wrap gap-6 mb-6 justify-center md:justify-start">
-                            <!-- Статус -->
-                            {% if review.status and review.status != 'not_played' %}
-                            <span class="inline-block px-6 py-3 rounded-full text-base font-bold shadow-md
-                    {% if review.status == 'completed' %}bg-green-600 text-white
-                    {% elif review.status == 'playing' %}bg-blue-600 text-white
-                    {% elif review.status == 'planned' %}bg-purple-600 text-white
-                    {% elif review.status == 'dropped' %}bg-red-600 text-white
-                    {% else %}bg-gray-600 text-white{% endif %}">
-                    {{ review.get_status_display }}
-                </span>
-                            {% endif %}
-
-                            <!-- Рейтинг (якщо є) -->
-                            {% if review.rating %}
-                            <div class="flex items-center gap-3 bg-gray-800/70 px-5 py-3 rounded-full shadow-md">
-                                <div class="flex gap-1">
-                                    {% for i in "12345" %}
-                                    <svg class="w-7 h-7 {% if forloop.counter <= review.rating %}text-yellow-400 fill-current{% else %}text-gray-600{% endif %}"
-                                         viewBox="0 0 24 24">
-                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                    </svg>
-                                    {% endfor %}
-                                </div>
-                                <span class="text-gray-300 font-medium">({{ review.rating }}/5)</span>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- Коментар -->
-                        {% if review.comment %}
-                        <p class="text-gray-200 leading-relaxed text-lg">
-                            {{ review.comment }}
-                        </p>
-                        {% endif %}
-                    </div>
-                    {% empty %}
-                    <p class="text-center text-gray-400 py-16 text-2xl font-medium">
-                        Ваші друзі ще не оцінювали цю гру
-                    </p>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    </div>
-</div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
-    function setMainMedia(type, url) {
+// Перемикає головне зображення/відео в галереї
+function setMainMedia(type, url) {
     const mainImage = document.getElementById('mainImage');
     const mainVideo = document.getElementById('mainVideo');
 
@@ -444,7 +410,7 @@
         mainImage.classList.add('opacity-100');
         if (mainVideo) {
             mainVideo.classList.add('hidden');
-            mainVideo.src = ''; // зупиняємо відео
+            mainVideo.src = '';
         }
     } else if (type === 'video' && mainVideo) {
         mainVideo.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&mute=0';
@@ -454,83 +420,84 @@
     }
 }
 
+// Обробники подій після завантаження сторінки
+document.addEventListener('DOMContentLoaded', function () {
+    // Кнопка "Редагувати відгук"
+    const editButton = document.getElementById('edit-button');
+    if (editButton) {
+        editButton.addEventListener('click', () => {
+            document.getElementById('existing-review')?.classList.add('hidden');
+            document.getElementById('review-actions')?.classList.add('hidden');
+            document.getElementById('review-form')?.classList.remove('hidden');
+        });
+    }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // Зірочки рейтингу (динамічна зміна кольору при виборі)
+    const starsContainer = document.getElementById('rating-stars');
+    if (starsContainer) {
+        const stars = starsContainer.querySelectorAll('.star');
+        const inputs = starsContainer.querySelectorAll('input[type="radio"]');
 
-
-        const editButton = document.getElementById('edit-button');
-        if (editButton) {
-            editButton.addEventListener('click', () => {
-                document.getElementById('existing-review')?.classList.add('hidden');
-                document.getElementById('review-actions')?.classList.add('hidden');
-                document.getElementById('review-form')?.classList.remove('hidden');
-            });
-        }
-
-        const starsContainer = document.getElementById('rating-stars');
-        if (starsContainer) {
-            const stars = starsContainer.querySelectorAll('.star');
-            const inputs = starsContainer.querySelectorAll('input[type="radio"]');
-
-            inputs.forEach((input, idx) => {
-                input.addEventListener('change', () => {
-                    stars.forEach((star, i) => {
-                        if (i <= idx) {
-                            star.classList.add('text-yellow-400', 'fill-yellow-400');
-                            star.classList.remove('text-gray-600', 'fill-gray-600');
-                        } else {
-                            star.classList.remove('text-yellow-400', 'fill-yellow-400');
-                            star.classList.add('text-gray-600', 'fill-gray-600');
-                        }
-                    });
-                });
-            });
-        }
-
-        const statusOptions = document.getElementById('status-options');
-        if (statusOptions) {
-            const inputs = statusOptions.querySelectorAll('input[type="radio"]');
-            const divs = statusOptions.querySelectorAll('.status-div');
-
-            inputs.forEach((input, idx) => {
-                input.addEventListener('change', () => {
-                    divs.forEach(div => {
-                        div.classList.remove('bg-blue-600', 'border-blue-500', 'bg-green-600', 'border-green-500',
-                            'bg-purple-600', 'border-purple-500', 'bg-red-600', 'border-red-500');
-                        div.classList.add('bg-gray-700', 'hover:bg-gray-600');
-                    });
-
-                    const selectedDiv = divs[idx];
-                    const value = input.value;
-                    if (value === 'playing') selectedDiv.classList.add('bg-blue-600', 'border-blue-500');
-                    else if (value === 'completed') selectedDiv.classList.add('bg-green-600', 'border-green-500');
-                    else if (value === 'planned') selectedDiv.classList.add('bg-purple-600', 'border-purple-500');
-                    else if (value === 'dropped') selectedDiv.classList.add('bg-red-600', 'border-red-500');
-
-                    selectedDiv.classList.remove('bg-gray-700', 'hover:bg-gray-600');
-
-                    const ratingBlock = document.getElementById('rating-block');
-                    const plannedMessage = document.getElementById('planned-message');
-
-                    if (value === 'planned') {
-                        ratingBlock?.classList.add('hidden');
-                        plannedMessage?.classList.remove('hidden');
-                        inputs.forEach(r => {
-                            if (r.name === 'rating') r.checked = false;
-                        });
+        inputs.forEach((input, idx) => {
+            input.addEventListener('change', () => {
+                stars.forEach((star, i) => {
+                    if (i <= idx) {
+                        star.classList.add('text-yellow-400', 'fill-yellow-400');
+                        star.classList.remove('text-gray-600', 'fill-gray-600');
                     } else {
-                        ratingBlock?.classList.remove('hidden');
-                        plannedMessage?.classList.add('hidden');
+                        star.classList.remove('text-yellow-400', 'fill-yellow-400');
+                        star.classList.add('text-gray-600', 'fill-gray-600');
                     }
                 });
             });
+        });
+    }
 
-            const initialChecked = statusOptions.querySelector('input[type="radio"]:checked');
-            if (initialChecked && initialChecked.value === 'planned') {
-                document.getElementById('rating-block')?.classList.add('hidden');
-                document.getElementById('planned-message')?.classList.remove('hidden');
-            }
+    // Вибір статусу (зміна кольору, приховування рейтингу при "У планах")
+    const statusOptions = document.getElementById('status-options');
+    if (statusOptions) {
+        const inputs = statusOptions.querySelectorAll('input[type="radio"]');
+        const divs = statusOptions.querySelectorAll('.status-div');
+
+        inputs.forEach((input, idx) => {
+            input.addEventListener('change', () => {
+                divs.forEach(div => {
+                    div.classList.remove('bg-blue-600', 'border-blue-500', 'bg-green-600', 'border-green-500',
+                        'bg-purple-600', 'border-purple-500', 'bg-red-600', 'border-red-500');
+                    div.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+
+                const selectedDiv = divs[idx];
+                const value = input.value;
+                if (value === 'playing') selectedDiv.classList.add('bg-blue-600', 'border-blue-500');
+                else if (value === 'completed') selectedDiv.classList.add('bg-green-600', 'border-green-500');
+                else if (value === 'planned') selectedDiv.classList.add('bg-purple-600', 'border-purple-500');
+                else if (value === 'dropped') selectedDiv.classList.add('bg-red-600', 'border-red-500');
+
+                selectedDiv.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+
+                const ratingBlock = document.getElementById('rating-block');
+                const plannedMessage = document.getElementById('planned-message');
+
+                if (value === 'planned') {
+                    ratingBlock?.classList.add('hidden');
+                    plannedMessage?.classList.remove('hidden');
+                    inputs.forEach(r => {
+                        if (r.name === 'rating') r.checked = false;
+                    });
+                } else {
+                    ratingBlock?.classList.remove('hidden');
+                    plannedMessage?.classList.add('hidden');
+                }
+            });
+        });
+
+        const initialChecked = statusOptions.querySelector('input[type="radio"]:checked');
+        if (initialChecked && initialChecked.value === 'planned') {
+            document.getElementById('rating-block')?.classList.add('hidden');
+            document.getElementById('planned-message')?.classList.remove('hidden');
         }
-    });
+    }
+});
 </script>
 {% endblock %}

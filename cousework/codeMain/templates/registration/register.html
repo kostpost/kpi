@@ -2,14 +2,25 @@
 {% block title %}Реєстрація – GamingLibrary{% endblock %}
 
 {% block content %}
-<div class="max-w-lg mx-auto mt-12 px-4">
-    <div class="bg-gray-800/80 backdrop-blur-md rounded-2xl p-10 border border-gray-700 shadow-2xl">
-        <h1 class="text-4xl font-bold text-center mb-10 text-white">Реєстрація</h1>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="text-5xl">🎮</div>
+                <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    GamingLibrary
+                </h1>
+            </div>
+            <p class="text-xl text-gray-400">Створіть акаунт та почніть збирати свою бібліотеку</p>
+        </div>
 
-        {% if form.errors %}
-            <div class="bg-red-900/40 border border-red-700 text-red-200 px-6 py-4 rounded-xl mb-8 text-center">
-                <p>Перевірте введені дані:</p>
-                <ul class="list-disc list-inside mt-2">
+        <div class="bg-gray-900/70 backdrop-blur-xl rounded-3xl p-10 border border-gray-700/50 shadow-2xl shadow-indigo-900/30">
+            <h2 class="text-3xl font-bold text-center text-white mb-8">Реєстрація</h2>
+
+            {% if form.errors %}
+            <div class="bg-red-900/30 border border-red-700/50 text-red-200 px-6 py-4 rounded-2xl mb-8 text-center text-sm">
+                <p class="font-medium">Помилка:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
                     {% for field in form %}
                         {% for error in field.errors %}
                             <li>{{ field.label }}: {{ error }}</li>
@@ -20,36 +31,53 @@
                     {% endfor %}
                 </ul>
             </div>
-        {% endif %}
+            {% endif %}
 
-        <form method="post" class="space-y-6">
-            {% csrf_token %}
+            <form method="post" class="space-y-6 max-w-sm mx-auto">
+                {% csrf_token %}
 
-            <div>
-                <label class="block text-gray-300 font-medium mb-2">Ім'я користувача</label>
-                {{ form.username }}
-            </div>
+                <div class="text-center">
+                    <label class="block text-gray-300 font-medium mb-2 text-sm">Ім'я користувача</label>
+                    <div class="relative inline-block w-full">
+                        {{ form.username }}
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
 
-            <div>
-                <label class="block text-gray-300 font-medium mb-2">Пароль</label>
-                {{ form.password1 }}
-            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div>
-                <label class="block text-gray-300 font-medium mb-2">Повторіть пароль</label>
-                {{ form.password2 }}
-            </div>
+                <div class="text-center">
+                    <label class="block text-gray-300 font-medium mb-2 text-sm">Пароль</label>
+                    <div class="relative inline-block w-full">
+                        {{ form.password1 }}
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
 
-            <button type="submit"
-                    class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition shadow-lg transform hover:scale-[1.02]">
-                Зареєструватися
-            </button>
-        </form>
+                        </div>
+                    </div>
+                </div>
 
-        <p class="text-center mt-8 text-gray-400">
-            Вже є акаунт?
-            <a href="{% url 'login' %}" class="text-blue-400 hover:underline font-medium">Увійти</a>
-        </p>
+                <div class="text-center">
+                    <label class="block text-gray-300 font-medium mb-2 text-sm">Повторіть пароль</label>
+                    <div class="relative inline-block w-full">
+                        {{ form.password2 }}
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit"
+                            class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-indigo-700/50 transform hover:scale-[1.02] active:scale-95">
+                        Зареєструватися
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-center mt-8 text-gray-400 text-sm">
+                Вже є акаунт? 
+                <a href="{% url 'login' %}" class="text-indigo-400 hover:text-indigo-300 font-medium transition underline">
+                    Увійти
+                </a>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

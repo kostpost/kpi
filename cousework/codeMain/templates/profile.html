@@ -7,48 +7,40 @@
 <div class="min-h-screen pt-10 px-4 pb-20">
     <div class="w-full max-w-7xl mx-auto">
 
-        <!-- Центральна панель -->
         <div class="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
 
-            <!-- Верхня частина: аватарка + інформація + список друзів справа -->
             <div class="bg-gradient-to-b from-gray-800/80 to-gray-900/60 px-8 pt-12 pb-16">
                 <div class="flex flex-col lg:flex-row items-start gap-12">
-                    <!-- Аватарка -->
+
                     <div class="relative flex-shrink-0">
                         <div class="w-64 h-64 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-8xl font-bold shadow-2xl border-4 border-gray-800">
                             {{ profile_user.username|slice:":1"|upper }}
                         </div>
                     </div>
 
-                    <!-- Інформація + дії -->
                     <div class="flex-1 space-y-8">
                         <div>
                             <h1 class="text-6xl font-bold text-white drop-shadow-lg">
                                 {{ profile_user.username }}
                             </h1>
 
-                            <!-- Дії з друзями (якщо не свій профіль) -->
                             {% if request.user.is_authenticated and profile_user != request.user %}
                             <div class="mt-6 flex flex-wrap gap-4">
                                 {% if is_already_friend %}
-                                <form method="post" action="{% url 'remove_friend' profile_user.username %}"
-                                      class="inline">
+                                <form method="post" action="{% url 'remove_friend' profile_user.username %}" class="inline">
                                     {% csrf_token %}
-                                    <button type="submit"
-                                            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-red-700/50">
+                                    <button type="submit" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-red-700/50">
                                         Видалити з друзів
                                     </button>
                                 </form>
                                 {% elif pending_sent_request %}
                                 <span class="inline-block px-6 py-3 bg-yellow-600/70 text-white font-medium rounded-xl shadow-md">
-        Запит відправлено
-    </span>
+                                    Запит відправлено
+                                </span>
                                 {% else %}
-                                <form method="post" action="{% url 'send_friend_request' profile_user.username %}"
-                                      class="inline">
+                                <form method="post" action="{% url 'send_friend_request' profile_user.username %}" class="inline">
                                     {% csrf_token %}
-                                    <button type="submit"
-                                            class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-green-700/50">
+                                    <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-green-700/50">
                                         Надіслати запит у друзі
                                     </button>
                                 </form>
@@ -56,7 +48,6 @@
                             </div>
                             {% endif %}
 
-                            <!-- Вхідні запити (тільки на власному профілі) -->
                             {% if is_own_profile and incoming_requests %}
                             <div class="mt-8">
                                 <h3 class="text-2xl font-bold text-white mb-4">Запити в друзі</h3>
@@ -68,19 +59,15 @@
                                             <p class="text-gray-400 text-sm">Надіслав запит {{ req.created_at|timesince }} тому</p>
                                         </div>
                                         <div class="flex gap-3">
-                                            <form method="post" action="{% url 'accept_friend_request' req.id %}"
-                                                  class="inline">
+                                            <form method="post" action="{% url 'accept_friend_request' req.id %}" class="inline">
                                                 {% csrf_token %}
-                                                <button type="submit"
-                                                        class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+                                                <button type="submit" class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
                                                     Прийняти
                                                 </button>
                                             </form>
-                                            <form method="post" action="{% url 'reject_friend_request' req.id %}"
-                                                  class="inline">
+                                            <form method="post" action="{% url 'reject_friend_request' req.id %}" class="inline">
                                                 {% csrf_token %}
-                                                <button type="submit"
-                                                        class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
+                                                <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
                                                     Відхилити
                                                 </button>
                                             </form>
@@ -93,7 +80,6 @@
                             </div>
                             {% endif %}
 
-                            <!-- Статистика -->
                             <div class="flex items-center gap-8 mt-6 text-lg">
                                 <div class="flex items-center gap-3 text-gray-300">
                                     <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
@@ -112,8 +98,6 @@
                         </div>
                     </div>
 
-                    <!-- Список друзів справа (якщо є) -->
-                    <!-- Список друзів справа (тільки на великих екранах) -->
                     {% if friends_list %}
                     <div class="lg:w-96 flex-shrink-0 bg-gradient-to-b from-gray-800/80 to-gray-900/60 rounded-2xl p-6 border border-gray-700/70 shadow-xl hidden lg:block backdrop-blur-sm">
                         <div class="flex items-center justify-between mb-6">
@@ -124,32 +108,29 @@
                                 Друзі
                             </h3>
                             <span class="text-sm text-gray-400 bg-gray-700/70 px-3 py-1 rounded-full">
-            {{ profile_user.profile.friends.count }}
-        </span>
+                                {{ profile_user.profile.friends.count }}
+                            </span>
                         </div>
 
                         <div class="space-y-4 max-h-[420px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
                             {% for friend in friends_list %}
                             <div class="group flex items-center justify-between gap-4 p-4 rounded-xl hover:bg-gray-700/60 transition-all duration-300 border border-transparent hover:border-indigo-500/30">
-                                <a href="{% url 'profile_by_username' friend.user.username %}"
-                                   class="flex items-center gap-4 flex-1">
+                                <a href="{% url 'profile_by_username' friend.user.username %}" class="flex items-center gap-4 flex-1">
                                     <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-md group-hover:shadow-lg transition-shadow">
                                         {{ friend.user.username|slice:":1"|upper }}
                                     </div>
                                     <div>
-                    <span class="text-lg font-medium text-white group-hover:text-indigo-300 transition-colors">
-                        {{ friend.user.username }}
-                    </span>
+                                        <span class="text-lg font-medium text-white group-hover:text-indigo-300 transition-colors">
+                                            {{ friend.user.username }}
+                                        </span>
                                         <p class="text-xs text-gray-400 mt-0.5">
                                             Друг з {{ friend.user.date_joined|date:"d.m.Y" }}
                                         </p>
                                     </div>
                                 </a>
 
-                                <!-- Кнопка видалення — ТІЛЬКИ на своєму профілі -->
                                 {% if is_own_profile %}
-                                <form method="post" action="{% url 'remove_friend' friend.user.username %}"
-                                      class="inline">
+                                <form method="post" action="{% url 'remove_friend' friend.user.username %}" class="inline">
                                     {% csrf_token %}
                                     <button type="submit"
                                             onclick="return confirm('Видалити {{ friend.user.username }} з друзів?')"
@@ -162,7 +143,6 @@
                             {% endfor %}
                         </div>
 
-                        <!-- Кнопка "Переглянути всіх друзів" -->
                         {% if profile_user.profile.friends.count > 5 %}
                         <div class="mt-6 pt-4 border-t border-gray-700/50">
                             <a href="{% url 'user_friends_all' profile_user.username %}"
@@ -171,15 +151,11 @@
                             </a>
                         </div>
                         {% endif %}
-
                     </div>
                     {% endif %}
                 </div>
             </div>
 
-
-            <!-- Списки користувача -->
-            <!-- Списки користувача -->
             <div class="px-8 py-10 bg-gray-900/50 border-t border-gray-700">
                 <h2 class="text-3xl font-bold text-white mb-8">
                     Списки {{ profile_user.username }}
@@ -187,14 +163,11 @@
 
                 {% if user_lists %}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {% for lst in user_lists|slice:":3" %}   <!-- тільки перші 3 -->
+                    {% for lst in user_lists|slice:":3" %}
                     <div class="group bg-gray-800/80 rounded-2xl p-6 border border-gray-700 hover:border-indigo-500 transition-all duration-300 shadow-md hover:shadow-xl">
-                        <!-- Красива іконка списку -->
                         <div class="flex items-center gap-4 mb-4">
-                            <svg class="w-10 h-10 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            <svg class="w-10 h-10 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                             </svg>
                             <div class="flex-1">
                                 <h3 class="text-xl font-semibold text-white truncate group-hover:text-indigo-300 transition-colors">
@@ -210,24 +183,21 @@
                         </div>
 
                         <div class="flex flex-wrap gap-3 mt-4">
-                            <a href="{% url 'list_detail' lst.id %}"
-                               class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-center rounded-xl transition font-medium">
+                            <a href="{% url 'list_detail' lst.id %}" class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-center rounded-xl transition font-medium">
                                 Переглянути
                             </a>
 
                             {% if is_own_profile %}
                             <form method="post" action="{% url 'toggle_list_privacy' lst.id %}" class="inline">
                                 {% csrf_token %}
-                                <button type="submit"
-                                        class="py-2.5 px-5 bg-purple-600/80 hover:bg-purple-700 text-white rounded-xl transition text-sm">
+                                <button type="submit" class="py-2.5 px-5 bg-purple-600/80 hover:bg-purple-700 text-white rounded-xl transition text-sm">
                                     {% if lst.is_private %}Публічний{% else %}Приватний{% endif %}
                                 </button>
                             </form>
 
                             <form method="post" action="{% url 'delete_list' lst.id %}" class="inline">
                                 {% csrf_token %}
-                                <button type="submit" onclick="return confirm('Видалити список «{{ lst.name }}»?')"
-                                        class="py-2.5 px-5 bg-red-600/80 hover:bg-red-700 text-white rounded-xl transition text-sm">
+                                <button type="submit" onclick="return confirm('Видалити список «{{ lst.name }}»?')" class="py-2.5 px-5 bg-red-600/80 hover:bg-red-700 text-white rounded-xl transition text-sm">
                                     Видалити
                                 </button>
                             </form>
@@ -237,27 +207,22 @@
                     {% endfor %}
                 </div>
 
-                <!-- Кнопка "Переглянути всі списки" -->
                 {% if user_lists.count > 3 %}
                 <div class="mt-12 mb-16 flex justify-center">
                     <a href="{% url 'user_lists_all' profile_user.username %}"
                        class="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-900/40 hover:shadow-2xl hover:shadow-indigo-700/60 hover:scale-[1.03]">
                         <span>Переглянути всі списки</span>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </a>
                 </div>
                 {% endif %}
 
                 {% else %}
-                <!-- порожній стан -->
                 <div class="text-center py-20 text-gray-400">
-                    <svg class="w-24 h-24 mx-auto mb-6 text-gray-500" fill="none" stroke="currentColor"
-                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    <svg class="w-24 h-24 mx-auto mb-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                     </svg>
                     <p class="text-2xl mb-4">Списків ще немає</p>
                     {% if is_own_profile %}
@@ -266,24 +231,20 @@
                 </div>
                 {% endif %}
 
-                <!-- форма створення нового списку (тільки для власного профілю) -->
                 {% if is_own_profile %}
                 <div class="mt-12 max-w-lg mx-auto bg-gray-800/50 p-8 rounded-2xl border border-gray-700">
                     <h3 class="text-2xl font-semibold text-center text-gray-200 mb-6">Створити новий список</h3>
                     <form method="post" action="{% url 'create_list' %}" class="space-y-5">
                         {% csrf_token %}
                         <input type="text" name="list_name" placeholder="Назва списку (наприклад: Улюблені RPG 2024)"
-                               required
-                               class="w-full px-5 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg">
+                               required class="w-full px-5 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg">
 
                         <div class="flex items-center gap-3">
                             <input type="checkbox" name="is_private" id="is_private" class="w-6 h-6 accent-indigo-600">
-                            <label for="is_private" class="text-gray-300 text-lg">Приватний список (тільки я
-                                бачу)</label>
+                            <label for="is_private" class="text-gray-300 text-lg">Приватний список (тільки я бачу)</label>
                         </div>
 
-                        <button type="submit"
-                                class="w-full py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg">
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg">
                             Створити список
                         </button>
                     </form>
@@ -291,38 +252,29 @@
                 {% endif %}
             </div>
 
-            <!-- Останні оцінені ігри -->
             <div class="p-8 bg-gray-900/50">
                 <h2 class="text-3xl font-bold text-white mb-8">Останні оцінені ігри</h2>
 
                 <a href="{% url 'user_library' profile_user.username %}"
-                   class="block w-full max-w-xs mx-auto py-4 px-8
-              bg-indigo-600 hover:bg-indigo-700
-              text-white font-bold text-lg
-              rounded-xl transition duration-300
-              text-center shadow-lg shadow-indigo-900/30
-              hover:shadow-indigo-700/50 mb-12">
+                   class="block w-full max-w-xs mx-auto py-4 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl transition duration-300 text-center shadow-lg shadow-indigo-900/30 hover:shadow-indigo-700/50 mb-12">
                     Переглянути всю бібліотеку
                 </a>
-
 
                 {% if games %}
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {% for game in games %}
                     <a href="{% url 'game_detail' game.rawg_id %}"
                        class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105 block">
-                        <img src="{{ game.header_image }}" alt="{{ game.name }}"
-                             class="w-full h-64 object-cover">
+                        <img src="{{ game.header_image }}" alt="{{ game.name }}" class="w-full h-64 object-cover">
                         <div class="p-4 space-y-2">
                             <h3 class="text-white font-semibold text-sm truncate">{{ game.name }}</h3>
 
                             <div class="flex justify-end items-center text-xs">
-                                <!-- Убрали justify-between, теперь рейтинг на конце -->
                                 <span class="text-yellow-400">
-                                {% for i in "12345" %}
+                                    {% for i in "12345" %}
                                     {% if forloop.counter <= game.user_rating %}★{% else %}☆{% endif %}
-                                {% endfor %}
-                            </span>
+                                    {% endfor %}
+                                </span>
                             </div>
 
                             {% if game.status != 'not_played' %}

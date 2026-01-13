@@ -6,7 +6,6 @@
 {% block content %}
 <div class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white pt-12 pb-20 px-4 sm:px-6 lg:px-8">
 
-    <!-- Пошуковий герой -->
     <div class="text-center mb-16">
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
             Знайди свою наступну гру
@@ -23,7 +22,6 @@
         </form>
     </div>
 
-    <!-- Блок карток (однаковий шаблон для всіх розділів) -->
     {% for section in sections %}
     <section class="mb-20">
         <h2 class="text-4xl font-bold mb-8 text-center md:text-left bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
@@ -42,13 +40,11 @@
                     <div class="p-5">
                         <h3 class="text-lg font-semibold truncate">{{ game.name }}</h3>
                         <div class="flex items-center mt-2">
-                            <!-- Показуємо рейтинг ТІЛЬКИ якщо це НЕ блок "Очікувані релізи 2026" -->
                             {% if section.title != "Очікувані релізи 2026" and game.rating %}
                                 <span class="text-yellow-400 text-xl">★</span>
                                 <span class="ml-2 text-gray-300">{{ game.rating|floatformat:1 }}</span>
                             {% endif %}
 
-                            <!-- Додатково показуємо дату релізу для майбутніх ігор -->
                             {% if section.title == "Очікувані релізи 2026" and game.released %}
                                 <span class="text-gray-400 text-sm">Реліз: {{ game.released|date:"d.m.Y" }}</span>
                             {% endif %}
@@ -67,9 +63,7 @@
             </div>
         {% endif %}
     </section>
-{% endfor %}
-
-
+    {% endfor %}
 
 </div>
 {% endblock %}

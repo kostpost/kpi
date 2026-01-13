@@ -1,6 +1,3 @@
-"""
-Django settings for codeMain project.
-"""
 
 from pathlib import Path
 
@@ -19,8 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',  # Для intcomma
-    'games',                     # Твій додаток
+    'django.contrib.humanize',
+    'games',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -76,7 +73,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Автентифікація — тільки стандартна Django
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

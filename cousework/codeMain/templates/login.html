@@ -1,18 +1,77 @@
 {% extends "base.html" %}
-{% block title %}Вхід{% endblock %}
+{% block title %}Вхід – GamingLibrary{% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-gray-800 rounded-xl p-8 border border-gray-700">
-    <h2 class="text-3xl font-bold text-center mb-8">Вхід</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition mt-4">
-            Увійти
-        </button>
-    </form>
-    <p class="text-center mt-4 text-gray-400">
-        Немає акаунту? <a href="{% url 'register' %}" class="text-blue-400 hover:underline">Зареєструватися</a>
-    </p>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="text-5xl">🎮</div>
+                <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    GamingLibrary
+                </h1>
+            </div>
+            <p class="text-xl text-gray-400">Увійдіть, щоб продовжити</p>
+        </div>
+
+        <div class="bg-gray-900/70 backdrop-blur-xl rounded-3xl p-10 border border-gray-700/50 shadow-2xl shadow-indigo-900/30">
+            <h2 class="text-3xl font-bold text-center text-white mb-8">Вхід</h2>
+
+            {% if form.errors %}
+            <div class="bg-red-900/30 border border-red-700/50 text-red-200 px-6 py-4 rounded-2xl mb-8 text-center text-sm">
+                <p class="font-medium">Помилка:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="post" class="space-y-6 max-w-sm mx-auto">
+                {% csrf_token %}
+
+                <div class="text-center">
+                    <label class="block text-gray-300 font-medium mb-2 text-sm">Ім'я користувача</label>
+                    <div class="relative inline-block w-full">
+                        {{ form.username }}
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <label class="block text-gray-300 font-medium mb-2 text-sm">Пароль</label>
+                    <div class="relative inline-block w-full">
+                        {{ form.password }}
+                        <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit"
+                            class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-lg hover:shadow-indigo-700/50 transform hover:scale-[1.02] active:scale-95">
+                        Увійти
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-center mt-8 text-gray-400 text-sm">
+                Немає акаунту?
+                <a href="{% url 'register' %}" class="text-indigo-400 hover:text-indigo-300 font-medium transition underline">
+                    Зареєструватися
+                </a>
+            </p>
+        </div>
+
+    </div>
 </div>
 {% endblock %}

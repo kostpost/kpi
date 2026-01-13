@@ -25,8 +25,7 @@
                 {% for game in games %}
                 <a href="{% url 'game_detail' game.rawg_id %}"
                    class="group relative bg-gray-800/60 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105">
-                    <img src="{{ game.header_image }}" alt="{{ game.name }}"
-                         class="w-full h-64 object-cover">
+                    <img src="{{ game.header_image }}" alt="{{ game.name }}" class="w-full h-64 object-cover">
                     <div class="p-4 space-y-2">
                         <h3 class="text-white font-semibold text-base truncate">{{ game.name }}</h3>
 
