@@ -33,7 +33,7 @@ class UserGame(models.Model):
     ]
 
     rawg_id = models.PositiveIntegerField(null=True, blank=True)  # ← головне поле!
-    appid = models.PositiveIntegerField(null=True, blank=True)  # опціонально, для старих ігор
+    rawg_id = models.PositiveIntegerField(null=True, blank=True)  # опціонально, для старих ігор
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_games')
     # appid = models.PositiveIntegerField()
@@ -53,7 +53,7 @@ class UserGame(models.Model):
         ordering = ['-updated_at']
 
     def __str__(self):
-        return f"{self.user.username} — AppID {self.appid}"
+        return f"{self.user.username} — AppID {self.rawg_id}"
 
     def get_status_display(self):
         return dict(self.STATUS_CHOICES).get(self.status, 'Не вказано')

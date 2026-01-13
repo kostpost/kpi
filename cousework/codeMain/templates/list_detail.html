@@ -8,75 +8,93 @@
     <p class="text-xl text-gray-400 mb-12">Ігор у списку: {{ list.games.count }}</p>
 
     {% if games %}
-        <div class="space-y-6">
-            {% for game in games %}
-                <a href="{% url 'game_detail' game.appid %}"
-                   class="group flex flex-col sm:flex-row bg-gray-800/60 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
+    <div class="space-y-6">
+        {% for game in games %}
+        <div class="group flex flex-col sm:flex-row bg-gray-800/60 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
 
-                    <!-- Левая часть: обложка игры -->
-                    <div class="sm:w-48 md:w-56 flex-shrink-0">
-                        <img src="https://steamcdn-a.akamaihd.net/steam/apps/{{ game.appid }}/header.jpg"
-                             alt="{{ game.name|default:'Гра без назви' }}"
-                             class="w-full h-full object-cover">
-                    </div>
+            <!-- Левая часть: обложка игры -->
+            <a href="{% url 'game_detail' game.rawg_id %}" class="sm:w-48 md:w-56 flex-shrink-0">
+                <img src="{{ game.header_image|default:'/static/images/placeholder_game.jpg' }}"
+                     alt="{{ game.name|default:'Гра без назви' }}"
+                     class="w-full h-full object-cover">
+            </a>
 
-                    <!-- Правая часть: информация -->
-                    <div class="flex-1 p-6 flex flex-col justify-between">
-                        <!-- Название -->
-                        <h3 class="text-2xl font-bold text-white mb-3 truncate">
-                            {{ game.name}}
-                        </h3>
+            <!-- Правая часть: информация + кнопка видалення -->
+            <div class="flex-1 p-6 flex flex-col justify-between">
+                <div>
+                    <!-- Название -->
+                    <a href="{% url 'game_detail' game.rawg_id %}" class="text-2xl font-bold text-white mb-3 truncate hover:text-indigo-400 transition block">
+                        {{ game.name }}
+                    </a>
 
-                        <div class="space-y-4">
-                            <!-- Статус -->
-                            {% if game.status and game.status != 'not_played' %}
-                                <div>
-                                    <span class="inline-block px-4 py-2 rounded-full text-white font-medium text-base
-                                        {% if game.status == 'completed' %}bg-green-600
-                                        {% elif game.status == 'playing' %}bg-blue-600
-                                        {% elif game.status == 'planned' %}bg-purple-600
-                                        {% elif game.status == 'dropped' %}bg-red-600{% endif %}">
-                                        {{ game.get_status_display }}
-                                    </span>
-                                </div>
-                            {% endif %}
-
-                            <!-- Оценка (5 звёзд) -->
-                            {% if game.rating and game.rating > 0 %}
-                                <div>
-                                    <p class="text-gray-300 text-sm mb-1">Моя оцінка</p>
-                                    <div class="flex gap-1">
-                                        {% for i in "12345" %}
-                                            <svg class="w-7 h-7 {% if forloop.counter <= game.rating %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}"
-                                                 viewBox="0 0 24 24">
-                                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                                            </svg>
-                                        {% endfor %}
-                                        <span class="ml-3 text-gray-400 text-sm">({{ game.rating }}/5)</span>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            <!-- Отзыв (если есть) -->
-                            {% if game.comment %}
-                                <div>
-                                    <p class="text-gray-300 text-sm mb-1">Відгук</p>
-                                    <p class="text-gray-200 text-base leading-relaxed line-clamp-3">
-                                        {{ game.comment }}
-                                    </p>
-                                </div>
-                            {% endif %}
+                    <div class="space-y-4">
+                        <!-- Статус -->
+                        {% if game.status and game.status != 'not_played' %}
+                        <div>
+                            <span class="inline-block px-4 py-2 rounded-full text-white font-medium text-base
+                                {% if game.status == 'completed' %}bg-green-600
+                                {% elif game.status == 'playing' %}bg-blue-600
+                                {% elif game.status == 'planned' %}bg-purple-600
+                                {% elif game.status == 'dropped' %}bg-red-600{% endif %}">
+                                {{ game.get_status_display }}
+                            </span>
                         </div>
+                        {% endif %}
+
+                        <!-- Оценка (5 звёзд) -->
+                        {% if game.rating and game.rating > 0 %}
+                        <div>
+                            <p class="text-gray-300 text-sm mb-1">Моя оцінка</p>
+                            <div class="flex gap-1">
+                                {% for i in "12345" %}
+                                <svg class="w-7 h-7 {% if forloop.counter <= game.rating %}text-yellow-400 fill-yellow-400{% else %}text-gray-600 fill-gray-600{% endif %}"
+                                     viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                                {% endfor %}
+                                <span class="ml-3 text-gray-400 text-sm">({{ game.rating }}/5)</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Отзыв (если есть) -->
+                        {% if game.comment %}
+                        <div>
+                            <p class="text-gray-300 text-sm mb-1">Відгук</p>
+                            <p class="text-gray-200 text-base leading-relaxed line-clamp-3">
+                                {{ game.comment }}
+                            </p>
+                        </div>
+                        {% endif %}
                     </div>
-                </a>
-            {% endfor %}
+                </div>
+
+                <!-- Кнопка видалення (тільки якщо це ваш список) -->
+                {% if request.user == profile_user %}
+                <div class="mt-4 text-right">
+                    <form method="post" action="{% url 'remove_from_list' list.id game.rawg_id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit"
+                                onclick="return confirm('Видалити «{{ game.name }}» зі списку «{{ list.name }}»?')"
+                                class="text-red-400 hover:text-red-300 transition text-sm font-medium flex items-center gap-1 justify-end">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Видалити
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
         </div>
+        {% endfor %}
+    </div>
     {% else %}
-        <div class="text-center py-24 text-gray-400">
-            <div class="text-8xl mb-6">📂</div>
-            <p class="text-3xl mb-4">У списку ще немає ігор</p>
-            <p class="text-xl">Додайте ігри через свій профіль!</p>
-        </div>
+    <div class="text-center py-24 text-gray-400">
+        <div class="text-8xl mb-6">📂</div>
+        <p class="text-3xl mb-4">У списку ще немає ігор</p>
+        <p class="text-xl">Додайте ігри через свій профіль!</p>
+    </div>
     {% endif %}
 
     <!-- Кнопка возврата -->

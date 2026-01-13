@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from games.aut.models import UserGame
 from games.aut.models import UserList
 
-RAWG_API_KEY = "52cb9ffb113b485299bb0625e7c9b503"  # ← заміни на свій ключ!
+RAWG_API_KEY = "52cb9ffb113b485299bb0625e7c9b503"
 
 
 def game_detail(request, rawg_id):  # ← параметр тепер rawg_id (int)
@@ -102,15 +102,25 @@ def game_detail(request, rawg_id):  # ← параметр тепер rawg_id (i
 
 
 
+
+
+
+
+
+
+
+
+
+
 @login_required
-def delete_game_status(request, rawg_id):  # ← змінили appid → rawg_id
+def delete_game_status(request, rawg_id):
     if request.method == 'POST':
         UserGame.objects.filter(user=request.user, rawg_id=rawg_id).delete()
     return redirect('game_detail', rawg_id=rawg_id)  # ← змінили параметр
 
 
 @login_required
-def update_game_status(request, rawg_id):  # ← змінили appid → rawg_id
+def update_game_status(request, rawg_id):
     if request.method == 'POST':
         status = request.POST.get('status')
         rating = request.POST.get('rating')

@@ -1,20 +1,75 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block title %}Головна – GamingLibrary{% endblock %}
+{% block title %}Головна – Ігрова Бібліотека{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-12">
-    <!-- Перший рядок -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center mb-16">
-        {% include "table.html" with title="Most Played Games" games=most_played %}
-        {% include "table.html" with title="Trending Games" games=trending %}
+<div class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+
+    <!-- Пошуковий герой -->
+    <div class="text-center mb-16">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+            Знайди свою наступну гру
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+            Понад 500 000 ігор • Топ-рейтинги • Новинки • Рекомендації
+        </p>
+        <form action="{% url 'search' %}" method="get" class="max-w-3xl mx-auto relative">
+            <input type="search" name="q" placeholder="Пошук: Cyberpunk, RPG, 2025..."
+                   class="w-full px-8 py-6 text-xl bg-gray-800/70 border border-gray-700 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-600/50 shadow-2xl backdrop-blur-sm">
+            <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 bg-indigo-600 hover:bg-indigo-700 px-8 py-4 rounded-xl font-bold transition transform hover:scale-105">
+                Шукати
+            </button>
+        </form>
     </div>
 
-    <!-- Другий рядок -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
-        {% include "table.html" with title="Popular Releases" games=popular_releases %}
-        {% include "table.html" with title="Hot Releases" games=hot_releases %}
-    </div>
+    <!-- Блок карток (однаковий шаблон для всіх розділів) -->
+    {% for section in sections %}
+    <section class="mb-20">
+        <h2 class="text-4xl font-bold mb-8 text-center md:text-left bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+            {{ section.title }}
+        </h2>
+
+        {% if section.games %}
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                {% for game in section.games %}
+                <a href="{% url 'game_detail' game.id %}" class="group bg-gray-800/40 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-indigo-500 transition-all duration-300 hover:scale-105 hover:shadow-2xl backdrop-blur-sm">
+                    <div class="relative">
+                        <img src="{{ game.background_image|default:'/static/images/placeholder_game.jpg' }}"
+                             alt="{{ game.name }}" class="w-full aspect-video object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-semibold truncate">{{ game.name }}</h3>
+                        <div class="flex items-center mt-2">
+                            <!-- Показуємо рейтинг ТІЛЬКИ якщо це НЕ блок "Очікувані релізи 2026" -->
+                            {% if section.title != "Очікувані релізи 2026" and game.rating %}
+                                <span class="text-yellow-400 text-xl">★</span>
+                                <span class="ml-2 text-gray-300">{{ game.rating|floatformat:1 }}</span>
+                            {% endif %}
+
+                            <!-- Додатково показуємо дату релізу для майбутніх ігор -->
+                            {% if section.title == "Очікувані релізи 2026" and game.released %}
+                                <span class="text-gray-400 text-sm">Реліз: {{ game.released|date:"d.m.Y" }}</span>
+                            {% endif %}
+
+                            {% if game.metacritic and section.title != "Очікувані релізи 2026" %}
+                                <span class="ml-3 text-sm text-gray-400">Metacritic: {{ game.metacritic }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-16 text-gray-400 text-xl">
+                {{ section.empty_text }}
+            </div>
+        {% endif %}
+    </section>
+{% endfor %}
+
+
+
 </div>
 {% endblock %}
