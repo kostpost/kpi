@@ -35,20 +35,20 @@
                                       class="inline">
                                     {% csrf_token %}
                                     <button type="submit"
-                                            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+                                            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-red-700/50">
                                         Видалити з друзів
                                     </button>
                                 </form>
                                 {% elif pending_sent_request %}
-                                <span class="inline-block px-6 py-3 bg-yellow-600/70 text-white font-medium rounded-xl">
-                                                Запит відправлено
-                                            </span>
+                                <span class="inline-block px-6 py-3 bg-yellow-600/70 text-white font-medium rounded-xl shadow-md">
+        Запит відправлено
+    </span>
                                 {% else %}
                                 <form method="post" action="{% url 'send_friend_request' profile_user.username %}"
                                       class="inline">
                                     {% csrf_token %}
                                     <button type="submit"
-                                            class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition">
+                                            class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition shadow-md hover:shadow-green-700/50">
                                         Надіслати запит у друзі
                                     </button>
                                 </form>
@@ -65,8 +65,7 @@
                                     <div class="bg-gray-800/80 p-5 rounded-xl flex justify-between items-center border border-gray-700">
                                         <div>
                                             <p class="text-white font-medium">{{ req.sender.username }}</p>
-                                            <p class="text-gray-400 text-sm">Надіслав запит {{ req.created_at|timesince
-                                                }} тому</p>
+                                            <p class="text-gray-400 text-sm">Надіслав запит {{ req.created_at|timesince }} тому</p>
                                         </div>
                                         <div class="flex gap-3">
                                             <form method="post" action="{% url 'accept_friend_request' req.id %}"
@@ -114,33 +113,47 @@
                     </div>
 
                     <!-- Список друзів справа (якщо є) -->
+                    <!-- Список друзів справа (тільки на великих екранах) -->
                     {% if friends_list %}
-                    <div class="lg:w-80 flex-shrink-0 bg-gray-800/70 rounded-2xl p-6 border border-gray-700 hidden lg:block">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                            Друзі
-                        </h3>
-                        <div class="space-y-3 max-h-96 overflow-y-auto">
+                    <div class="lg:w-96 flex-shrink-0 bg-gradient-to-b from-gray-800/80 to-gray-900/60 rounded-2xl p-6 border border-gray-700/70 shadow-xl hidden lg:block backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <svg class="w-7 h-7 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                                Друзі
+                            </h3>
+                            <span class="text-sm text-gray-400 bg-gray-700/70 px-3 py-1 rounded-full">
+            {{ profile_user.profile.friends.count }}
+        </span>
+                        </div>
+
+                        <div class="space-y-4 max-h-[420px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
                             {% for friend in friends_list %}
-                            <div class="flex items-center justify-between gap-3 hover:bg-gray-700/50 p-2 rounded-lg transition">
+                            <div class="group flex items-center justify-between gap-4 p-4 rounded-xl hover:bg-gray-700/60 transition-all duration-300 border border-transparent hover:border-indigo-500/30">
                                 <a href="{% url 'profile_by_username' friend.user.username %}"
-                                   class="flex items-center gap-3 flex-1">
-                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                                   class="flex items-center gap-4 flex-1">
+                                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-md group-hover:shadow-lg transition-shadow">
                                         {{ friend.user.username|slice:":1"|upper }}
                                     </div>
-                                    <span class="text-gray-200 truncate">{{ friend.user.username }}</span>
+                                    <div>
+                    <span class="text-lg font-medium text-white group-hover:text-indigo-300 transition-colors">
+                        {{ friend.user.username }}
+                    </span>
+                                        <p class="text-xs text-gray-400 mt-0.5">
+                                            Друг з {{ friend.user.date_joined|date:"d.m.Y" }}
+                                        </p>
+                                    </div>
                                 </a>
 
-                                <!-- Кнопка видалення з друзів -->
-                                {% if request.user.is_authenticated %}
+                                <!-- Кнопка видалення — ТІЛЬКИ на своєму профілі -->
+                                {% if is_own_profile %}
                                 <form method="post" action="{% url 'remove_friend' friend.user.username %}"
                                       class="inline">
                                     {% csrf_token %}
                                     <button type="submit"
                                             onclick="return confirm('Видалити {{ friend.user.username }} з друзів?')"
-                                            class="text-red-400 hover:text-red-300 text-sm">
+                                            class="text-red-400 hover:text-red-300 hover:bg-red-900/30 p-2 rounded-lg transition text-xl font-bold">
                                         ×
                                     </button>
                                 </form>
@@ -148,23 +161,24 @@
                             </div>
                             {% endfor %}
                         </div>
+
+                        <!-- Кнопка "Переглянути всіх друзів" -->
+                        {% if profile_user.profile.friends.count > 5 %}
+                        <div class="mt-6 pt-4 border-t border-gray-700/50">
+                            <a href="{% url 'user_friends_all' profile_user.username %}"
+                               class="block w-full py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold text-center rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-700/50 hover:scale-[1.02]">
+                                Переглянути всіх друзів ({{ profile_user.profile.friends.count }})
+                            </a>
+                        </div>
+                        {% endif %}
+
                     </div>
                     {% endif %}
                 </div>
             </div>
 
 
-            <!-- Статистика бібліотеки -->
-            <div class="px-8 py-10 bg-gray-900/50 border-t border-gray-700">
-                <h2 class="text-3xl font-bold text-white mb-8">Статистика бібліотеки</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    <div class="bg-gray-800/80 rounded-xl p-6 text-center border border-gray-700">
-                        <p class="text-5xl font-bold text-blue-400">{{ stats.total_games|intcomma }}</p>
-                        <p class="text-gray-400 mt-2 text-lg">Ігор у бібліотеці</p>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Списки користувача -->
             <!-- Списки користувача -->
             <div class="px-8 py-10 bg-gray-900/50 border-t border-gray-700">
                 <h2 class="text-3xl font-bold text-white mb-8">
@@ -173,23 +187,31 @@
 
                 {% if user_lists %}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {% for lst in user_lists %}
-                    <div class="bg-gray-800/80 rounded-xl p-6 border border-gray-700 hover:border-indigo-500 transition-all">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-semibold text-white truncate">{{ lst.name }}</h3>
-
+                    {% for lst in user_lists|slice:":3" %}   <!-- тільки перші 3 -->
+                    <div class="group bg-gray-800/80 rounded-2xl p-6 border border-gray-700 hover:border-indigo-500 transition-all duration-300 shadow-md hover:shadow-xl">
+                        <!-- Красива іконка списку -->
+                        <div class="flex items-center gap-4 mb-4">
+                            <svg class="w-10 h-10 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold text-white truncate group-hover:text-indigo-300 transition-colors">
+                                    {{ lst.name }}
+                                </h3>
+                                <p class="text-sm text-gray-400 mt-1">{{ lst.games.count }} ігор</p>
+                            </div>
                             {% if lst.is_private %}
-                            <span class="text-xs px-3 py-1 bg-red-600/80 rounded-full text-white font-medium">Приватний</span>
+                            <span class="px-3 py-1 bg-red-600/70 rounded-full text-white text-xs font-medium">Приватний</span>
                             {% else %}
-                            <span class="text-xs px-3 py-1 bg-green-600/80 rounded-full text-white font-medium">Публічний</span>
+                            <span class="px-3 py-1 bg-green-600/70 rounded-full text-white text-xs font-medium">Публічний</span>
                             {% endif %}
-
-                            <span class="text-gray-400 text-sm">({{ lst.games.count }} ігор)</span>
                         </div>
 
-                        <div class="flex flex-wrap gap-3">
+                        <div class="flex flex-wrap gap-3 mt-4">
                             <a href="{% url 'list_detail' lst.id %}"
-                               class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-center rounded-lg transition min-w-[120px]">
+                               class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-center rounded-xl transition font-medium">
                                 Переглянути
                             </a>
 
@@ -197,30 +219,15 @@
                             <form method="post" action="{% url 'toggle_list_privacy' lst.id %}" class="inline">
                                 {% csrf_token %}
                                 <button type="submit"
-                                        class="py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition text-sm font-medium">
-                                    {% if lst.is_private %}
-                                    Зробити публічним
-                                    {% else %}
-                                    Зробити приватним
-                                    {% endif %}
-                                </button>
-                            </form>
-
-                            <form method="post" action="{% url 'rename_list' lst.id %}" class="flex-1 min-w-[180px]">
-                                {% csrf_token %}
-                                <input type="text" name="new_name" value="{{ lst.name }}" required
-                                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <button type="submit"
-                                        class="mt-2 w-full py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition text-sm">
-                                    Змінити
+                                        class="py-2.5 px-5 bg-purple-600/80 hover:bg-purple-700 text-white rounded-xl transition text-sm">
+                                    {% if lst.is_private %}Публічний{% else %}Приватний{% endif %}
                                 </button>
                             </form>
 
                             <form method="post" action="{% url 'delete_list' lst.id %}" class="inline">
                                 {% csrf_token %}
-                                <button type="submit"
-                                        onclick="return confirm('Видалити список «{{ lst.name }}»?')"
-                                        class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
+                                <button type="submit" onclick="return confirm('Видалити список «{{ lst.name }}»?')"
+                                        class="py-2.5 px-5 bg-red-600/80 hover:bg-red-700 text-white rounded-xl transition text-sm">
                                     Видалити
                                 </button>
                             </form>
@@ -229,34 +236,54 @@
                     </div>
                     {% endfor %}
                 </div>
+
+                <!-- Кнопка "Переглянути всі списки" -->
+                {% if user_lists.count > 3 %}
+                <div class="mt-12 mb-16 flex justify-center">
+                    <a href="{% url 'user_lists_all' profile_user.username %}"
+                       class="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-lg rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-900/40 hover:shadow-2xl hover:shadow-indigo-700/60 hover:scale-[1.03]">
+                        <span>Переглянути всі списки</span>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+                {% endif %}
+
                 {% else %}
-                <div class="text-center py-16 text-gray-400">
-                    <div class="text-6xl mb-4">📂</div>
+                <!-- порожній стан -->
+                <div class="text-center py-20 text-gray-400">
+                    <svg class="w-24 h-24 mx-auto mb-6 text-gray-500" fill="none" stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
                     <p class="text-2xl mb-4">Списків ще немає</p>
                     {% if is_own_profile %}
                     <p class="text-lg">Створіть свій перший список нижче!</p>
-                    {% else %}
-                    <p class="text-lg">Користувач ще не створив жодного публічного списку</p>
                     {% endif %}
                 </div>
                 {% endif %}
 
+                <!-- форма створення нового списку (тільки для власного профілю) -->
                 {% if is_own_profile %}
-                <div class="mt-12 max-w-md mx-auto">
-                    <h3 class="text-xl font-semibold text-center text-gray-300 mb-6">Створити новий список</h3>
-                    <form method="post" action="{% url 'create_list' %}" class="space-y-4">
+                <div class="mt-12 max-w-lg mx-auto bg-gray-800/50 p-8 rounded-2xl border border-gray-700">
+                    <h3 class="text-2xl font-semibold text-center text-gray-200 mb-6">Створити новий список</h3>
+                    <form method="post" action="{% url 'create_list' %}" class="space-y-5">
                         {% csrf_token %}
-                        <input type="text" name="list_name" placeholder="Назва списку"
+                        <input type="text" name="list_name" placeholder="Назва списку (наприклад: Улюблені RPG 2024)"
                                required
-                               class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                               class="w-full px-5 py-4 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg">
 
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" name="is_private" id="is_private" class="w-5 h-5">
-                            <label for="is_private" class="text-gray-300">Приватний список (тільки я бачу)</label>
+                            <input type="checkbox" name="is_private" id="is_private" class="w-6 h-6 accent-indigo-600">
+                            <label for="is_private" class="text-gray-300 text-lg">Приватний список (тільки я
+                                бачу)</label>
                         </div>
 
                         <button type="submit"
-                                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition">
+                                class="w-full py-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-xl rounded-xl transition shadow-lg">
                             Створити список
                         </button>
                     </form>
@@ -264,9 +291,21 @@
                 {% endif %}
             </div>
 
-            <!-- Бібліотека ігор -->
-            <!-- Бібліотека ігор -->
+            <!-- Останні оцінені ігри -->
             <div class="p-8 bg-gray-900/50">
+                <h2 class="text-3xl font-bold text-white mb-8">Останні оцінені ігри</h2>
+
+                <a href="{% url 'user_library' profile_user.username %}"
+                   class="block w-full max-w-xs mx-auto py-4 px-8
+              bg-indigo-600 hover:bg-indigo-700
+              text-white font-bold text-lg
+              rounded-xl transition duration-300
+              text-center shadow-lg shadow-indigo-900/30
+              hover:shadow-indigo-700/50 mb-12">
+                    Переглянути всю бібліотеку
+                </a>
+
+
                 {% if games %}
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {% for game in games %}
@@ -304,8 +343,8 @@
                 {% else %}
                 <div class="text-center py-32 text-gray-400">
                     <div class="text-9xl mb-8">📭</div>
-                    <p class="text-3xl font-medium">Бібліотека порожня</p>
-                    <p class="text-xl mt-4">Додайте свої ігри, щоб побачити статистику</p>
+                    <p class="text-3xl font-medium">Немає оцінених ігор</p>
+                    <p class="text-xl mt-4">Оцініть ігри, щоб побачити їх тут</p>
                 </div>
                 {% endif %}
             </div>

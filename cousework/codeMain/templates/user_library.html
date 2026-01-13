@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Бібліотека {{ profile_user.username }} – GamingLibrary{% endblock %}
+
+{% block content %}
+<div class="min-h-screen pt-10 px-4 pb-20">
+    <div class="w-full max-w-7xl mx-auto">
+
+        <div class="bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden p-8">
+
+            <div class="flex items-center justify-between mb-10">
+                <h1 class="text-4xl font-bold text-white">
+                    Бібліотека {{ profile_user.username }}
+                    <span class="text-2xl text-gray-400 ml-4">({{ total_games }} ігор)</span>
+                </h1>
+                <a href="{% url 'profile_by_username' profile_user.username %}"
+                   class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition">
+                    ← Повернутися до профілю
+                </a>
+            </div>
+
+            {% if games %}
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                {% for game in games %}
+                <a href="{% url 'game_detail' game.rawg_id %}"
+                   class="group relative bg-gray-800/60 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                    <img src="{{ game.header_image }}" alt="{{ game.name }}"
+                         class="w-full h-64 object-cover">
+                    <div class="p-4 space-y-2">
+                        <h3 class="text-white font-semibold text-base truncate">{{ game.name }}</h3>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-yellow-400">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= game.user_rating %}★{% else %}☆{% endif %}
+                                {% endfor %}
+                            </span>
+                            {% if game.status != 'not_played' %}
+                            <span class="px-3 py-1 rounded-full text-xs font-medium
+                                {% if game.status == 'completed' %}bg-green-600
+                                {% elif game.status == 'playing' %}bg-blue-600
+                                {% elif game.status == 'dropped' %}bg-red-600
+                                {% else %}bg-purple-600{% endif %}">
+                                {{ game.status|capfirst }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <div class="text-center py-32 text-gray-400">
+                <div class="text-9xl mb-8">📭</div>
+                <p class="text-4xl font-medium">Бібліотека порожня</p>
+                {% if is_own_profile %}
+                <p class="text-xl mt-6">Додайте перші ігри через пошук!</p>
+                {% else %}
+                <p class="text-xl mt-6">Користувач ще не додав жодної гри</p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

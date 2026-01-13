@@ -33,7 +33,6 @@ class UserGame(models.Model):
     ]
 
     rawg_id = models.PositiveIntegerField(null=True, blank=True)  # ← головне поле!
-    rawg_id = models.PositiveIntegerField(null=True, blank=True)  # опціонально, для старих ігор
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_games')
     # appid = models.PositiveIntegerField()

@@ -15,6 +15,9 @@ from games.aut.models import UserGame, UserList
 
 RAWG_API_KEY = "52cb9ffb113b485299bb0625e7c9b503"
 RAWG_GAME_DETAIL_URL = "https://api.rawg.io/api/games/"
+
+
+
 def profile(request, username):
     profile_user = get_object_or_404(User, username=username)
     is_own_profile = request.user.is_authenticated and request.user == profile_user
@@ -28,7 +31,7 @@ def profile(request, username):
     stats = {'total_games': 0}
 
     try:
-        user_games = UserGame.objects.filter(user=profile_user)
+        user_games = UserGame.objects.filter(user=profile_user, rating__gt=0).order_by('-updated_at')[:6]
 
         for ug in user_games:
             game_id = str(ug.rawg_id)  # ← ЗМІНИЛИ appid → rawg_id
@@ -65,11 +68,6 @@ def profile(request, username):
                 'user_rating': ug.rating or 0,
             })
 
-        games.sort(key=lambda g: (
-            {'completed': 0, 'playing': 1, 'planned': 2, 'dropped': 3, 'not_played': 4}.get(g['status'], 5),
-            -g['user_rating'],
-            g['name'].lower()
-        ))
         stats['total_games'] = len(games)
 
     except Exception as e:
@@ -122,6 +120,95 @@ def profile(request, username):
 
     return render(request, 'profile.html', context)
 
+
+
+
+def is_friend(self, other_profile):
+    return self.friends.filter(pk=other_profile.pk).exists()
+
+def user_friends_all(request, username):
+    profile_user = get_object_or_404(User, username=username)
+    is_own_profile = request.user == profile_user
+
+    if is_own_profile or profile_user.profile in request.user.profile.friends.all():
+        friends = profile_user.profile.friends.select_related('user').order_by('user__username')
+    else:
+        friends = profile_user.profile.friends.none()
+
+    context = {
+        'profile_user': profile_user,
+        'friends': friends,
+        'total_friends': friends.count(),
+        'is_own_profile': is_own_profile,
+    }
+    return render(request, 'user_friends_all.html', context)
+
+def user_lists_all(request, username):
+    profile_user = get_object_or_404(User, username=username)
+    is_own_profile = request.user.is_authenticated and request.user == profile_user
+
+    if is_own_profile:
+        user_lists = profile_user.lists.all().order_by('-created_at')
+    else:
+        user_lists = profile_user.lists.filter(is_private=False).order_by('-created_at')
+
+    context = {
+        'profile_user': profile_user,
+        'user_lists': user_lists,
+        'total_lists': user_lists.count(),
+        'is_own_profile': is_own_profile,
+    }
+    return render(request, 'user_lists_all.html', context)
+
+def user_library(request, username):
+    profile_user = get_object_or_404(User, username=username)
+    is_own_profile = request.user.is_authenticated and request.user == profile_user
+
+    games = []
+    try:
+        # Беремо ВСІ ігри користувача (можна сортувати як хочете)
+        user_games = UserGame.objects.filter(user=profile_user).order_by('-updated_at')
+
+        for ug in user_games:
+            game_id = str(ug.rawg_id)
+            name = f"Гра ID {game_id}"
+            background_image = "/static/images/placeholder_game.jpg"
+
+            try:
+                resp = requests.get(
+                    f"{RAWG_GAME_DETAIL_URL}{game_id}",
+                    params={'key': RAWG_API_KEY},
+                    headers={'User-Agent': 'GameLibraryApp/1.0'},
+                    timeout=8
+                )
+                if resp.status_code == 200:
+                    details = resp.json()
+                    name = details.get('name', name)
+                    background_image = details.get('background_image') or background_image
+            except Exception as e:
+                print(f"Помилка завантаження гри {game_id}: {e}")
+
+            games.append({
+                'rawg_id': ug.rawg_id,
+                'name': name,
+                'header_image': background_image,
+                'status': ug.status or 'not_played',
+                'user_rating': ug.rating or 0,
+                # можна додати 'comment': ug.comment, якщо хочете показувати
+            })
+
+    except Exception as e:
+        print(f"Помилка в user_library для {username}: {e}")
+
+    context = {
+        'profile_user': profile_user,
+        'games': games,
+        'total_games': len(games),
+        'is_own_profile': is_own_profile,
+        # можна передати інші дані, наприклад friends_list, якщо потрібно
+    }
+
+    return render(request, 'user_library.html', context)
 
 
 
@@ -274,9 +361,14 @@ def remove_friend(request, username):
         try:
             current_profile = request.user.profile
             target_profile = target_user.profile
-            if current_profile.friends.filter(user=target_user).exists():
+            if current_profile.friends.filter(pk=target_profile.pk).exists():
                 current_profile.friends.remove(target_profile)
-                target_profile.friends.remove(current_profile)  # Симетрично
+                target_profile.friends.remove(current_profile)
+                # Очищаємо будь-які запити між ними
+                FriendRequest.objects.filter(
+                    sender__in=[request.user, target_user],
+                    receiver__in=[request.user, target_user]
+                ).delete()
                 messages.success(request, f"{target_user.username} видалений з друзів")
             else:
                 messages.info(request, "Цей користувач не у ваших друзях")
@@ -288,23 +380,49 @@ def remove_friend(request, username):
 
 @login_required
 def send_friend_request(request, username):
-    if request.method == 'POST':
-        target_user = get_object_or_404(User, username=username)
+    if request.method != 'POST':
+        return redirect('profile_by_username', username=username)
 
-        if target_user == request.user:
-            messages.error(request, "Неможливо додати себе в друзі")
+    target_user = get_object_or_404(User, username=username)
+
+    if target_user == request.user:
+        messages.error(request, "Неможливо надіслати запит собі")
+        return redirect('profile_by_username', username=username)
+
+    current_profile = request.user.profile
+    target_profile = target_user.profile
+
+    # 1. Вже друзі?
+    if current_profile.is_friend(target_profile):
+        messages.info(request, f"Ви вже в друзях з {target_user.username}")
+        return redirect('profile_by_username', username=username)
+
+    # 2. Спробуємо знайти або створити запит
+    try:
+        friend_request, created = FriendRequest.objects.get_or_create(
+            sender=request.user,
+            receiver=target_user,
+            defaults={'status': 'pending'}
+        )
+
+        if not created:
+            # Запит вже існує
+            if friend_request.status == 'pending':
+                messages.info(request, "Запит вже відправлено раніше")
+            elif friend_request.status == 'accepted':
+                messages.info(request, "Ви вже в друзях (запит був прийнятий)")
+            elif friend_request.status == 'rejected':
+                # Дозволяємо повторну відправку, оновлюючи статус
+                friend_request.status = 'pending'
+                friend_request.save()
+                messages.success(request, f"Запит у друзі відправлено повторно до {target_user.username}!")
             return redirect('profile_by_username', username=username)
 
-        # Перевіряємо, чи немає вже запиту або дружби
-        if FriendRequest.objects.filter(sender=request.user, receiver=target_user).exists():
-            messages.info(request, "Запит вже відправлено")
-        elif request.user.profile.friends.filter(user=target_user).exists():
-            messages.info(request, "Ви вже друзі")
-        else:
-            FriendRequest.objects.create(sender=request.user, receiver=target_user)
-            messages.success(request, f"Запит у друзі відправлено до {target_user.username}")
+        # Новий запит створено успішно
+        messages.success(request, f"Запит у друзі успішно відправлено до {target_user.username}!")
 
-        return redirect('profile_by_username', username=username)
+    except IntegrityError:
+        messages.info(request, "Запит вже існує (можливо, відправлено паралельно)")
 
     return redirect('profile_by_username', username=username)
 
@@ -329,4 +447,3 @@ def reject_friend_request(request, request_id):
         return redirect('profile_by_username', username=request.user.username)
 
     return redirect('profile_by_username', username=request.user.username)
-
