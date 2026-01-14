@@ -3,75 +3,51 @@ import java.util.Scanner;
 
 /**
  * Лабораторна робота
- * Тема: Рядки в мові програмування Java
- * Мета: Ознайомлення з рядками та використання основних методів їх обробки
- *       в мові програмування Java. Здобуття навичок у використанні рядків
- *       в мові програмування Java.
- *
- * Завдання:
- * - Зчитати текст з клавіатури
- * - У кожному слові залишити останній символ без змін,
- *   а всі попередні символи, що дорівнюють останньому — видалити
- *
+ * c3 = 1, c17 - 16
+ *  Тип = String
+ *  Дія з текстом =  В кожному слові заданого тексту, видалити всі попередні входження останньої літери цього слова.
  * Виконав: Ткаченко Костянтин
  * Група: ІП-з31к
  */
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = null;
-        String inputText;
-        String finalResult;
-        StringBuilder resultBuilder;
-        StringBuilder currentWord;
-        char currentSymbol;
-        int index;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введіть текст: ");
+        String inputText = scanner.nextLine().trim();
 
-        try {
-            scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+        if (inputText.isEmpty()) {
+            System.out.println("порожній рядок");
+            scanner.close();
+            return;
+        }
 
-            System.out.println("введіть текст:");
-            inputText = scanner.nextLine().trim();
+        String result = "";
+        String currentWord = "";
 
-            // Обробка введеного тексту
-            if (inputText.isEmpty()) {
-                finalResult = "";
-            } else {
-                resultBuilder = new StringBuilder();
-                currentWord = new StringBuilder();
+        for (int i = 0; i < inputText.length(); i++) {
+            char ch = inputText.charAt(i);
 
-                for (index = 0; index < inputText.length(); index++) {
-                    currentSymbol = inputText.charAt(index);
-
-                    if (Character.isWhitespace(currentSymbol)) {
-                        if (!currentWord.isEmpty()) {
-                            resultBuilder.append(transformWord(currentWord));
-                            currentWord.setLength(0);
-                        }
-                        resultBuilder.append(currentSymbol);
-                    } else {
-                        currentWord.append(currentSymbol);
-                    }
-                }
-
-                // Обробка останнього слова (якщо є)
+            if (Character.isWhitespace(ch)) {
                 if (!currentWord.isEmpty()) {
-                    resultBuilder.append(transformWord(currentWord));
+                    result += processWord(currentWord);
+                    currentWord = "";
                 }
-
-                finalResult = resultBuilder.toString();
-            }
-
-            System.out.println("результат:");
-            System.out.println(finalResult.isEmpty() ? "(порожній рядок)" : finalResult);
-
-        } catch (Exception e) {
-            System.err.println("Помилка: " + e.getMessage());
-        } finally {
-            if (scanner != null) {
-                scanner.close();
+                result += ch;
+            } else {
+                currentWord += ch;
             }
         }
+
+        // останнє слово
+        if (!currentWord.isEmpty()) {
+            result += processWord(currentWord);
+        }
+
+        System.out.println("Результат:");
+        System.out.println(result);
+
+        scanner.close();
     }
 
     /**
@@ -79,21 +55,23 @@ public class Main {
      * залишає останній символ,
      * видаляє всі попередні входження цього ж символу
      */
-    private static StringBuilder transformWord(StringBuilder word) {
+    private static String processWord(String word) {
         if (word.length() <= 1) {
-            return new StringBuilder(word);
+            return word;
         }
 
         char lastChar = word.charAt(word.length() - 1);
-        StringBuilder transformed = new StringBuilder();
+        String processed = "";
 
         for (int i = 0; i < word.length() - 1; i++) {
-            if (word.charAt(i) != lastChar) {
-                transformed.append(word.charAt(i));
+            char current = word.charAt(i);
+            if (current != lastChar) {
+                processed += current;
             }
         }
 
-        transformed.append(lastChar);
-        return transformed;
+        processed += lastChar;  //  останній символ
+
+        return processed;
     }
 }

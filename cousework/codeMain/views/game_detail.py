@@ -5,17 +5,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from games.aut.models import UserGame
-from games.aut.models import UserList
+from games.aut.models import UserGame, UserList
 
 RAWG_API_KEY = "52cb9ffb113b485299bb0625e7c9b503"
 
 
+# Детальна сторінка гри з даними з RAWG + статус користувача + відгуки друзів
 def game_detail(request, rawg_id):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     }
 
+    # Початковий шаблон даних гри (показується під час завантаження)
     game = {
         'rawg_id': rawg_id,
         'name': 'Завантаження...',
@@ -29,12 +30,12 @@ def game_detail(request, rawg_id):
         'rating': None,
         'metacritic': None,
         'website': None,
-        'screenshots': [],     # ← нові поля
-        'trailers': [],        # ← нові поля
+        'screenshots': [],
+        'trailers': [],
     }
 
     try:
-        # Основні дані гри
+        # Основна інформація про гру
         url = f"https://api.rawg.io/api/games/{rawg_id}?key={RAWG_API_KEY}"
         resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code == 200:
@@ -53,23 +54,22 @@ def game_detail(request, rawg_id):
                 'website': data.get('website'),
             })
 
-        # Скріншоти
-        screenshots_url = f"https://api.rawg.io/api/games/{rawg_id}/screenshots?key={RAWG_API_KEY}"
-        ss_resp = requests.get(screenshots_url, headers=headers, timeout=5)
+        # Завантаження скріншотів (максимум 6)
+        ss_url = f"https://api.rawg.io/api/games/{rawg_id}/screenshots?key={RAWG_API_KEY}"
+        ss_resp = requests.get(ss_url, headers=headers, timeout=5)
         if ss_resp.status_code == 200:
-            game['screenshots'] = [item['image'] for item in ss_resp.json().get('results', [])[:6]]  # беремо перші 6
+            game['screenshots'] = [item['image'] for item in ss_resp.json().get('results', [])[:6]]
 
-        # Трейлери/відео
+        # Завантаження трейлерів (максимум 3)
         movies_url = f"https://api.rawg.io/api/games/{rawg_id}/movies?key={RAWG_API_KEY}"
         movies_resp = requests.get(movies_url, headers=headers, timeout=5)
         if movies_resp.status_code == 200:
-            game['trailers'] = movies_resp.json().get('results', [])[:3]  # до 3 відео
-
+            game['trailers'] = movies_resp.json().get('results', [])[:3]
 
     except Exception as e:
         print(f"Помилка завантаження даних RAWG для ID {rawg_id}: {e}")
 
-    # Статуси та відгуки — фільтруємо по rawg_id
+    # Варіанти статусів для вибору
     status_choices = [
         ('playing', 'Граю'),
         ('completed', 'Пройдено'),
@@ -81,6 +81,7 @@ def game_detail(request, rawg_id):
     has_review = False
 
     if request.user.is_authenticated:
+        # Статус та відгук поточного користувача
         user_game = UserGame.objects.filter(user=request.user, rawg_id=rawg_id).first()
         has_review = bool(user_game and (
             user_game.rating is not None or
@@ -92,6 +93,7 @@ def game_detail(request, rawg_id):
 
     if request.user.is_authenticated:
         try:
+            # Відгуки друзів (останні 10, з виключенням порожніх)
             friends_ids = request.user.profile.friends.values_list('user__id', flat=True)
             friends_reviews = UserGame.objects.filter(
                 user__id__in=friends_ids,
@@ -113,96 +115,77 @@ def game_detail(request, rawg_id):
     })
 
 
-
-
-
-
-
-
-
-
-
-
-
+# Видаляє запис про гру у користувача (статус, оцінку, коментар)
 @login_required
 def delete_game_status(request, rawg_id):
     if request.method == 'POST':
         UserGame.objects.filter(user=request.user, rawg_id=rawg_id).delete()
-    return redirect('game_detail', rawg_id=rawg_id)  # ← змінили параметр
+    return redirect('game_detail', rawg_id=rawg_id)
 
 
+# Оновлює статус гри, оцінку, коментар та додає до списку(ів)
 @login_required
 def update_game_status(request, rawg_id):
-    if request.method == 'POST':
-        status = request.POST.get('status')
-        rating = request.POST.get('rating')
-        comment = request.POST.get('comment', '').strip()
-        list_id = request.POST.get('list_id')
-        new_list_name = request.POST.get('new_list')
+    if request.method != 'POST':
+        return redirect('home')
 
-        # Отримуємо або створюємо запис
-        user_game, created = UserGame.objects.get_or_create(
-            user=request.user,
-            rawg_id=rawg_id
-        )
+    status = request.POST.get('status')
+    rating = request.POST.get('rating')
+    comment = request.POST.get('comment', '').strip()
+    list_id = request.POST.get('list_id')
+    new_list_name = request.POST.get('new_list')
 
-        # Збираємо поля, які потрібно оновити
-        update_fields = []
+    # Отримуємо або створюємо запис
+    user_game, _ = UserGame.objects.get_or_create(
+        user=request.user,
+        rawg_id=rawg_id
+    )
 
-        if status is not None:
-            new_status = status if status and status != 'not_played' else None
-            if user_game.status != new_status:
-                user_game.status = new_status
-                update_fields.append('status')
+    update_fields = []
 
-        if rating is not None:
-            try:
-                new_rating = int(rating)
-                # Рейтинг зазвичай не встановлюють для "У планах", але можна залишити логіку
-                if new_rating >= 1 and new_rating <= 10:  # враховуючи ТЗ 1–10
-                    if user_game.rating != new_rating:
-                        user_game.rating = new_rating
-                        update_fields.append('rating')
-                else:
-                    # можна додати повідомлення про помилку, але поки ігноруємо
-                    pass
-            except (ValueError, TypeError):
-                pass
+    # Оновлення статусу
+    if status is not None:
+        new_status = status if status and status != 'not_played' else None
+        if user_game.status != new_status:
+            user_game.status = new_status
+            update_fields.append('status')
 
-        if comment is not None:  # навіть якщо пустий — можна оновити
-            if user_game.comment != comment:
-                user_game.comment = comment
-                update_fields.append('comment')
+    # Оновлення оцінки (1–10)
+    if rating is not None:
+        try:
+            new_rating = int(rating)
+            if 1 <= new_rating <= 10:
+                if user_game.rating != new_rating:
+                    user_game.rating = new_rating
+                    update_fields.append('rating')
+        except (ValueError, TypeError):
+            pass
 
-        # Якщо були зміни — зберігаємо тільки змінені поля + оновлюємо updated_at
-        if update_fields:
-            # updated_at оновиться автоматично завдяки auto_now=True
-            user_game.save(update_fields=update_fields)
+    # Оновлення коментаря
+    if comment != user_game.comment:
+        user_game.comment = comment
+        update_fields.append('comment')
 
-        # Обробка списків (не впливає на updated_at напряму, але можна додати логіку)
-        if list_id:
-            try:
-                user_list = UserList.objects.get(id=list_id, user=request.user)
-                user_game.lists.add(user_list)
-                # Якщо додавання до списку вважається важливою зміною — можна примусово оновити updated_at
-                # user_game.save(update_fields=['updated_at'])  # але зазвичай не потрібно
-            except UserList.DoesNotExist:
-                pass
+    # Зберігаємо тільки змінені поля
+    if update_fields:
+        user_game.save(update_fields=update_fields)
 
-        elif new_list_name:
-            new_list_name = new_list_name.strip()
-            if new_list_name:
-                user_list, _ = UserList.objects.get_or_create(
-                    user=request.user,
-                    name=new_list_name
-                )
-                user_game.lists.add(user_list)
-                # Аналогічно — можна примусово оновити updated_at якщо потрібно
+    # Додавання до існуючого списку
+    if list_id:
+        try:
+            user_list = UserList.objects.get(id=list_id, user=request.user)
+            user_game.lists.add(user_list)
+        except UserList.DoesNotExist:
+            pass
 
-        return redirect('game_detail', rawg_id=rawg_id)
+    # Створення та додавання нового списку
+    elif new_list_name:
+        new_list_name = new_list_name.strip()
+        if new_list_name:
+            user_list, _ = UserList.objects.get_or_create(
+                user=request.user,
+                name=new_list_name
+            )
+            user_game.lists.add(user_list)
 
-    return redirect('home')
-
-
-
-
+    return redirect('game_detail', rawg_id=rawg_id)

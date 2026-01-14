@@ -237,7 +237,6 @@
                                     <label class="cursor-pointer ml-10">
                                         <input type="radio" name="rating" value=""
                                                {% if not user_game.rating %}checked{% endif %} class="hidden">
-                                        <span class="text-gray-500 hover:text-gray-400 transition text-lg">Без оцінки</span>
                                     </label>
                                 </div>
                             </div>
@@ -497,6 +496,36 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('rating-block')?.classList.add('hidden');
             document.getElementById('planned-message')?.classList.remove('hidden');
         }
+    }
+
+
+
+    // Валідація форми перед відправкою
+    const reviewForm = document.querySelector('#review-form form');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', function (e) {
+            const statusInput = document.querySelector('input[name="status"]:checked');
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+
+            let errors = [];
+
+            if (!statusInput) {
+                errors.push("Обов’язково оберіть статус гри!");
+            }
+
+            // Якщо статус не "planned" — оцінка обов’язкова
+            if (statusInput && statusInput.value !== 'planned') {
+                if (!ratingInput || ratingInput.value === '') {
+                    errors.push("Поставте оцінку (1–5 зірок)!");
+                }
+            }
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert(errors.join('\n'));
+
+            }
+        });
     }
 });
 </script>

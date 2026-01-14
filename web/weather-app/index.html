@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Погода в місті</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">Погода в місті</div>
+
+        <nav class="nav-menu">
+            <form id="search-form" class="search-form">
+                <input
+                        type="text"
+                        id="city-input"
+                        placeholder="Введіть місто (наприклад, Київ)"
+                        autocomplete="off"
+                        required
+                />
+                <button type="submit">Пошук</button>
+            </form>
+
+            <div class="burger" id="burger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+<main class="container main-content">
+    <section class="intro">
+        <h2>Дізнайтесь погоду в будь-якому місті світу</h2>
+        <p>Введіть назву міста у пошуку вище</p>
+    </section>
+
+    <div id="current-weather" class="weather-card hidden">
+    </div>
+
+    <div id="forecast" class="forecast-grid hidden">
+    </div>
+
+    <div id="favorites" class="favorites-list">
+        <h3>Улюблені міста</h3>
+        <div id="favorites-buttons"></div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Погода в місті | Дані: <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a></p>
+    </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
