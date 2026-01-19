@@ -1,10 +1,15 @@
-// src/components/ExpenseForm.jsx
 import { useState, useEffect } from 'react';
 import { useExpenses } from '../context/ExpenseContext';
 import toast from "react-hot-toast";
 
 export default function ExpenseForm() {
-    const { addExpense, categories, addCategory } = useExpenses();
+    const {
+        addOperation,
+        expenseCategories,
+        incomeCategories,
+        addExpenseCategory,
+        addIncomeCategory
+    } = useExpenses();
 
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
@@ -12,16 +17,18 @@ export default function ExpenseForm() {
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [newCategory, setNewCategory] = useState('');
+    const [type, setType] = useState('expense');
 
-    // Критичний фікс: завжди тримаємо category в актуальному стані
+    const categories = type === 'expense' ? expenseCategories : incomeCategories;
+    const addNewCategory = type === 'expense' ? addExpenseCategory : addIncomeCategory;
+
     useEffect(() => {
         if (categories.length > 0) {
-            // Якщо поточна категорія видалена або ще не встановлена — беремо першу
             if (!category || !categories.includes(category)) {
                 setCategory(categories[0]);
             }
         }
-    }, [categories, category]);
+    }, [categories, category, type]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,37 +42,29 @@ export default function ExpenseForm() {
             return;
         }
 
-        addExpense({
+        addOperation({
             amount: Number(amount),
             category,
             date,
             description: description.trim() || '—',
+            type,
         });
 
-        // Скидаємо форму
         setAmount('');
         setDescription('');
-        setDate(new Date().toISOString().slice(0, 10));
         setError('');
-
-        toast.success(`Витрату додано: ${amount} грн (${category})`, { duration: 3500 });
-
+        toast.success(`${type === 'expense' ? 'Витрату' : 'Дохід'} додано: ${amount} грн (${category})`);
     };
 
     const handleAddCategory = (e) => {
         e.preventDefault();
         const trimmed = newCategory.trim();
+        if (!trimmed) return;
 
-        if (trimmed && !categories.includes(trimmed)) {
-            addCategory(trimmed);
-            setNewCategory('');
-            toast.success(`Категорію додано: ${trimmed}`, { icon: '✨' });
-        } else if (categories.includes(trimmed)) {
-            setCategory(trimmed);   // якщо вже існує — просто вибираємо
-            setNewCategory('');
-        }
-
-
+        addNewCategory(trimmed);
+        setCategory(trimmed);
+        setNewCategory('');
+        toast.success(`Категорію додано: ${trimmed}`);
     };
 
     return (
@@ -78,96 +77,107 @@ export default function ExpenseForm() {
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Сума */}
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Тип операції</label>
+                        <div className="flex gap-8">
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    value="expense"
+                                    checked={type === 'expense'}
+                                    onChange={(e) => setType(e.target.value)}
+                                    className="form-radio"
+                                />
+                                Витрата
+                            </label>
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="radio"
+                                    value="income"
+                                    checked={type === 'income'}
+                                    onChange={(e) => setType(e.target.value)}
+                                    className="form-radio"
+                                />
+                                Дохід
+                            </label>
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Сума (грн)
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Сума (грн)</label>
                         <input
                             type="number"
                             step="0.01"
                             min="0.01"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            placeholder="125.50"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                            placeholder="1250.00"
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500"
                             required
                         />
                     </div>
 
-                    {/* Категорія */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Категорія
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Категорія</label>
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                            className="w-full px-4 py-3 border rounded-lg bg-white focus:ring-2 focus:ring-indigo-500"
                         >
-                            {categories.map((cat) => (
-                                <option key={cat} value={cat}>
-                                    {cat}
-                                </option>
+                            {categories.map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
                             ))}
                         </select>
                     </div>
 
-                    {/* Дата */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Дата
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Дата</label>
                         <input
                             type="date"
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500"
                             required
                         />
                     </div>
 
-                    {/* Опис */}
                     <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Опис (необов'язково)
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Опис (необов’язково)</label>
                         <input
                             type="text"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Наприклад: Кава з друзями"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                            placeholder="Наприклад: Зарплата за січень"
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg transition shadow-lg transform hover:-translate-y-0.5"
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg transition"
                 >
-                    Додати витрату
+                    Додати {type === 'expense' ? 'витрату' : 'дохід'}
                 </button>
             </form>
 
-            {/* Додати нову категорію */}
             <div className="pt-8 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                    Додати нову категорію
+                <h3 className="text-sm font-medium text-gray-700 mb-2">
+                    Додати нову категорію для {type === 'expense' ? 'витрат' : 'доходів'}
                 </h3>
                 <form onSubmit={handleAddCategory} className="flex flex-col sm:flex-row gap-3">
                     <input
                         type="text"
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
-                        placeholder="Наприклад: Подорожі, Книги, Спорт..."
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                        placeholder={type === 'expense' ? "Наприклад: Подорожі, Кафе..." : "Наприклад: Премія, Депозит..."}
+                        className="flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500"
                     />
                     <button
                         type="submit"
-                        className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition shadow-md"
+                        className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg"
                     >
-                        Додати категорію
+                        Додати
                     </button>
                 </form>
             </div>

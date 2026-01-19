@@ -1,5 +1,5 @@
-// src/context/ExpenseContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
+import toast from "react-hot-toast";
 
 const ExpenseContext = createContext();
 
@@ -9,9 +9,19 @@ export function ExpenseProvider({ children }) {
         return saved ? JSON.parse(saved) : [];
     });
 
-    const [categories, setCategories] = useState(() => {
-        const saved = localStorage.getItem('categories');
-        return saved ? JSON.parse(saved) : ['Їжа', 'Транспорт', 'Розваги', 'Комуналка', 'Інше'];
+    const [expenseCategories, setExpenseCategories] = useState(() => {
+        const saved = localStorage.getItem('expenseCategories');
+        return saved ? JSON.parse(saved) : ['Їжа', 'Транспорт', 'Розваги', 'Комуналка', 'Здоров’я', 'Одяг', 'Інше'];
+    });
+
+    const [incomeCategories, setIncomeCategories] = useState(() => {
+        const saved = localStorage.getItem('incomeCategories');
+        return saved ? JSON.parse(saved) : ['Зарплата', 'Фріланс', 'Подарунки', 'Продаж', 'Інвестиції', 'Повернення боргу', 'Інше'];
+    });
+
+    const [balance, setBalance] = useState(() => {
+        const saved = localStorage.getItem('balance');
+        return saved ? Number(saved) : 0;
     });
 
     useEffect(() => {
@@ -19,44 +29,95 @@ export function ExpenseProvider({ children }) {
     }, [expenses]);
 
     useEffect(() => {
-        localStorage.setItem('categories', JSON.stringify(categories));
-    }, [categories]);
+        localStorage.setItem('expenseCategories', JSON.stringify(expenseCategories));
+    }, [expenseCategories]);
 
-    const addExpense = (newExpense) => {
-        setExpenses(prev => [...prev, { ...newExpense, id: Date.now() }]);
-    };
+    useEffect(() => {
+        localStorage.setItem('incomeCategories', JSON.stringify(incomeCategories));
+    }, [incomeCategories]);
 
-    const deleteExpense = (id) => {
-        setExpenses(prev => prev.filter(exp => exp.id !== id));
-    };
+    useEffect(() => {
+        localStorage.setItem('balance', balance.toString());
+    }, [balance]);
 
-    const addCategory = (newCategory) => {
-        if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-            setCategories(prev => [...prev, newCategory.trim()]);
+    const addOperation = (newOperation) => {
+        setExpenses(prev => [...prev, { ...newOperation, id: Date.now() }]);
+
+        if (newOperation.type === 'expense') {
+            setBalance(prev => prev - newOperation.amount);
+        } else if (newOperation.type === 'income') {
+            setBalance(prev => prev + newOperation.amount);
         }
     };
 
-    const deleteCategory = (categoryToDelete) => {
-        // Якщо видаляємо "Інше" — забороняємо (бо це резервна)
-        if (categoryToDelete === 'Інше') {
+    const deleteOperation = (id) => {
+        const op = expenses.find(o => o.id === id);
+        if (op) {
+            if (op.type === 'expense') {
+                setBalance(prev => prev + op.amount);
+            } else if (op.type === 'income') {
+                setBalance(prev => prev - op.amount);
+            }
+        }
+        setExpenses(prev => prev.filter(o => o.id !== id));
+    };
+
+    const addExpenseCategory = (newCat) => {
+        const trimmed = newCat.trim();
+        if (trimmed && !expenseCategories.includes(trimmed)) {
+            setExpenseCategories(prev => [...prev, trimmed]);
+        }
+    };
+
+    const addIncomeCategory = (newCat) => {
+        const trimmed = newCat.trim();
+        if (trimmed && !incomeCategories.includes(trimmed)) {
+            setIncomeCategories(prev => [...prev, trimmed]);
+        }
+    };
+
+    const deleteExpenseCategory = (cat) => {
+        if (cat === 'Інше') {
+            toast.error('Категорію "Інше" не можна видалити');
             return;
         }
+        setExpenseCategories(prev => prev.filter(c => c !== cat));
+        setExpenses(prev => prev.filter(e => !(e.type === 'expense' && e.category === cat)));
+    };
 
-        // Переводимо всі витрати з видаленої категорії в "Інше"
-        setExpenses(prev =>
-            prev.map(exp =>
-                exp.category === categoryToDelete
-                    ? { ...exp, category: 'Інше' }
-                    : exp
-            )
-        );
+    const deleteIncomeCategory = (cat) => {
+        if (cat === 'Інше') {
+            toast.error('Категорію "Інше" не можна видалити');
+            return;
+        }
+        setIncomeCategories(prev => prev.filter(c => c !== cat));
+        setExpenses(prev => prev.filter(e => !(e.type === 'income' && e.category === cat)));
+    };
 
-        // Видаляємо категорію зі списку
-        setCategories(prev => prev.filter(cat => cat !== categoryToDelete));
+    const setManualBalance = (newBalance) => {
+        const val = Number(newBalance);
+        if (!isNaN(val)) {
+            setBalance(val);
+            toast.success(`Баланс встановлено: ${val.toFixed(2)} грн`);
+        } else {
+            toast.error('Некоректне значення');
+        }
     };
 
     return (
-        <ExpenseContext.Provider value={{ expenses, categories, addExpense, deleteExpense, addCategory, deleteCategory }}>
+        <ExpenseContext.Provider value={{
+            expenses,
+            expenseCategories,
+            incomeCategories,
+            balance,
+            addOperation,
+            deleteOperation,
+            addExpenseCategory,
+            addIncomeCategory,
+            deleteExpenseCategory,
+            deleteIncomeCategory,
+            setManualBalance
+        }}>
             {children}
         </ExpenseContext.Provider>
     );

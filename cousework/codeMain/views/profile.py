@@ -102,7 +102,7 @@ def profile(request, username):
     return render(request, 'profile.html', context)
 
 
-# Перевірка, чи є два профілі в друзях (метод моделі Profile)
+# Перевірка, чи є два профілі в друзях
 def is_friend(self, other_profile):
     return self.friends.filter(pk=other_profile.pk).exists()
 
@@ -144,7 +144,7 @@ def user_lists_all(request, username):
     return render(request, 'user_lists_all.html', context)
 
 
-# Повна бібліотека ігор користувача (всі статуси)
+# Повна бібліотека ігор користувача
 def user_library(request, username):
     profile_user = get_object_or_404(User, username=username)
     is_own_profile = request.user.is_authenticated and request.user == profile_user
@@ -193,7 +193,7 @@ def user_library(request, username):
     return render(request, 'user_library.html', context)
 
 
-# Перемикання приватності списку (тільки власник)
+# Перемикання приватності списку
 @login_required
 def toggle_list_privacy(request, list_id):
     if request.method == 'POST':

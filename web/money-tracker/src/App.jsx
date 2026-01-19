@@ -1,11 +1,12 @@
 // src/App.jsx
 import { useState, useEffect } from 'react';
-import { Toaster } from 'react-hot-toast'; // ← додаємо
+import { Toaster } from 'react-hot-toast';
 import LoginForm from './components/LoginForm';
 import TabNavigation from './components/TabNavigation';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import ExpenseStats from './components/ExpenseStats';
+import BalanceControl from './components/BalanceControl'; // ← новий компонент
 import { ExpenseProvider } from './context/ExpenseContext';
 
 export default function App() {
@@ -19,7 +20,6 @@ export default function App() {
 
     const handleLogin = () => {
         setIsAuthenticated(true);
-        // Уведомлення при вході
         import('react-hot-toast').then(({ toast }) => {
             toast.success('Успішний вхід!', { duration: 3000 });
         });
@@ -30,7 +30,6 @@ export default function App() {
         localStorage.removeItem('username');
         setIsAuthenticated(false);
         setActiveTab('add');
-        // Уведомлення при виході
         import('react-hot-toast').then(({ toast }) => {
             toast('Ви вийшли з системи', { icon: '👋', duration: 3000 });
         });
@@ -66,14 +65,14 @@ export default function App() {
                     <div className="bg-white rounded-xl shadow border border-gray-100 p-7 md:p-9 min-h-[400px]">
                         {activeTab === 'add' && (
                             <>
-                                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Додати витрату</h2>
+                                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Додати операцію</h2>
                                 <ExpenseForm />
                             </>
                         )}
 
                         {activeTab === 'list' && (
                             <>
-                                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Список витрат</h2>
+                                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Список операцій</h2>
                                 <ExpenseList />
                             </>
                         )}
@@ -84,6 +83,13 @@ export default function App() {
                                 <ExpenseStats />
                             </>
                         )}
+
+                        {activeTab === 'balance' && (
+                            <>
+                                <h2 className="text-2xl font-semibold mb-6 text-gray-800">Керування балансом</h2>
+                                <BalanceControl />
+                            </>
+                        )}
                     </div>
                 </main>
 
@@ -92,7 +98,6 @@ export default function App() {
                 </footer>
             </div>
 
-            {/* Тут додаємо контейнер для тостів */}
             <Toaster
                 position="top-right"
                 toastOptions={{
