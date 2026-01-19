@@ -1,82 +1,154 @@
 {% extends "base.html" %}
 
-{% block title %}Пошук: {{ query }} – GamingLibrary{% endblock %}
+{% block title %}Пошук: {{ query|default:"Ігри та користувачі" }} – Ігрова Бібліотека{% endblock %}
 
 {% block content %}
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <h1 class="text-4xl font-bold text-white mb-2">Результати пошуку</h1>
-        <p class="text-xl text-gray-400 mb-8">За запитом: <span class="text-white font-medium">{{ query }}</span></p>
+<div class="min-h-screen pt-10 px-4 pb-20 bg-gradient-to-b from-gray-900 to-black" xmlns:genre_id xmlns:genre_id
+     xmlns:genre_id xmlns:genre_id xmlns:genre_id xmlns:genre_id xmlns:genre_id>
+    <div class="w-full max-w-7xl mx-auto">
 
-        {% if has_results %}
-            <div class="flex gap-4 mb-8">
-                <button onclick="showTab('all')" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition active-tab" id="tab-all">Всі</button>
-                <button onclick="showTab('games')" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition" id="tab-games">Ігри</button>
-                <button onclick="showTab('users')" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition" id="tab-users">Користувачі</button>
-            </div>
-
-            {% if games_results %}
-                <section id="games-section" class="mb-16">
-                    <h2 class="text-3xl font-bold text-white mb-6">Ігри</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                        {% for game in games_results %}
-                            <a href="{% url 'game_detail' game.id %}"
-                               class="group relative bg-gray-800/50 rounded-xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all duration-300 cursor-pointer transform hover:scale-105">
-                                <img src="{{ game.background_image|default:'https://via.placeholder.com/460x215?text=No+Image' }}"
-                                     alt="{{ game.name }}" class="w-full h-64 object-cover">
-                                <div class="p-4">
-                                    <h3 class="text-white font-semibold text-sm truncate">{{ game.name }}</h3>
-                                </div>
-                            </a>
-                        {% endfor %}
+        <div class="bg-gray-800/80 backdrop-blur-md rounded-2xl p-8 mb-12 border border-gray-700 shadow-2xl">
+            <h1 class="text-4xl font-bold text-white mb-6 text-center">Пошук в Ігровій Бібліотеці</h1>
+            <form method="get" action="{% url 'search' %}" class="flex flex-col md:flex-row gap-4 items-end">
+                <div class="flex-1">
+                    <label for="q" class="block text-gray-300 mb-2 font-medium">Назва гри або користувача</label>
+                    <input type="text" name="q" id="q" value="{{ query }}" placeholder="Наприклад: Witcher..." class="w-full px-5 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+                <div class="flex gap-4">
+                    <div>
+                        <label for="year_from" class="block text-gray-300 mb-2 font-medium text-sm">Від року</label>
+                        <input type="number" name="year_from" id="year_from" value="{{ year_from }}" placeholder="Напр. 2015" min="1980" max="2030" class="w-32 px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
-                </section>
+                    <div>
+                        <label for="year_to" class="block text-gray-300 mb-2 font-medium text-sm">До року</label>
+                        <input type="number" name="year_to" id="year_to" value="{{ year_to }}" placeholder="Напр. 2025" min="1980" max="2030" class="w-32 px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <button type="submit" class="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl transition shadow-lg hover:shadow-indigo-700/50 transform hover:scale-[1.02]">
+                    Шукати
+                </button>
+            </form>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-10">
+            {% if not users_results %}
+            <aside class="lg:w-80 flex-shrink-0" id="genres-sidebar">
+                <div class="bg-gray-800/80 backdrop-blur-md rounded-2xl p-6 border border-gray-700 shadow-2xl sticky top-10">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-6">Фільтр за жанрами</h2>
+                    <form method="get" action="{% url 'search' %}" id="genres-form">
+                        <input type="hidden" name="q" value="{{ query }}">
+                        <input type="hidden" name="year_from" value="{{ year_from }}">
+                        <input type="hidden" name="year_to" value="{{ year_to }}">
+                        <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-gray-800">
+                            {% for genre_id, genre_name in genres_choices %}
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" name="genres" value="{{ genre_id }}" {% if genre_id|stringformat:"s" in genres_list %}checked{% endif %} class="w-5 h-5 accent-indigo-600 bg-gray-900 border-gray-600 rounded focus:ring-indigo-500" onchange="this.form.submit()">
+                                <span class="text-gray-200 group-hover:text-indigo-300 transition">{{ genre_name }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+            </aside>
             {% endif %}
 
-            {% if users_results %}
-                <section id="users-section">
-                    <h2 class="text-3xl font-bold text-white mb-6">Користувачі</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                        {% for user in users_results %}
-                            <a href="{% url 'profile_by_username' user.username %}"
-                               class="group bg-gray-800/70 rounded-2xl p-6 border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:scale-105 text-center">
-                                <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-2xl">
-                                    {{ user.username|slice:":1"|upper }}
-                                </div>
-                                <h3 class="text-white font-semibold text-lg truncate">{{ user.username }}</h3>
-                                <p class="text-gray-400 text-sm">Друзів: {{ user.profile.friends.count }}</p>
-                            </a>
-                        {% endfor %}
+            <main class="flex-1">
+                {% if has_results or error_message %}
+                    <h2 class="text-3xl font-bold text-white mb-8">
+                        Результати {% if query %}за «{{ query }}»{% endif %}
+                        {% if genres_list %} (жанри: {% for gid in genres_list %}{% for id, name in genres_choices %}{% if id|stringformat:"s" == gid %}{{ name }}{% endif %}{% endfor %}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
+                        {% if year_from or year_to %} (роки: {% if year_from %}{{ year_from }}{% else %}---{% endif %}–{% if year_to %}{{ year_to }}{% else %}---{% endif %}){% endif %}
+                    </h2>
+
+                    {% if error_message %}
+                        <div class="bg-red-900/50 border border-red-700 text-red-200 p-6 rounded-2xl mb-10 text-center">{{ error_message }}</div>
+                    {% endif %}
+
+                    {% if has_results %}
+                        <div class="flex gap-4 mb-10">
+                            <button onclick="showTab('all')" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition" id="tab-all">Всі</button>
+                            <button onclick="showTab('games')" class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition" id="tab-games">Ігри</button>
+                            <button onclick="showTab('users')" class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition" id="tab-users">Користувачі</button>
+                        </div>
+
+                        <section id="games-section" class="mb-20" {% if users_results and not games_results %}style="display:none;"{% endif %}>
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-6">Ігри (популярні перші)</h3>
+                            {% if games_results %}
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-12">
+                                {% for game in games_results %}
+                                <a href="{% url 'game_detail' game.id %}" class="group relative bg-gray-800/70 rounded-2xl overflow-hidden border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-900/40 transform hover:scale-[1.03]">
+                                    <img src="{{ game.background_image|default:'https://via.placeholder.com/460x215?text=No+Image' }}" alt="{{ game.name }}" class="w-full h-64 object-cover">
+                                    <div class="p-4">
+                                        <h4 class="text-white font-semibold text-base truncate">{{ game.name }}</h4>
+                                        {% if game.released %}<p class="text-gray-400 text-sm">Рік: {{ game.released|slice:":4" }}</p>{% endif %}
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="flex justify-center items-center gap-6 mt-12">
+                                {% if has_prev %}
+                                <a href="?page={{ page|add:'-1' }}{% if query %}&q={{ query }}{% endif %}{% for g in genres_list %}&genres={{ g }}{% endfor %}{% if year_from %}&year_from={{ year_from }}{% endif %}{% if year_to %}&year_to={{ year_to }}{% endif %}" class="px-8 py-4 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition">← Попередня</a>
+                                {% endif %}
+
+                                <span class="px-6 py-4 bg-indigo-900/70 text-indigo-200 font-bold rounded-xl text-lg">Сторінка {{ page }} з {{ total_pages }}</span>
+
+                                {% if has_next %}
+                                <a href="?page={{ page|add:'1' }}{% if query %}&q={{ query }}{% endif %}{% for g in genres_list %}&genres={{ g }}{% endfor %}{% if year_from %}&year_from={{ year_from }}{% endif %}{% if year_to %}&year_to={{ year_to }}{% endif %}" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition">Наступна →</a>
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            <p class="text-center text-gray-400 text-xl">Ігор за цими критеріями не знайдено</p>
+                            {% endif %}
+                        </section>
+
+                        <section id="users-section" {% if not users_results %}style="display:none;"{% endif %}>
+                            <h3 class="text-2xl font-semibold text-indigo-400 mb-6">Користувачі ({{ users_results|length }})</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                                {% for user in users_results %}
+                                <a href="{% url 'profile_by_username' user.username %}" class="group bg-gray-800/70 rounded-2xl p-6 border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:shadow-xl text-center">
+                                    <div class="w-28 h-28 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-5xl font-bold shadow-lg group-hover:shadow-2xl transition-shadow">
+                                        {{ user.username|slice:":1"|upper }}
+                                    </div>
+                                    <h4 class="text-white font-semibold text-xl truncate">{{ user.username }}</h4>
+                                    <p class="text-gray-400 text-sm mt-1">Друзів: {{ user.profile.friends.count|default:0 }}</p>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    {% endif %}
+
+                {% else %}
+                    <div class="text-center py-40 text-gray-500">
+                        <p class="text-3xl">Введіть запит або оберіть жанр/роки для пошуку</p>
                     </div>
-                </section>
-            {% endif %}
-        {% else %}
-            <div class="text-center py-20 text-gray-400">
-                <div class="text-8xl mb-6">🔍</div>
-                <p class="text-3xl font-medium mb-4">Нічого не знайдено</p>
-                <p class="text-xl">Спробуйте інший запит або перевірте правопис</p>
-            </div>
-        {% endif %}
+                {% endif %}
+            </main>
+        </div>
     </div>
+</div>
 
-    <script>
-        // Перемикає вкладки "Всі / Ігри / Користувачі" — показує/ховає відповідні секції та підсвічує активну кнопку
-        function showTab(tab) {
-            const gamesSection = document.getElementById('games-section');
-            const usersSection = document.getElementById('users-section');
+<script>
+    function showTab(tab) {
+        const games = document.getElementById('games-section');
+        const users = document.getElementById('users-section');
+        if (!games || !users) return;
 
-            document.querySelectorAll('button[id^="tab-"]').forEach(btn => btn.classList.replace('bg-indigo-600', 'bg-gray-700'));
-            document.getElementById(`tab-${tab}`).classList.replace('bg-gray-700', 'bg-indigo-600');
+        document.querySelectorAll('button[id^="tab-"]').forEach(btn => {
+            btn.classList.remove('bg-indigo-600');
+            btn.classList.add('bg-gray-700');
+        });
+        document.getElementById(`tab-${tab}`).classList.remove('bg-gray-700');
+        document.getElementById(`tab-${tab}`).classList.add('bg-indigo-600');
 
-            if (tab === 'all') {
-                if (gamesSection) gamesSection.style.display = 'block';
-                if (usersSection) usersSection.style.display = 'block';
-            } else if (tab === 'games') {
-                if (gamesSection) gamesSection.style.display = 'block';
-                if (usersSection) usersSection.style.display = 'none';
-            } else if (tab === 'users') {
-                if (gamesSection) gamesSection.style.display = 'none';
-                if (usersSection) usersSection.style.display = 'block';
-            }
-        }
-    </script>
+        games.style.display = (tab === 'all' || tab === 'games') ? 'block' : 'none';
+        users.style.display = (tab === 'all' || tab === 'users') ? 'block' : 'none';
+    }
+
+    {% if users_results and not games_results %}
+    showTab('users');
+    {% else %}
+    showTab('all');
+    {% endif %}
+</script>
 {% endblock %}

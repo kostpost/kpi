@@ -5,6 +5,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from games.aut.models import UserGame, UserList, FriendRequest, Profile
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.contrib import messages
+
 import requests
 
 RAWG_API_KEY = "52cb9ffb113b485299bb0625e7c9b503"
@@ -191,6 +195,20 @@ def user_library(request, username):
     }
 
     return render(request, 'user_library.html', context)
+
+
+@login_required
+def upload_avatar(request):
+    if request.method == 'POST' and 'avatar' in request.FILES:
+        profile = request.user.profile
+        profile.avatar = request.FILES['avatar']
+        profile.save()
+        messages.success(request, 'Аватар успішно оновлено!')
+    else:
+        messages.error(request, 'Не вдалося завантажити аватар. Спробуйте ще раз.')
+
+    return redirect('profile_by_username', username=request.user.username)
+
 
 
 # Перемикання приватності списку

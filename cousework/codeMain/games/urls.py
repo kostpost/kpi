@@ -1,14 +1,15 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views  # ← це обов'язково!
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
-# Імпортуємо всі потрібні функції-представлення
-# (припускаю, що вони знаходяться в games/views.py)
+
 from views import (
-    home,  # головна сторінка
-    game_detail,  # деталі гри
-    profile,  # профіль
+    home,
+    game_detail,
+    profile,
     aut,
-    search,  # реєстрація (твоя функція)
+    search,
     listView,
     friendView,
 )
@@ -27,6 +28,8 @@ urlpatterns = [
     path('profile/<str:username>/library/', profile.user_library, name='user_library'),
     path('profile/<str:username>/lists/', profile.user_lists_all, name='user_lists_all'),
     path('profile/<str:username>/friends/', profile.user_friends_all, name='user_friends_all'),
+    path('upload-avatar/', profile.upload_avatar, name='upload_avatar'),
+    path('list/<int:list_id>/toggle-privacy/', profile.toggle_list_privacy, name='toggle_list_privacy'),
 
     path('register/', aut.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
@@ -39,7 +42,6 @@ urlpatterns = [
     path('list/<int:list_id>/remove/<int:rawg_id>/', listView.remove_from_list, name='remove_from_list'),
     path('list/<int:list_id>/rename/', listView.rename_list, name='rename_list'),
 
-    path('list/<int:list_id>/toggle-privacy/', profile.toggle_list_privacy, name='toggle_list_privacy'),
 
     path('profile/<str:username>/add-friend/', friendView.add_friend, name='add_friend'),
     path('profile/<str:username>/remove-friend/', friendView.remove_friend, name='remove_friend'),
@@ -47,4 +49,6 @@ urlpatterns = [
     path('friend-request/<int:request_id>/accept/', friendView.accept_friend_request, name='accept_friend_request'),
     path('friend-request/<int:request_id>/reject/', friendView.reject_friend_request, name='reject_friend_request'),
 
-]
+
+
+]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

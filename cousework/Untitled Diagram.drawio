@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
   <diagram name="Page-1" id="wWI8zqpngaLlSFEZjRu-">
-    <mxGraphModel dx="1139" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="984" dy="572" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -776,124 +776,380 @@
         <mxCell id="dwMFxt2Nj9RpzsBEEbz1-343" value="Авторизований користувач" style="text;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="2875" y="4160" width="180" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-1" target="PeKUGTLvkgcdNLd0aYLF-2">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-1" target="PeKUGTLvkgcdNLd0aYLF-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-1" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Користувач&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-1" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Користувач&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3670" y="880" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-2" target="PeKUGTLvkgcdNLd0aYLF-3">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-2" target="PeKUGTLvkgcdNLd0aYLF-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-2" target="PeKUGTLvkgcdNLd0aYLF-8">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-2" target="PeKUGTLvkgcdNLd0aYLF-8" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-2" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Ігрова бібліотека&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;(Веб-застосунок)&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django + sqlite&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-2" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Ігрова бібліотека&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;(Веб-застосунок)&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django + sqlite&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3660" y="1000" width="140" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-3" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;RAWG API&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-3" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;RAWG API&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3670" y="1130" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-6" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;запитує дані про ігри (HTTPS/JSON)&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-6" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;запитує дані про ігри (HTTPS/JSON)&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="3745" y="1090" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-7" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;HTTP-запити / отримує відповіді&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-7" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;HTTP-запити / отримує відповіді&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="3730" y="960" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-8" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;База даних&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-8" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;База даних&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="3960" y="1010" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-10" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;зберігає/зчитує дані користувача&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-10" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;зберігає/зчитує дані користувача&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="3840" y="1010" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-12" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Web Browse&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="4550" y="880" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-13" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Web Application&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="4550" y="1050" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-14" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;База даних&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="4890" y="1050" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-15" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;RAWG API&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="4280" y="1050" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-16" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;надсилає HTTP/HTTPS-запити, отримує HTML+CSS+JS&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="4610" y="975" width="200" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-17" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-13">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="4560" y="970" as="sourcePoint" />
-            <mxPoint x="4610" y="940" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-18" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;виконує SQL-запити (через ORM)&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;повертає результати запитів&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="4680" y="1040" width="210" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-19" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;надсилає HTTPS-запити, отримує JSON&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="4410" y="1040" width="130" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-21" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="PeKUGTLvkgcdNLd0aYLF-13">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="4400" y="1080" as="sourcePoint" />
-            <mxPoint x="4450" y="1030" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-22" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="PeKUGTLvkgcdNLd0aYLF-14">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="4670" y="1080" as="sourcePoint" />
-            <mxPoint x="4720" y="1030" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-25">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-25" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="3885" y="1460" />
+              <mxPoint x="3780" y="1460" />
               <mxPoint x="3580" y="1460" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-26">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-26" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="3885" y="1460" />
+              <mxPoint x="3780" y="1460" />
               <mxPoint x="3780" y="1460" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-27">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-27" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="3885" y="1460" />
+              <mxPoint x="3780" y="1460" />
               <mxPoint x="3980" y="1460" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-23" target="PeKUGTLvkgcdNLd0aYLF-28">
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-23" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Web Application&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3720" y="1330" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-25" target="BKzxWGzRPLaszDyVgbMm-69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-25" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;models&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;User&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Profile&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;FriendRequest&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3520" y="1540" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-26" target="BKzxWGzRPLaszDyVgbMm-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-26" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;UserGame&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;UserList&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3720" y="1540" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PeKUGTLvkgcdNLd0aYLF-27" target="BKzxWGzRPLaszDyVgbMm-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PeKUGTLvkgcdNLd0aYLF-27" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;views&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;search&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;home&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="3920" y="1540" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-1" target="BKzxWGzRPLaszDyVgbMm-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-1" value="&lt;span style=&quot;text-align: left; text-wrap-mode: wrap;&quot;&gt;Авторизований користувач&lt;/span&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="3230" y="4990" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-2" target="BKzxWGzRPLaszDyVgbMm-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-2" value="Авторизація" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="4980" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-3" value="Реєстрація" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5070" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-4" value="Неавторизований користувач" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="3230" y="5290" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-5" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Управління друзями &lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3720" y="4980" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-6" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Перегляд відгуків друзів на сторінці гри&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-7" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Перегляд головної сторінки&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5250" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-8" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Пошук ігор&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-9" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Перегляд детальної сторінки гри&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5430" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-10" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Перегляд публічних профілів та списків&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3460" y="5520" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-11" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Створення / редагування списків&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4000" y="4860" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-12" target="BKzxWGzRPLaszDyVgbMm-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-12" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Написання відгуку&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3720" y="5100" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-14" target="BKzxWGzRPLaszDyVgbMm-27">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="3885" y="1460" />
-              <mxPoint x="4180" y="1460" />
+              <mxPoint x="3890" y="4810" />
+              <mxPoint x="3890" y="4720" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-23" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Web Application&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="3825" y="1380" width="120" height="60" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-14" target="BKzxWGzRPLaszDyVgbMm-15">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-25" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Authentication&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;login&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;register&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;logout&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="3520" y="1540" width="120" height="110" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-14" target="BKzxWGzRPLaszDyVgbMm-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3890" y="4810" />
+              <mxPoint x="3890" y="4900" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-26" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Search&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;search.py&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;RAWG search&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="3720" y="1540" width="120" height="60" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-14" value="Створення списків" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3730" y="4770" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-27" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Profile&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;profile.py&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;friends&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;lists&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="3920" y="1540" width="120" height="60" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-15" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Додавання гри до списків&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3995" y="4770" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-28" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="4120" y="1540" width="120" height="60" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-16" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5270" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="PeKUGTLvkgcdNLd0aYLF-33" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Моделі (Django Models)&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;User, Profile&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;UserGame, UserList, FriendRequest&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="3807.5" y="1730" width="155" height="90" as="geometry" />
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-17" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-18" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-19" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3460" y="5290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-20" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-22" value="" style="endArrow=classic;html=1;rounded=0;entryX=-0.003;entryY=0.435;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-23" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3280" y="5320" as="sourcePoint" />
+            <mxPoint x="3330" y="5265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-25" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Редагування відгуку&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3920" y="5100" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-27" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Видаляти гри зі списку&lt;/p&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4000" y="4680" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-28" value="Міняти аватарку" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3720" y="5220" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-31" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3580" y="5020" as="sourcePoint" />
+            <mxPoint x="3630" y="4970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-35" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-12">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3580" y="5020" as="sourcePoint" />
+            <mxPoint x="3630" y="4970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-36" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="BKzxWGzRPLaszDyVgbMm-28">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="3580" y="5020" as="sourcePoint" />
+            <mxPoint x="3630" y="4970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-38" value="&amp;lt;&amp;lt; extend&amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3850" y="5190" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-39" value="&amp;lt;&amp;lt; include &amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3640" y="4990" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-40" value="&amp;lt;&amp;lt; include &amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3650" y="4780" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-41" value="&amp;lt;&amp;lt; include &amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3680" y="5080" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-42" value="&amp;lt;&amp;lt; include &amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3690" y="5200" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-43" value="&amp;lt;&amp;lt; extend&amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3850" y="5110" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-44" value="&amp;lt;&amp;lt; extend&amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3920" y="4780" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-45" value="&amp;lt;&amp;lt; extend&amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3915" y="4690" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-46" value="&amp;lt;&amp;lt; extend&amp;gt;&amp;gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3920" y="4870" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-47" target="BKzxWGzRPLaszDyVgbMm-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-47" value="&lt;br&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;Веб-браузер&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4570" y="1000" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-48" target="BKzxWGzRPLaszDyVgbMm-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-48" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Web Server&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4930" y="1000" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-49" target="BKzxWGzRPLaszDyVgbMm-51">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="4630" y="1420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-49" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Application&lt;/p&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;&lt;/p&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Templates (HTML/CSS/JS)&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Views &amp;amp; Forms&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Models &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4530" y="1170" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-50" target="BKzxWGzRPLaszDyVgbMm-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-50" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;База даних&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4930" y="1200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-51" value="R&lt;span style=&quot;white-space-collapse: preserve; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;AWG API&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4930" y="1390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-52" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-47" target="BKzxWGzRPLaszDyVgbMm-48">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="4810" y="1030" as="sourcePoint" />
+            <mxPoint x="4840" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-56" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;HTTPS&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4770" y="980" width="70" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-57" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;внутрішні запити&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4630" y="1100" width="130" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-58" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;ORM запити&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4800" y="1190" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-60" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;JSON &lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="4900" y="1305" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-61" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-51">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="4940" y="1310" as="sourcePoint" />
+            <mxPoint x="4990" y="1260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-64" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;HTTP GET/POST запити&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="4620" y="1390" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-65" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;aut (авторизація)&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3530" y="1430" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-67" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;games (ігри, списки)&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3725" y="1430" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-68" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;search / home / listView / friendView&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3880" y="1430" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-69" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;templates/aut&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3520" y="1710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-70" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;templates/games&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3720" y="1710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-71" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;templates/search&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3920" y="1710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-72" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;ManyToMan&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3790" y="1660" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-73" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;GET/POST&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="3990" y="1660" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-74" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;OneToOne&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="3580" y="1650" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-78" target="BKzxWGzRPLaszDyVgbMm-79">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="4660" y="1700" />
+              <mxPoint x="4430" y="1700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-78" target="BKzxWGzRPLaszDyVgbMm-81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-78" target="BKzxWGzRPLaszDyVgbMm-82">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="4660" y="1700" />
+              <mxPoint x="4890" y="1700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-78" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;Django Web Application&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4600" y="1620" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-79" target="BKzxWGzRPLaszDyVgbMm-83">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-79" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;aut&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4370" y="1720" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-81" target="BKzxWGzRPLaszDyVgbMm-84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-81" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;games&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4600" y="1720" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="BKzxWGzRPLaszDyVgbMm-82" target="BKzxWGzRPLaszDyVgbMm-85">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-82" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;search&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4830" y="1720" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-83" value="&lt;br&gt;&lt;p dir=&quot;auto&quot; style=&quot;white-space: pre-wrap;&quot;&gt;models/views templates&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4370" y="1830" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-84" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;models views&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4600" y="1830" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BKzxWGzRPLaszDyVgbMm-85" value="&lt;p dir=&quot;auto&quot; style=&quot;white-space-collapse: preserve;&quot;&gt;views templates&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="4830" y="1830" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

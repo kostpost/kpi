@@ -64,6 +64,13 @@ class Profile(models.Model):
         related_name='friend_of'
     )
 
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        null=True,
+        blank=True,
+        verbose_name="Аватар"
+    )
+
     @property
     def is_friend_with_current_user(self):
         if not hasattr(self, '_request_user'):
@@ -73,6 +80,12 @@ class Profile(models.Model):
             return self.friends.filter(pk=current_user_profile.pk).exists()
         except:
             return False
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        return None
 
     def __str__(self):
         return f"Профіль {self.user.username}"
