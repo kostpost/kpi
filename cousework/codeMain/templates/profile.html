@@ -176,7 +176,7 @@
                             {% endfor %}
                         </div>
 
-                        {% if profile_user.profile.friends.count > 5 %}
+                        {% if profile_user.profile.friends.count > 1 %}
                         <div class="mt-6 pt-4 border-t border-gray-700/50">
                             <a href="{% url 'user_friends_all' profile_user.username %}"
                                class="block w-full py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold text-center rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-700/50 hover:scale-[1.02]">

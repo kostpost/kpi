@@ -113,6 +113,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 
+
 class FriendRequest(models.Model):
     STATUS_CHOICES = (
         ('pending', 'В очікуванні'),

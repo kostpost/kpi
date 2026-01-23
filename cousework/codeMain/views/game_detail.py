@@ -16,7 +16,6 @@ def game_detail(request, rawg_id):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     }
 
-    # Початковий шаблон даних гри (показується під час завантаження)
     game = {
         'rawg_id': rawg_id,
         'name': 'Завантаження...',
@@ -35,7 +34,6 @@ def game_detail(request, rawg_id):
     }
 
     try:
-        # Основна інформація про гру
         url = f"https://api.rawg.io/api/games/{rawg_id}?key={RAWG_API_KEY}"
         resp = requests.get(url, headers=headers, timeout=10)
         if resp.status_code == 200:
@@ -54,17 +52,11 @@ def game_detail(request, rawg_id):
                 'website': data.get('website'),
             })
 
-        # Завантаження скріншотів (максимум 6)
         ss_url = f"https://api.rawg.io/api/games/{rawg_id}/screenshots?key={RAWG_API_KEY}"
         ss_resp = requests.get(ss_url, headers=headers, timeout=5)
         if ss_resp.status_code == 200:
             game['screenshots'] = [item['image'] for item in ss_resp.json().get('results', [])[:6]]
 
-        # Завантаження трейлерів (максимум 3)
-        movies_url = f"https://api.rawg.io/api/games/{rawg_id}/movies?key={RAWG_API_KEY}"
-        movies_resp = requests.get(movies_url, headers=headers, timeout=5)
-        if movies_resp.status_code == 200:
-            game['trailers'] = movies_resp.json().get('results', [])[:3]
 
     except Exception as e:
         print(f"Помилка завантаження даних RAWG для ID {rawg_id}: {e}")
@@ -93,7 +85,6 @@ def game_detail(request, rawg_id):
 
     if request.user.is_authenticated:
         try:
-            # Відгуки друзів (останні 10, з виключенням порожніх)
             friends_ids = request.user.profile.friends.values_list('user__id', flat=True)
             friends_reviews = UserGame.objects.filter(
                 user__id__in=friends_ids,
@@ -115,7 +106,7 @@ def game_detail(request, rawg_id):
     })
 
 
-# Видаляє запис про гру у користувача (статус, оцінку, коментар)
+# Видаляє запис про гру у користувача
 @login_required
 def delete_game_status(request, rawg_id):
     if request.method == 'POST':
@@ -123,7 +114,7 @@ def delete_game_status(request, rawg_id):
     return redirect('game_detail', rawg_id=rawg_id)
 
 
-# Оновлює статус гри, оцінку, коментар та додає до списку(ів)
+# Оновлює статус гри, оцінку
 @login_required
 def update_game_status(request, rawg_id):
     if request.method != 'POST':
@@ -150,11 +141,10 @@ def update_game_status(request, rawg_id):
             user_game.status = new_status
             update_fields.append('status')
 
-    # Оновлення оцінки (1–10)
     if rating is not None:
         try:
             new_rating = int(rating)
-            if 1 <= new_rating <= 10:
+            if 1 <= new_rating <= 5:
                 if user_game.rating != new_rating:
                     user_game.rating = new_rating
                     update_fields.append('rating')

@@ -19,12 +19,12 @@ urlpatterns = [
     path('search/', search.search, name='search'),
 
     path('game/<str:rawg_id>/', game_detail.game_detail, name='game_detail'),
-    path('game/<int:rawg_id>/', game_detail.game_detail, name='game_detail'),
+    # path('game/<int:rawg_id>/', game_detail.game_detail, name='game_detail'),
 
     path('game/<str:rawg_id>/update/', game_detail.update_game_status, name='update_game_status'),
     path('game/<str:rawg_id>/delete/', game_detail.delete_game_status, name='delete_game_status'),
 
-    path('profile/<str:username>/', profile.profile, name='profile_by_username'),  # Реєстрація
+    path('profile/<str:username>/', profile.profile, name='profile_by_username'),
     path('profile/<str:username>/library/', profile.user_library, name='user_library'),
     path('profile/<str:username>/lists/', profile.user_lists_all, name='user_lists_all'),
     path('profile/<str:username>/friends/', profile.user_friends_all, name='user_friends_all'),
